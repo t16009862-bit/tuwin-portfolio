@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 
 interface RankingPoint {
   date: string;
@@ -263,13 +264,31 @@ export default function RankingChart({ rankings }: { rankings: RankingPoint[] })
 
       {/* Table view toggle for accessibility */}
       <div className="relative z-10 mt-6">
-        <button
-          type="button"
-          onClick={() => setShowTable((v) => !v)}
-          className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-accent transition-colors cursor-pointer"
-        >
-          {showTable ? 'Hide' : 'View'} as table
-        </button>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <button
+            type="button"
+            onClick={() => setShowTable((v) => !v)}
+            className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-accent transition-colors cursor-pointer"
+          >
+            {showTable ? 'Hide' : 'View'} as table
+          </button>
+
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/rankings/match-history"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-white transition-all hover:border-cyan-accent/60 hover:text-cyan-accent"
+            >
+              Match history
+            </Link>
+            <Link
+              href="/rankings/points-calculator"
+              className="inline-flex items-center gap-2 rounded-full border border-cyan-accent/40 bg-cyan-accent/5 px-5 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-cyan-accent transition-all hover:border-cyan-accent hover:bg-cyan-accent hover:text-black"
+            >
+              Calculate points
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
 
         {showTable && (
           <div className="mt-3 max-h-48 overflow-y-auto rounded-xl border border-white/5">
