@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import MusicPlayer from "./components/MusicPlayer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 
 const geistSans = Geist({
@@ -63,6 +64,7 @@ export default function RootLayout({
     >
       <body className="bg-[#05060b] text-white min-h-full flex flex-col antialiased">
         {children}
+        <MusicPlayer />
         <ScrollToTopButton />
       </body>
     </html>

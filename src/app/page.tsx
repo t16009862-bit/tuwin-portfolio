@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import RankingChart from './components/RankingChart';
 
+type BiographyHighlight = { title: string; heading: string; description: string };
+
 function formatTournamentDateRange(startDate: string, endDate: string): string {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -49,7 +51,7 @@ export default function Home() {
   const [timelineData, setTimelineData] = useState<{ year: string; title: string; description: string; tag: string; icon: string }[]>([]);
   const [competencyPoints, setCompetencyPoints] = useState<string[]>([]);
   const [trainingHistory, setTrainingHistory] = useState<{ title: string; heading: string; description: string }[]>([]);
-  const [biography, setBiography] = useState<{ description: string; highlights: { title: string; heading: string; description: string }[] }>({
+  const [biography, setBiography] = useState<{ description: string; highlights: BiographyHighlight[] }>({
     description: 'Representing the Sri Lankan flag on the international stage, Tuwin has spent over a decade pushing the physical and mental limits of competitive squash. A former Head Boy and Best Sportsman of D.S. Senanayake College, he was awarded the Deshabandu title at age 21 for his outstanding athletic achievements and community service during the global pandemic. Currently competing on the PSA Squash Tour, Tuwin continues to elevate the standard of Sri Lankan squash globally, backed by professional training regimes, clean sport practices, and active community outreach.',
     highlights: [],
   });
@@ -313,7 +315,7 @@ export default function Home() {
         if (!res.ok) throw new Error('Failed to load biography');
         return res.json();
       })
-      .then((data: { description?: string; highlights?: typeof biography.highlights }) => {
+      .then((data: { description?: string; highlights?: BiographyHighlight[] }) => {
         if (cancelled) return;
         setBiography((prev) => ({
           description: data.description || prev.description,
@@ -958,7 +960,7 @@ export default function Home() {
               Career Highlights
             </h3>
             <p className="mx-auto mt-2 max-w-xl text-xs text-slate-400 uppercase tracking-widest">
-              An interactive roadmap of Tuwin's professional squash journey.
+              An interactive roadmap of Tuwin&apos;s professional squash journey.
             </p>
           </div>
 

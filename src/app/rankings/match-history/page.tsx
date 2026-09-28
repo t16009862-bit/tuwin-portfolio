@@ -1,20 +1,40 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   CURRENT_COUNTING_POINTS,
+  DEFAULT_RANKING_SUMMARY,
   EXPIRED_POINTS,
   MATCHES,
   MEDICAL_ZEROS,
   NO_PENALTY_WITHDRAWALS,
+  PENDING_POINTS,
+  RANKING_ZEROS,
+  type Match,
   type MatchResult,
+  type MedicalZero,
+  type NoPenaltyWithdrawal,
   type PointsEntry,
+  type RankingSummary,
+  type RankingZero,
 } from './data';
 
 function formatDate(date: string) {
+  if (!date) return 'Pending';
   return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
 }
+
+type TournamentPointRow = PointsEntry & { status: 'Current' | 'Expired' | 'Pending' };
+
+type RankingRecordsResponse = {
+  summary: RankingSummary;
+  tournamentPoints: TournamentPointRow[];
+  medicalZeros: MedicalZero[];
+  rankingZeros: RankingZero[];
+  withdrawals: Array<NoPenaltyWithdrawal & { status?: string }>;
+  matches: Match[];
+};
 
 function PointsTable({ entries, expiryLabel = 'Expires' }: { entries: PointsEntry[]; expiryLabel?: string }) {
   return (
@@ -49,20 +69,60 @@ export default function MatchHistoryPage() {
   const [query, setQuery] = useState('');
   const [year, setYear] = useState('all');
   const [result, setResult] = useState<'all' | MatchResult>('all');
+  const [summary, setSummary] = useState(DEFAULT_RANKING_SUMMARY);
+  const [currentPoints, setCurrentPoints] = useState(CURRENT_COUNTING_POINTS);
+  const [expiredPoints, setExpiredPoints] = useState(EXPIRED_POINTS);
+  const [pendingPoints, setPendingPoints] = useState(PENDING_POINTS);
+  const [medicalZeros, setMedicalZeros] = useState(MEDICAL_ZEROS);
+  const [rankingZeros, setRankingZeros] = useState(RANKING_ZEROS);
+  const [withdrawals, setWithdrawals] = useState(NO_PENALTY_WITHDRAWALS);
+  const [matches, setMatches] = useState(MATCHES);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch('/api/ranking-records', { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error('Ranking records are unavailable');
+        return response.json() as Promise<RankingRecordsResponse>;
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setSummary(data.summary);
+        setCurrentPoints(data.tournamentPoints.filter((entry) => entry.status === 'Current'));
+        setExpiredPoints(data.tournamentPoints.filter((entry) => entry.status === 'Expired'));
+        setPendingPoints(data.tournamentPoints.filter((entry) => entry.status === 'Pending'));
+        setMedicalZeros(data.medicalZeros);
+        setRankingZeros(data.rankingZeros);
+        setWithdrawals(data.withdrawals);
+        setMatches(data.matches);
+      })
+      .catch(() => {
+        // The bundled official snapshot remains visible if Google Sheets is temporarily unavailable.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filteredMatches = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    return MATCHES.filter((match) => {
+    return matches.filter((match) => {
       const matchesQuery = !normalizedQuery || `${match.opponent} ${match.tournament} ${match.round}`.toLowerCase().includes(normalizedQuery);
       const matchesYear = year === 'all' || match.year === year;
       const matchesResult = result === 'all' || match.result === result;
       return matchesQuery && matchesYear && matchesResult;
     });
-  }, [query, result, year]);
+  }, [matches, query, result, year]);
 
-  const wins = MATCHES.filter((match) => match.result === 'Won').length;
-  const losses = MATCHES.length - wins;
-  const uniqueKnownOpponents = new Set(MATCHES.filter((match) => match.opponent !== 'TBD').map((match) => match.opponent)).size;
+  const wins = matches.filter((match) => match.result === 'Won').length;
+  const losses = matches.length - wins;
+  const uniqueKnownOpponents = new Set(matches.filter((match) => match.opponent !== 'TBD').map((match) => match.opponent)).size;
+  const years = [...new Set(matches.map((match) => match.year).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
+  const activeMedicalZeros = medicalZeros.filter((entry) => entry.status === 'Active').length;
+  const activeRankingZeros = rankingZeros.filter((entry) => entry.status === 'Active').length;
+  const average = summary.divisor > 0 ? summary.countingPoints / summary.divisor : 0;
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#06070a] text-white selection:bg-cyan-accent selection:text-black">
@@ -101,9 +161,9 @@ export default function MatchHistoryPage() {
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" aria-label="PSA career summary">
           {[
-            ['World ranking', '#445'],
-            ['Highest ranking', '#316'],
-            ['Official matches', MATCHES.length.toString()],
+            ['World ranking', `#${summary.worldRanking}`],
+            ['Highest ranking', `#${summary.highestRanking}`],
+            ['Official matches', matches.length.toString()],
             ['Wins / losses', `${wins} / ${losses}`],
             ['Known opponents', uniqueKnownOpponents.toString()],
           ].map(([label, value], index) => (
@@ -116,17 +176,17 @@ export default function MatchHistoryPage() {
 
         <section className="glass-card-layered overflow-hidden p-6 md:p-8">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-accent">Published 21 Sep 2026</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-accent">Published {formatDate(summary.publishedDate)}</p>
             <h2 className="mt-2 text-2xl font-extrabold uppercase">How the current ranking is calculated</h2>
           </div>
 
           <div className="mt-6 grid gap-3 grid-cols-2 md:grid-cols-5">
             {[
-              ['Total points', '112.50'],
-              ['Counting points', '112.50'],
-              ['Average', '10.23'],
-              ['Scoring events', '8'],
-              ['Divisor', '11'],
+              ['Total points', summary.totalPoints.toFixed(2)],
+              ['Counting points', summary.countingPoints.toFixed(2)],
+              ['Average', average.toFixed(2)],
+              ['Scoring events', currentPoints.length.toString()],
+              ['Divisor', summary.divisor.toString()],
             ].map(([label, value]) => (
               <div key={label} className="rounded-2xl border border-white/5 bg-white/[0.025] p-4 text-center">
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500">{label}</p>
@@ -136,9 +196,9 @@ export default function MatchHistoryPage() {
           </div>
 
           <div className="mt-5 rounded-2xl border border-cyan-accent/15 bg-cyan-accent/[0.045] p-5">
-            <p className="text-sm font-extrabold text-white">112.50 points ÷ 11 divisor = 10.227… → 10.23 average</p>
+            <p className="text-sm font-extrabold text-white">{summary.countingPoints.toFixed(2)} points ÷ {summary.divisor} divisor = {average.toFixed(3)}… → {average.toFixed(2)} average</p>
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              There are 8 scoring tournaments and 3 empty divisor places. Those empty places complete the divisor of 11; they are not tournaments and are kept separate from medical zeros.
+              There are {currentPoints.length} scoring tournaments and {summary.emptyDivisorPlaces} empty divisor places. Those empty places complete the divisor of {summary.divisor}; they are not tournaments and are kept separate from medical zeros.
             </p>
           </div>
 
@@ -148,25 +208,25 @@ export default function MatchHistoryPage() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-accent">Current</p>
                 <h3 className="mt-1 text-lg font-extrabold uppercase">Counting tournaments</h3>
               </div>
-              <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-cyan-accent">8 events · 112.50 points</span>
+              <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-cyan-accent">{currentPoints.length} events · {summary.countingPoints.toFixed(2)} points</span>
             </div>
-            <PointsTable entries={CURRENT_COUNTING_POINTS} />
+            <PointsTable entries={currentPoints} />
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Empty divisor places</p>
-              <p className="mt-2 text-3xl font-black text-white">3</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">Zero points each, used only to reach the divisor of 11.</p>
+              <p className="mt-2 text-3xl font-black text-white">{summary.emptyDivisorPlaces}</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">Zero points each, used only to reach the divisor of {summary.divisor}.</p>
             </div>
             <div className="rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-orange-accent">Active medical zeros</p>
-              <p className="mt-2 text-3xl font-black text-white">1</p>
+              <p className="mt-2 text-3xl font-black text-white">{activeMedicalZeros}</p>
               <p className="mt-2 text-xs leading-relaxed text-slate-500">PSA marks it non-counting in the current breakdown.</p>
             </div>
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Other ranking zeros</p>
-              <p className="mt-2 text-3xl font-black text-white">0</p>
+              <p className="mt-2 text-3xl font-black text-white">{activeRankingZeros}</p>
               <p className="mt-2 text-xs leading-relaxed text-slate-500">No other zero penalty appears in the checked PSA breakdowns.</p>
             </div>
           </div>
@@ -186,7 +246,7 @@ export default function MatchHistoryPage() {
                 <tr><th className="px-4 py-3 text-left">Recorded</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-right">Points</th><th className="px-4 py-3 text-right">Expires / expired</th><th className="px-4 py-3 text-right">Status</th></tr>
               </thead>
               <tbody>
-                {MEDICAL_ZEROS.map((entry) => (
+                {medicalZeros.map((entry) => (
                   <tr key={entry.tournament} className="border-t border-white/5 text-slate-300">
                     <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.date)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
@@ -202,6 +262,38 @@ export default function MatchHistoryPage() {
 
         <section className="glass-card-layered overflow-hidden p-6 md:p-8">
           <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Kept separate</p>
+            <h2 className="mt-2 text-2xl font-extrabold uppercase">Other ranking zeros</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">
+              Any non-medical zero recorded by PSA appears here. Empty divisor places are not events and remain in the calculation summary above.
+            </p>
+          </div>
+          {rankingZeros.length === 0 ? (
+            <p className="mt-6 rounded-2xl border border-white/5 bg-white/[0.025] p-6 text-sm text-slate-500">No other ranking-zero entries are recorded.</p>
+          ) : (
+            <div className="mt-6 overflow-x-auto rounded-2xl border border-white/5">
+              <table className="min-w-[780px] w-full text-sm">
+                <thead className="bg-white/[0.035] text-[10px] uppercase tracking-widest text-slate-500">
+                  <tr><th className="px-4 py-3 text-left">Recorded</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-left">Reason</th><th className="px-4 py-3 text-right">Expires / expired</th><th className="px-4 py-3 text-right">Status</th></tr>
+                </thead>
+                <tbody>
+                  {rankingZeros.map((entry) => (
+                    <tr key={`${entry.date}-${entry.tournament}`} className="border-t border-white/5 text-slate-300">
+                      <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.date)}</td>
+                      <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
+                      <td className="px-4 py-3">{entry.reason}</td>
+                      <td className="whitespace-nowrap px-4 py-3 text-right">{formatDate(entry.expires)}</td>
+                      <td className="px-4 py-3 text-right">{entry.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        <section className="glass-card-layered overflow-hidden p-6 md:p-8">
+          <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-accent">Historical archive</p>
             <h2 className="mt-2 text-2xl font-extrabold uppercase">Expired tournament points</h2>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">
@@ -209,7 +301,7 @@ export default function MatchHistoryPage() {
             </p>
           </div>
           <div className="mt-6">
-            <PointsTable entries={EXPIRED_POINTS} expiryLabel="Expired" />
+            <PointsTable entries={expiredPoints} expiryLabel="Expired" />
           </div>
         </section>
 
@@ -227,7 +319,7 @@ export default function MatchHistoryPage() {
                 <tr><th className="px-4 py-3 text-left">Tournament dates</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-right">PSA status</th></tr>
               </thead>
               <tbody>
-                {NO_PENALTY_WITHDRAWALS.map((entry) => (
+                {withdrawals.map((entry) => (
                   <tr key={`${entry.startDate}-${entry.tournament}`} className="border-t border-white/5 text-slate-300">
                     <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.startDate)} – {formatDate(entry.endDate)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
@@ -255,14 +347,15 @@ export default function MatchHistoryPage() {
               className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-accent/70"
             />
             <select value={year} onChange={(event) => setYear(event.target.value)} aria-label="Filter by year" className="rounded-xl border border-white/10 bg-[#0d111a] px-4 py-3 text-sm text-white outline-none focus:border-cyan-accent/70">
-              <option value="all">All years</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+              <option value="all">All years</option>
+              {years.map((matchYear) => <option key={matchYear} value={matchYear}>{matchYear}</option>)}
             </select>
             <select value={result} onChange={(event) => setResult(event.target.value as 'all' | MatchResult)} aria-label="Filter by result" className="rounded-xl border border-white/10 bg-[#0d111a] px-4 py-3 text-sm text-white outline-none focus:border-cyan-accent/70">
               <option value="all">All results</option><option value="Won">Won</option><option value="Lost">Lost</option>
             </select>
           </div>
 
-          <p className="mt-4 text-xs text-slate-500">Showing {filteredMatches.length} of {MATCHES.length} official match records</p>
+          <p className="mt-4 text-xs text-slate-500">Showing {filteredMatches.length} of {matches.length} official match records</p>
 
           <div className="mt-4 space-y-3">
             {filteredMatches.map((match, index) => (
@@ -288,13 +381,22 @@ export default function MatchHistoryPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-orange-accent/15 bg-orange-accent/5 p-6 text-sm leading-relaxed text-slate-400">
-          <p className="font-extrabold text-white">Pending official update: JSW 12th Sunil Verma Memorial Tournament 2026 — 16.50 points</p>
-          <p className="mt-2">The result is not part of the official 21 September ranking publication yet. It is shown separately and will only move into the counting or historical tables after PSA publishes it.</p>
-        </section>
+        {pendingPoints.length > 0 && (
+          <section className="rounded-2xl border border-orange-accent/15 bg-orange-accent/5 p-6 text-sm leading-relaxed text-slate-400">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-orange-accent">Pending official updates</p>
+            <div className="mt-3 space-y-3">
+              {pendingPoints.map((entry) => (
+                <div key={entry.tournament}>
+                  <p className="font-extrabold text-white">{entry.tournament} — {entry.points.toFixed(2)} points</p>
+                  <p className="mt-1">This result remains separate until PSA publishes it. It will only move into the counting or historical tables after official confirmation.</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <p className="pb-2 text-center text-[10px] uppercase tracking-[0.18em] text-slate-600">
-          Record checked against PSA Secure player history and ranking publications · 27 Sep 2026
+          Record checked against PSA Secure player history and ranking publications · {formatDate(summary.recordCheckedDate)}
         </p>
       </main>
     </div>

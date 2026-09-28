@@ -32,6 +32,38 @@ export type NoPenaltyWithdrawal = {
   tournament: string;
 };
 
+export type RankingSummary = {
+  publishedDate: string;
+  recordCheckedDate: string;
+  worldRanking: number;
+  highestRanking: number;
+  totalPoints: number;
+  countingPoints: number;
+  divisor: number;
+  emptyDivisorPlaces: number;
+  otherRankingZeros: number;
+};
+
+export type RankingZero = {
+  date: string;
+  tournament: string;
+  reason: string;
+  expires: string;
+  status: 'Active' | 'Expired';
+};
+
+export const DEFAULT_RANKING_SUMMARY: RankingSummary = {
+  publishedDate: '2026-09-21',
+  recordCheckedDate: '2026-09-27',
+  worldRanking: 445,
+  highestRanking: 316,
+  totalPoints: 112.5,
+  countingPoints: 112.5,
+  divisor: 11,
+  emptyDivisorPlaces: 3,
+  otherRankingZeros: 0,
+};
+
 // Complete match history currently available in the official PSA Secure player record.
 // “TBD” and “Date not listed” are PSA placeholders and are intentionally preserved.
 export const MATCHES: Match[] = [
@@ -87,6 +119,10 @@ export const CURRENT_COUNTING_POINTS: PointsEntry[] = [
   { date: '2025-11-22', tournament: 'China Squash Tour 2025 S4', result: 'Quarter-finalist', points: 7.5, expires: '2026-11-21' },
 ];
 
+export const PENDING_POINTS: PointsEntry[] = [
+  { date: '', tournament: 'JSW 12th Sunil Verma Memorial Tournament 2026', result: 'Round of 32', points: 16.5, expires: '' },
+];
+
 // Earlier official PSA ranking publications were checked to preserve the recorded
 // points date and expiry date even after an event disappeared from the current table.
 export const EXPIRED_POINTS: PointsEntry[] = [
@@ -122,6 +158,10 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
 ];
+
+// Intentionally separate from empty divisor places and medical zeros.
+// The checked PSA publications currently contain no other ranking-zero entries.
+export const RANKING_ZEROS: RankingZero[] = [];
 
 // PSA labels these as “No penalty”. They are not medical zeros, do not add points,
 // and do not have a ranking-points expiry date.
