@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#190d16" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta property="og:title" content="One Month of Us ❤️" />
+<meta property="og:description" content="A little one-month surprise, made just for Tuyen." />
+<meta property="og:type" content="website" />
+<title>One Month of Us ❤️</title>
+<style>
+  :root{
+    --bg:#120a10;
+    --card:rgba(255,255,255,.075);
+    --card2:rgba(255,255,255,.11);
+    --line:rgba(255,255,255,.13);
+    --text:#fff9fb;
+    --muted:#e7cfd8;
+    --rose:#ff6f9d;
+    --rose2:#ff9fba;
+    --gold:#ffd6a5;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255,111,157,.22), transparent 33%),
+      radial-gradient(circle at 85% 26%, rgba(255,214,165,.10), transparent 30%),
+      radial-gradient(circle at 50% 90%, rgba(255,111,157,.13), transparent 36%),
+      linear-gradient(180deg,#170c14 0%,#0d080c 100%);
+    min-height:100vh; overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.35;
+    background-image:radial-gradient(rgba(255,255,255,.5) .7px, transparent .7px);
+    background-size:28px 28px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%);
+  }
+  .wrap{width:min(920px,calc(100% - 34px)); margin:auto}
+  .hero{min-height:100vh; display:grid; place-items:center; position:relative; text-align:center; padding:42px 0}
+  .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--rose2);font-weight:700}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(3.1rem,12vw,7.2rem);line-height:.88;margin:18px 0 18px;letter-spacing:-.05em}
+  h1 span{display:block;color:var(--rose2);font-style:italic;font-size:.66em;margin-top:.14em}
+  .lead{max-width:620px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,2.8vw,1.25rem);line-height:1.7}
+  .cta{margin-top:30px;border:0;background:linear-gradient(135deg,var(--rose),#ff3f7f);color:white;font-weight:800;padding:15px 23px;border-radius:999px;font-size:1rem;box-shadow:0 15px 45px rgba(255,74,132,.28);cursor:pointer;transition:.2s transform}
+  .cta:active{transform:scale(.97)}
+  .tiny{font-size:.78rem;color:#bfa9b1;margin-top:12px}
+  .heart-big{font-size:2.2rem;display:inline-block;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+
+  section{padding:72px 0}
+  .section-title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2rem,7vw,3.6rem);margin:0 0 12px;letter-spacing:-.035em}
+  .section-sub{color:var(--muted);line-height:1.65;max-width:650px;margin:0 0 28px}
+  .glass{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:28px;backdrop-filter:blur(18px);box-shadow:0 20px 70px rgba(0,0,0,.25)}
+
+  .count-card{padding:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+  .count-num{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.2rem,7vw,4rem);color:var(--rose2)}
+  .count-label{font-size:.82rem;color:var(--muted);margin-top:5px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+  .card{padding:24px;min-height:220px;position:relative;overflow:hidden;cursor:pointer;transition:.28s transform,.28s background}
+  .card:hover{transform:translateY(-4px);background:rgba(255,255,255,.115)}
+  .card .icon{font-size:2rem}
+  .card h3{font-size:1.22rem;margin:30px 0 10px}
+  .card p{color:var(--muted);line-height:1.6;margin:0;font-size:.96rem}
+  .card .reveal{opacity:0;max-height:0;transition:.35s ease}
+  .card.open .reveal{opacity:1;max-height:130px;margin-top:9px}
+  .tap{font-size:.73rem;color:var(--rose2);position:absolute;right:18px;bottom:16px}
+
+  .letter{padding:34px;position:relative}
+  .letter::before{content:"“";font-family:Georgia,serif;position:absolute;right:25px;top:-18px;font-size:7rem;color:rgba(255,111,157,.16)}
+  .letter p{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.15rem,3.5vw,1.45rem);line-height:1.75;margin:0;color:#fff4f7}
+  .signature{margin-top:22px;color:var(--rose2);font-weight:700}
+
+  .wish{padding:34px;text-align:center}
+  .hidden-wish{display:none;margin:22px auto 0;max-width:600px;color:#ffe9f0;font-family:Georgia,serif;font-size:1.25rem;line-height:1.7}
+  .hidden-wish.show{display:block;animation:rise .55s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .final{text-align:center;padding-bottom:105px}
+  .final-box{padding:40px 22px}
+  .final-question{font-family:Georgia,serif;font-size:clamp(2rem,6.7vw,3.9rem);margin:8px auto 25px;max-width:720px;line-height:1.08}
+  .btnrow{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+  .answer{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);color:white;border-radius:999px;padding:13px 19px;font-weight:750;cursor:pointer;font-size:1rem}
+  .answer.primary{background:linear-gradient(135deg,var(--rose),#ff3f7f);border-color:transparent}
+  #answerText{min-height:42px;margin-top:20px;color:var(--rose2);font-weight:700;font-size:1.05rem}
+
+  .float-heart{position:fixed;bottom:-40px;pointer-events:none;z-index:30;animation:floatUp linear forwards;filter:drop-shadow(0 6px 10px rgba(0,0,0,.2))}
+  @keyframes floatUp{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+  .scroll-indicator{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:#bdaab2;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+  .scroll-indicator::after{content:"↓";display:block;margin-top:7px;font-size:1.1rem;animation:bob 1.4s infinite}
+  @keyframes bob{50%{transform:translateY(5px)}}
+
+  footer{text-align:center;padding:0 0 35px;color:#9f8992;font-size:.78rem}
+  @media(max-width:720px){
+    .cards{grid-template-columns:1fr}
+    .count-card{padding:22px 10px}
+    .letter,.wish{padding:26px 22px}
+    section{padding:58px 0}
+  }
+</style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">A little something for Tuyen</div>
+        <div class="heart-big">❤️</div>
+        <h1>One Month<span>of us.</span></h1>
+        <p class="lead">It may only be one month on the calendar, but somehow you already became one of the nicest parts of my days.</p>
+        <button class="cta" onclick="document.getElementById('month').scrollIntoView({behavior:'smooth'}); hearts(10)">Open my heart →</button>
+        <div class="tiny">Made just for you, from Tuwin.</div>
+      </div>
+      <div class="scroll-indicator">keep going</div>
+    </section>
+
+    <section id="month">
+      <div class="wrap">
+        <div class="eyebrow">Chapter 01</div>
+        <h2 class="section-title">Our first little milestone.</h2>
+        <p class="section-sub">I don't want to measure us only in days. I want to remember how you made those days feel.</p>
+        <div class="glass count-card">
+          <div><div class="count-num">1</div><div class="count-label">beautiful month</div></div>
+          <div><div class="count-num">∞</div><div class="count-label">thoughts of you</div></div>
+          <div><div class="count-num">1</div><div class="count-label">person I choose</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="eyebrow">Tap each card</div>
+        <h2 class="section-title">What you started becoming to me.</h2>
+        <p class="section-sub">Three small truths I probably don't say enough.</p>
+        <div class="cards">
+          <article class="glass card" onclick="this.classList.toggle('open'); hearts(4)">
+            <div class="icon">🌙</div><h3>My calm</h3>
+            <p>Some people make life louder. You somehow make it softer.</p>
+            <div class="reveal"><p>I like that I can think of you and, even for a moment, everything else feels less heavy.</p></div><div class="tap">tap me</div>
+          </article>
+          <article class="glass card" onclick="this.classList.toggle('open'); hearts(4)">
+            <div class="icon">✨</div><h3>My favourite distraction</h3>
+            <p>The kind I never actually want to be distracted from.</p>
+            <div class="reveal"><p>You became the person I want to tell things to, tease, annoy, miss, and hear from again.</p></div><div class="tap">tap me</div>
+          </article>
+          <article class="glass card" onclick="this.classList.toggle('open'); hearts(4)">
+            <div class="icon">❤️</div><h3>Someone I care about</h3>
+            <p>More quickly and more deeply than I expected.</p>
+            <div class="reveal"><p>And that's probably the scariest and nicest part of all this — you matter to me now.</p></div><div class="tap">tap me</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="eyebrow">Something important</div>
+        <h2 class="section-title">What love means to me.</h2>
+        <div class="glass letter">
+          <p>Love isn't just staying when everything is easy. It's being able to see each other on the bad days too — tired, stressed, lost or not at our best — and still choosing to talk, understand and stay close. If I ever have a time when I'm down, I don't need you to fix everything. I just hope you don't disappear. Stay beside me, talk to me, and let me do the same for you. That's the kind of love I want to build.</p>
+          <div class="signature">— Tuwin ❤️</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="glass wish">
+          <div class="eyebrow">A secret wish</div>
+          <h2 class="section-title" style="margin-top:8px">One more thing…</h2>
+          <button class="cta" onclick="revealWish()">Tap to reveal ✨</button>
+          <div id="wish" class="hidden-wish">I hope one day we look back at this first month and smile because it was only the very beginning of something beautiful.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="wrap">
+        <div class="glass final-box">
+          <div class="eyebrow">Before you go</div>
+          <div class="final-question">Will you keep writing this story with me?</div>
+          <div class="btnrow">
+            <button class="answer primary" onclick="sayYes()">Yes, I will ❤️</button>
+            <button class="answer" onclick="sayYes()">Obviously 😘</button>
+          </div>
+          <div id="answerText"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>Tuwin ♡ Tuyen · one month down, hopefully many more to go.</footer>
+<script>
+  function hearts(n=8){
+    const icons=['❤️','💗','💕','💖','💘'];
+    for(let i=0;i<n;i++){
+      setTimeout(()=>{
+        const e=document.createElement('div');
+        e.className='float-heart';
+        e.textContent=icons[Math.floor(Math.random()*icons.length)];
+        e.style.left=(Math.random()*94+3)+'vw';
+        e.style.fontSize=(16+Math.random()*24)+'px';
+        e.style.opacity=.6+Math.random()*.4;
+        e.style.animationDuration=(3.5+Math.random()*3)+'s';
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),7000);
+      },i*100)
+    }
+  }
+  function revealWish(){
+    document.getElementById('wish').classList.add('show');
+    hearts(16);
+  }
+  function sayYes(){
+    document.getElementById('answerText').textContent='Then happy one month to us, Tuyen. ❤️';
+    hearts(35);
+  }
+  setInterval(()=>{
+    if(document.visibilityState==='visible' && Math.random()>.58) hearts(1);
+  },3200)
+</script>
+</body>
+</html>
