@@ -408,7 +408,7 @@ export default function Home() {
           <div className="hidden items-center gap-3 md:flex">
            
             <a
-              href="#contact"
+              href="#contact-form"
               className="rounded-full border border-cyan-accent/50 bg-cyan-accent/5 px-6 py-2 text-xs font-bold uppercase tracking-widest text-cyan-accent hover:bg-cyan-accent hover:text-black transition-all duration-300 shadow-sm hover:shadow-cyan-accent/20"
             >
               Get In Touch
@@ -458,7 +458,7 @@ export default function Home() {
               Sponsors
             </Link>
             <a
-              href="#contact"
+              href="#contact-form"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-2 inline-flex w-full items-center justify-center rounded-full border border-cyan-accent bg-cyan-accent/10 px-5 py-3 text-xs font-bold uppercase tracking-widest text-cyan-accent hover:bg-cyan-accent hover:text-black transition-all"
             >
@@ -1149,7 +1149,7 @@ export default function Home() {
             </div>
 
             {/* Quick Contact Form */}
-            <div className="flex-1 glass-card-layered p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
+            <div id="contact-form" className="scroll-mt-24 flex-1 glass-card-layered p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
               <div className="absolute inset-0 opacity-[0.02] wave-contour-pattern pointer-events-none"></div>
 
               <form className="space-y-4 z-10 relative" onSubmit={handleInquirySubmit}>
