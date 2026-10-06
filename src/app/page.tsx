@@ -361,7 +361,6 @@ export default function Home() {
     { name: 'Tournaments', href: '/tournaments' },
     { name: 'Media', href: '/media' },
     { name: 'Gallery', href: '/gallery' },
-    { name: 'Partners', href: '#partners' },
     { name: 'Contact', href: '#contact' },
   ];
 
