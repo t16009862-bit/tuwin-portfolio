@@ -17,6 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tuwinh.com"),
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg",
+  },
   title: "Tuwin Herath | Professional Squash Athlete & WSF Level 1 Coach",
   description: "Official portfolio of Tuwin Herath, world-ranked squash player (PSA No. 316) representing Sri Lanka. High performance athlete, WSF coach, and Deshabandu award recipient.",
   keywords: [
@@ -36,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tuwin Herath | Professional Squash Athlete & WSF Level 1 Coach",
     description: "Official portfolio of Tuwin Herath, world-ranked squash player representing Sri Lanka. High performance athlete and certified WSF Coach.",
-    url: "https://tuwinherath.com",
+    url: "https://tuwinh.com",
     siteName: "Tuwin Herath Portfolio",
     locale: "en_US",
     type: "website",
@@ -58,11 +63,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth`}
-    >
-      <body className="bg-[#05060b] text-white min-h-full flex flex-col antialiased">
+    <html lang="en" className="scroll-smooth">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         {children}
         <MusicPlayer />
         <ScrollToTopButton />
