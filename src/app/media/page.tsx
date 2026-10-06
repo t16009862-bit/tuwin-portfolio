@@ -89,7 +89,6 @@ export default function MediaPress() {
     { name: 'Tournaments', href: '/tournaments' },
     { name: 'Media', href: '/media' },
     { name: 'Gallery', href: '/gallery' },
-    { name: 'Partners', href: '/#partners' },
     { name: 'Contact', href: '/#contact' },
   ];
 
@@ -133,7 +132,7 @@ export default function MediaPress() {
 
           {/* CTA Header Button */}
           <Link
-            href="/#contact"
+            href="/#contact-form"
             className="hidden rounded-full border border-cyan-accent/50 bg-cyan-accent/5 px-6 py-2 text-xs font-bold uppercase tracking-widest text-cyan-accent hover:bg-cyan-accent hover:text-black transition-all duration-300 md:inline-flex shadow-sm hover:shadow-cyan-accent/20"
           >
             Get In Touch
@@ -169,7 +168,7 @@ export default function MediaPress() {
               </Link>
             ))}
             <Link
-              href="/#contact"
+              href="/#contact-form"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-cyan-accent bg-cyan-accent/10 px-5 py-3 text-xs font-bold uppercase tracking-widest text-cyan-accent hover:bg-cyan-accent hover:text-black transition-all"
             >
