@@ -19,9 +19,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tuwinh.com"),
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+      { url: "/favicon-48x48.png", type: "image/png", sizes: "48x48" },
+      { url: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
+  manifest: "/site.webmanifest",
   title: "Tuwin Herath | Professional Squash Athlete & WSF Level 1 Coach",
   description: "Official portfolio of Tuwin Herath, world-ranked squash player (PSA No. 316) representing Sri Lanka. High performance athlete, WSF coach, and Deshabandu award recipient.",
   keywords: [
