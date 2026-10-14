@@ -238,7 +238,7 @@ export default function MatchHistoryPage() {
             <div className="rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-orange-accent">Active medical zeros</p>
               <p className="mt-2 text-3xl font-black text-white">{activeMedicalZeros}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">PSA marks it non-counting in the current breakdown.</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">China counts as a tournament played for up to 26 weeks, but remains a 0.00-point non-counting score.</p>
             </div>
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Other ranking zeros</p>
@@ -261,6 +261,7 @@ export default function MatchHistoryPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-orange-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-orange-accent">PSA clarification</span>
                 {entry.reference && <span className="text-xs font-bold text-white">Violation {entry.reference}</span>}
+                {!entry.reference && entry.rankingImpact && <span className="text-xs font-bold text-white">Ranking treatment</span>}
               </div>
               <p className="mt-3 text-sm font-bold text-white">{entry.tournament}</p>
               <p className="mt-2 text-xs leading-relaxed text-slate-400">

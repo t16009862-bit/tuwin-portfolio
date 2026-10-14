@@ -171,9 +171,16 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
     withdrawalDate: '2026-09-28',
     reason: 'Injury',
     ruling: 'Medical Zero',
-    rankingImpact: 'Two Medical Zeros within 52 weeks; the first counts as a tournament played for a maximum of 26 weeks.',
+    rankingImpact: 'Second active Medical Zero. It adds 0.00 ranking points. Because two Medical Zeros fall within 52 weeks, PSA applies the maximum 26-week tournament-played treatment to the earlier China Medical Zero.',
   },
-  { date: '2026-08-10', tournament: 'China Squash Tour Challenger #1 2026', expires: '2027-08-09', status: 'Active' },
+  {
+    date: '2026-08-10',
+    tournament: 'China Squash Tour Challenger #1 2026',
+    expires: '2027-08-09',
+    status: 'Active',
+    ruling: 'Medical Zero',
+    rankingImpact: 'Earlier of the two active Medical Zeros. PSA counts it as a tournament played for a maximum of 26 weeks. It remains 0.00 points and is not a counting score.',
+  },
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
 ];
