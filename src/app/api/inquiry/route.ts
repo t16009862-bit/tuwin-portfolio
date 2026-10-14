@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-const INQUIRY_RECIPIENT = process.env.CONTACT_INQUIRY_TO ?? 'heshanchamuditha05@gmail.com';
+const INQUIRY_RECIPIENT = 'tuwinosanda@gmail.com';
 
 let resend: Resend | null = null;
 function getResend() {
