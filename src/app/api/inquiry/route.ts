@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 const INQUIRY_RECIPIENT = 'tuwinosanda@gmail.com';
+const INQUIRY_SENDER = 'Tuwin Website <inquiries@tuwinh.com>';
 
 let resend: Resend | null = null;
 function getResend() {
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   const { error } = await client.emails.send({
-    from: 'Tuwin Nilakshana Portfolio <onboarding@resend.dev>',
+    from: INQUIRY_SENDER,
     to: INQUIRY_RECIPIENT,
     replyTo: email,
     subject: `New Inquiry from ${name}`,
