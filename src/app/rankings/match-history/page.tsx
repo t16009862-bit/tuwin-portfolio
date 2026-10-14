@@ -128,6 +128,7 @@ export default function MatchHistoryPage() {
   const uniqueKnownOpponents = new Set(matches.filter((match) => match.opponent !== 'TBD').map((match) => match.opponent)).size;
   const years = [...new Set(matches.map((match) => match.year).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
   const activeMedicalZeros = medicalZeros.filter((entry) => entry.status === 'Active').length;
+  const medicalZeroClarifications = medicalZeros.filter((entry) => entry.reference || entry.rankingImpact);
   const activeRankingZeros = rankingZeros.filter((entry) => entry.status === 'Active').length;
   const average = summary.divisor > 0 ? summary.countingPoints / summary.divisor : 0;
 
@@ -255,16 +256,32 @@ export default function MatchHistoryPage() {
               These are the medical-zero entries shown in PSA ranking publications. They are not mixed into the counting-tournament table.
             </p>
           </div>
+          {medicalZeroClarifications.map((entry) => (
+            <div key={`${entry.tournament}-${entry.reference}`} className="mt-6 rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-orange-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-orange-accent">PSA clarification</span>
+                {entry.reference && <span className="text-xs font-bold text-white">Violation {entry.reference}</span>}
+              </div>
+              <p className="mt-3 text-sm font-bold text-white">{entry.tournament}</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-400">
+                {[entry.violation, entry.reason && `Reason: ${entry.reason}`, entry.ruling && `Ruling: ${entry.ruling}`].filter(Boolean).join(' · ')}
+              </p>
+              {entry.rankingImpact && <p className="mt-2 text-xs leading-relaxed text-slate-300">{entry.rankingImpact}</p>}
+            </div>
+          ))}
           <div className="mt-6 overflow-x-auto rounded-2xl border border-white/5">
-            <table className="min-w-[760px] w-full text-sm">
+            <table className="min-w-[980px] w-full text-sm">
               <thead className="bg-white/[0.035] text-[10px] uppercase tracking-widest text-slate-500">
-                <tr><th className="px-4 py-3 text-left">Recorded</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-right">Points</th><th className="px-4 py-3 text-right">Expires / expired</th><th className="px-4 py-3 text-right">Status</th></tr>
+                <tr><th className="px-4 py-3 text-left">Recorded</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-left">PSA record</th><th className="px-4 py-3 text-right">Points</th><th className="px-4 py-3 text-right">Expires / expired</th><th className="px-4 py-3 text-right">Status</th></tr>
               </thead>
               <tbody>
                 {medicalZeros.map((entry) => (
                   <tr key={entry.tournament} className="border-t border-white/5 text-slate-300">
                     <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.date)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
+                    <td className="max-w-[320px] px-4 py-3 text-xs leading-relaxed text-slate-400">
+                      {entry.reference ? <><span className="font-bold text-orange-accent">{entry.reference}</span> · {entry.violation}<br />{entry.ruling}</> : 'Medical Zero'}
+                    </td>
                     <td className="px-4 py-3 text-right font-extrabold text-orange-accent">0.00</td>
                     <td className="whitespace-nowrap px-4 py-3 text-right">{formatDate(entry.expires)}</td>
                     <td className="px-4 py-3 text-right"><span className={`rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider ${entry.status === 'Active' ? 'bg-orange-accent/10 text-orange-accent' : 'bg-white/5 text-slate-500'}`}>{entry.status}</span></td>
@@ -329,15 +346,16 @@ export default function MatchHistoryPage() {
             </p>
           </div>
           <div className="mt-6 overflow-x-auto rounded-2xl border border-white/5">
-            <table className="min-w-[700px] w-full text-sm">
+            <table className="min-w-[900px] w-full text-sm">
               <thead className="bg-white/[0.035] text-[10px] uppercase tracking-widest text-slate-500">
-                <tr><th className="px-4 py-3 text-left">Tournament dates</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-right">PSA status</th></tr>
+                <tr><th className="px-4 py-3 text-left">Tournament dates</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-left">PSA ruling</th><th className="px-4 py-3 text-right">PSA status</th></tr>
               </thead>
               <tbody>
                 {withdrawals.map((entry) => (
                   <tr key={`${entry.startDate}-${entry.tournament}`} className="border-t border-white/5 text-slate-300">
                     <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.startDate)} – {formatDate(entry.endDate)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
+                    <td className="max-w-[340px] px-4 py-3 text-xs leading-relaxed text-slate-400">{entry.ruling || entry.reason || 'No penalty'}</td>
                     <td className="px-4 py-3 text-right"><span className="rounded-full bg-white/5 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Withdrawn · No penalty</span></td>
                   </tr>
                 ))}

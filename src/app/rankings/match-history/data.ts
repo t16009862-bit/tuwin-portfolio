@@ -24,12 +24,20 @@ export type MedicalZero = {
   tournament: string;
   expires: string;
   status: 'Active' | 'Expired';
+  reference?: string;
+  violation?: string;
+  withdrawalDate?: string;
+  reason?: string;
+  ruling?: string;
+  rankingImpact?: string;
 };
 
 export type NoPenaltyWithdrawal = {
   startDate: string;
   endDate: string;
   tournament: string;
+  reason?: string;
+  ruling?: string;
 };
 
 export type RankingSummary = {
@@ -153,7 +161,18 @@ export const EXPIRED_POINTS: PointsEntry[] = [
 ];
 
 export const MEDICAL_ZEROS: MedicalZero[] = [
-  { date: '2026-09-28', tournament: 'Astana Open Squash 2026 & PSNS 3K Challenger 2026', expires: '2027-09-27', status: 'Active' },
+  {
+    date: '2026-09-28',
+    tournament: 'Astana Open Squash 2026',
+    expires: '2027-10-10',
+    status: 'Active',
+    reference: 'V-4BSTG',
+    violation: 'Late Withdrawal after entry-confirmation deadline',
+    withdrawalDate: '2026-09-28',
+    reason: 'Injury',
+    ruling: 'Medical Zero',
+    rankingImpact: 'Two Medical Zeros within 52 weeks; the first counts as a tournament played for a maximum of 26 weeks.',
+  },
   { date: '2026-08-10', tournament: 'China Squash Tour Challenger #1 2026', expires: '2027-08-09', status: 'Active' },
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
@@ -166,8 +185,13 @@ export const RANKING_ZEROS: RankingZero[] = [];
 // PSA labels these as “No penalty”. They are not medical zeros, do not add points,
 // and do not have a ranking-points expiry date.
 export const NO_PENALTY_WITHDRAWALS: NoPenaltyWithdrawal[] = [
-  { startDate: '2026-10-21', endDate: '2026-10-25', tournament: 'PSNS 3K Challenger 2026' },
-  { startDate: '2026-10-08', endDate: '2026-10-11', tournament: 'Astana Open Squash 2026' },
+  {
+    startDate: '2026-10-21',
+    endDate: '2026-10-25',
+    tournament: 'PSNS 3K Challenger 2026',
+    reason: 'Continuation of the Astana injury',
+    ruling: 'No Penalty under PSA Section 4.7.3',
+  },
   { startDate: '2026-09-09', endDate: '2026-09-13', tournament: 'Maspeth Welding Intsel Steel Court Championship 2026' },
   { startDate: '2026-03-26', endDate: '2026-03-29', tournament: '2025–2026 World Championship Qualifying Event – Oceania' },
   { startDate: '2026-03-18', endDate: '2026-03-22', tournament: 'JSW Indian Open 2026' },

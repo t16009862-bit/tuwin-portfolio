@@ -43,6 +43,12 @@ export async function GET() {
         tournament: text(row.tournament),
         expires: text(row.expires),
         status: text(row.status),
+        reference: text(row.reference),
+        violation: text(row.violation),
+        withdrawalDate: text(row.withdrawalDate),
+        reason: text(row.reason),
+        ruling: text(row.ruling),
+        rankingImpact: text(row.rankingImpact),
       }))
       .filter((entry) => entry.tournament);
 
@@ -62,6 +68,8 @@ export async function GET() {
         endDate: text(row.endDate),
         tournament: text(row.tournament),
         status: text(row.status),
+        reason: text(row.reason),
+        ruling: text(row.ruling),
       }))
       .filter((entry) => entry.tournament);
 
