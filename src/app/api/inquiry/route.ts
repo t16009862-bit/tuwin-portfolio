@@ -5,6 +5,11 @@ export const dynamic = 'force-dynamic';
 
 const INQUIRY_RECIPIENT = 'tuwinosanda@gmail.com';
 const INQUIRY_SENDER = 'Tuwin Website <inquiries@tuwinh.com>';
+const INQUIRY_CONFIG_VERSION = '2026-10-14-domain-sender';
+
+export async function GET() {
+  return NextResponse.json({ ready: true, version: INQUIRY_CONFIG_VERSION });
+}
 
 let resend: Resend | null = null;
 function getResend() {
