@@ -569,7 +569,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-[0.03] wave-contour-pattern pointer-events-none"></div>
 
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">Age</p>
-              <p className="text-4xl font-extrabold text-cyan-accent text-gradient-cyan-solid tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.age} /></p>
+              <p className="text-4xl font-extrabold text-cyan-accent tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.age} /></p>
               <div className="mt-2 text-[9px] uppercase font-bold text-slate-500 tracking-[0.1em] z-10 relative">Active Competitor</div>
             </div>
 
@@ -599,7 +599,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-[0.03] wave-contour-pattern pointer-events-none"></div>
 
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">Peak WR</p>
-              <p className="text-4xl font-extrabold text-orange-accent text-gradient-orange tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.worldRank} /></p>
+              <p className="text-4xl font-extrabold text-orange-accent tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.worldRank} /></p>
               <div className="mt-2 text-[9px] uppercase font-bold text-slate-500 tracking-[0.1em] z-10 relative">Career Landmark</div>
             </div>
 
