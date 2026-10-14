@@ -53,12 +53,12 @@ export type RankingZero = {
 };
 
 export const DEFAULT_RANKING_SUMMARY: RankingSummary = {
-  publishedDate: '2026-09-21',
-  recordCheckedDate: '2026-09-27',
-  worldRanking: 445,
+  publishedDate: '2026-10-12',
+  recordCheckedDate: '2026-10-13',
+  worldRanking: 459,
   highestRanking: 316,
-  totalPoints: 112.5,
-  countingPoints: 112.5,
+  totalPoints: 111,
+  countingPoints: 111,
   divisor: 11,
   emptyDivisorPlaces: 3,
   otherRankingZeros: 0,
@@ -107,25 +107,24 @@ export const MATCHES: Match[] = [
   { date: null, year: '2023', tournament: '3rd Bangabandhu Squash Tournament 2023 Presented by Ispahani', round: 'Round 1', opponent: 'TBD', score: '—', games: 'PSA does not list the opponent or score', result: 'Won' },
 ];
 
-// Official September 21, 2026 ranking publication.
+// Last verified fallback: official October 12, 2026 ranking publication.
 export const CURRENT_COUNTING_POINTS: PointsEntry[] = [
   { date: '2026-08-31', tournament: '2nd CAS International Squash 2026', result: 'Round of 32', points: 22, expires: '2027-08-30' },
   { date: '2026-06-29', tournament: 'Greetings Squash PSA Challenger 2026', result: 'Round of 16', points: 18, expires: '2027-06-28' },
-  { date: '2025-10-06', tournament: 'HCL Squash Indian Tour 3, Bengaluru 2025', result: 'Round of 16', points: 18, expires: '2026-10-05' },
   { date: '2025-12-27', tournament: '45th Senior Nationals (Sri Lanka) Squash Championship 2025', result: 'Round of 16', points: 15, expires: '2026-12-26' },
   { date: '2025-12-03', tournament: 'China Squash Tour 2025 S5', result: 'Semi-finalist', points: 12, expires: '2026-12-02' },
   { date: '2026-09-14', tournament: 'KCC PSA Challenge Cup 2026', result: 'Round of 32', points: 11, expires: '2027-09-13' },
   { date: '2025-10-27', tournament: 'China Squash Tour 2025 S3', result: 'Round of 16', points: 9, expires: '2026-10-26' },
   { date: '2025-11-22', tournament: 'China Squash Tour 2025 S4', result: 'Quarter-finalist', points: 7.5, expires: '2026-11-21' },
+  { date: '2026-10-05', tournament: 'JSW 12th Sunil Verma Memorial Tournament 2026', result: 'Round of 32', points: 16.5, expires: '2027-10-04' },
 ];
 
-export const PENDING_POINTS: PointsEntry[] = [
-  { date: '', tournament: 'JSW 12th Sunil Verma Memorial Tournament 2026', result: 'Round of 32', points: 16.5, expires: '' },
-];
+export const PENDING_POINTS: PointsEntry[] = [];
 
 // Earlier official PSA ranking publications were checked to preserve the recorded
 // points date and expiry date even after an event disappeared from the current table.
 export const EXPIRED_POINTS: PointsEntry[] = [
+  { date: '2025-10-06', tournament: 'HCL Squash Indian Tour 3, Bengaluru 2025', result: 'Round of 16', points: 18, expires: '2026-10-05' },
   { date: '2025-09-22', tournament: 'Reliance PSA Challenger Championship 2025', result: 'Round of 32', points: 11, expires: '2026-09-21' },
   { date: '2025-06-01', tournament: 'Northern Star Resources Ltd Golden Open 2025', result: 'Quarter-finalist', points: 30, expires: '2026-05-31' },
   { date: '2025-05-25', tournament: 'Auckland Open PSA Challenger 2025', result: 'Round of 16', points: 9, expires: '2026-05-24' },
@@ -154,6 +153,7 @@ export const EXPIRED_POINTS: PointsEntry[] = [
 ];
 
 export const MEDICAL_ZEROS: MedicalZero[] = [
+  { date: '2026-09-28', tournament: 'Astana Open Squash 2026 & PSNS 3K Challenger 2026', expires: '2027-09-27', status: 'Active' },
   { date: '2026-08-10', tournament: 'China Squash Tour Challenger #1 2026', expires: '2027-08-09', status: 'Active' },
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
@@ -166,6 +166,8 @@ export const RANKING_ZEROS: RankingZero[] = [];
 // PSA labels these as “No penalty”. They are not medical zeros, do not add points,
 // and do not have a ranking-points expiry date.
 export const NO_PENALTY_WITHDRAWALS: NoPenaltyWithdrawal[] = [
+  { startDate: '2026-10-21', endDate: '2026-10-25', tournament: 'PSNS 3K Challenger 2026' },
+  { startDate: '2026-10-08', endDate: '2026-10-11', tournament: 'Astana Open Squash 2026' },
   { startDate: '2026-09-09', endDate: '2026-09-13', tournament: 'Maspeth Welding Intsel Steel Court Championship 2026' },
   { startDate: '2026-03-26', endDate: '2026-03-29', tournament: '2025–2026 World Championship Qualifying Event – Oceania' },
   { startDate: '2026-03-18', endDate: '2026-03-22', tournament: 'JSW Indian Open 2026' },

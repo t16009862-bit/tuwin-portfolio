@@ -367,11 +367,10 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black">
-      {/* Loading Screen */}
+      {/* Non-blocking loading indicator: defaults remain visible while live data arrives. */}
       {isPageLoading && (
-        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center gap-4 bg-[#06070a]">
-          <div className="h-12 w-12 rounded-full border-2 border-cyan-accent/20 border-t-cyan-accent animate-spin"></div>
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-400">Loading</p>
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-0.5 overflow-hidden bg-cyan-accent/10" aria-label="Loading latest website data">
+          <div className="h-full w-1/3 animate-pulse bg-cyan-accent" />
         </div>
       )}
 
@@ -767,7 +766,7 @@ export default function Home() {
 
         {/* World Ranking Chart */}
         {rankings.length > 0 && (
-          <section className="py-16 border-b border-white/5 relative z-10">
+          <section id="rankings" className="scroll-mt-24 py-16 border-b border-white/5 relative z-10">
             <RankingChart rankings={rankings} />
           </section>
         )}

@@ -77,29 +77,36 @@ export default function MatchHistoryPage() {
   const [rankingZeros, setRankingZeros] = useState(RANKING_ZEROS);
   const [withdrawals, setWithdrawals] = useState(NO_PENALTY_WITHDRAWALS);
   const [matches, setMatches] = useState(MATCHES);
+  const [dataStatus, setDataStatus] = useState<'loading' | 'live' | 'fallback'>('loading');
 
   useEffect(() => {
     let cancelled = false;
 
-    fetch('/api/ranking-records', { cache: 'no-store' })
-      .then((response) => {
-        if (!response.ok) throw new Error('Ranking records are unavailable');
-        return response.json() as Promise<RankingRecordsResponse>;
-      })
-      .then((data) => {
-        if (cancelled) return;
-        setSummary(data.summary);
-        setCurrentPoints(data.tournamentPoints.filter((entry) => entry.status === 'Current'));
-        setExpiredPoints(data.tournamentPoints.filter((entry) => entry.status === 'Expired'));
-        setPendingPoints(data.tournamentPoints.filter((entry) => entry.status === 'Pending'));
-        setMedicalZeros(data.medicalZeros);
-        setRankingZeros(data.rankingZeros);
-        setWithdrawals(data.withdrawals);
-        setMatches(data.matches);
-      })
-      .catch(() => {
-        // The bundled official snapshot remains visible if Google Sheets is temporarily unavailable.
-      });
+    const loadRecords = async () => {
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+          const response = await fetch('/api/ranking-records', { cache: 'no-store' });
+          if (!response.ok) throw new Error('Ranking records are unavailable');
+          const data = await response.json() as RankingRecordsResponse;
+          if (cancelled) return;
+          setSummary(data.summary);
+          setCurrentPoints(data.tournamentPoints.filter((entry) => entry.status === 'Current'));
+          setExpiredPoints(data.tournamentPoints.filter((entry) => entry.status === 'Expired'));
+          setPendingPoints(data.tournamentPoints.filter((entry) => entry.status === 'Pending'));
+          setMedicalZeros(data.medicalZeros);
+          setRankingZeros(data.rankingZeros);
+          setWithdrawals(data.withdrawals);
+          setMatches(data.matches);
+          setDataStatus('live');
+          return;
+        } catch {
+          if (attempt < 2) await new Promise((resolve) => window.setTimeout(resolve, 700 * (attempt + 1)));
+        }
+      }
+      if (!cancelled) setDataStatus('fallback');
+    };
+
+    void loadRecords();
 
     return () => {
       cancelled = true;
@@ -135,7 +142,7 @@ export default function MatchHistoryPage() {
           <Link href="/" className="text-xl font-bold uppercase tracking-widest text-white transition-colors hover:text-cyan-accent">
             Tuwin <span className="font-extrabold text-gradient-cyan-solid">Herath</span>
           </Link>
-          <Link href="/#career" className="rounded-full border border-cyan-accent/40 bg-cyan-accent/5 px-5 py-2 text-[10px] font-extrabold uppercase tracking-widest text-cyan-accent transition-all hover:bg-cyan-accent hover:text-black">
+          <Link href="/#rankings" className="rounded-full border border-cyan-accent/40 bg-cyan-accent/5 px-5 py-2 text-[10px] font-extrabold uppercase tracking-widest text-cyan-accent transition-all hover:bg-cyan-accent hover:text-black">
             ← Back to rankings
           </Link>
         </div>
@@ -158,6 +165,14 @@ export default function MatchHistoryPage() {
             Visitors cannot add, edit, delete or save anything on this page. The search and filters only change what is visible in that visitor&apos;s browser and reset when the page is refreshed.
           </p>
         </section>
+
+        {dataStatus !== 'live' && (
+          <section className="rounded-2xl border border-amber-300/20 bg-amber-300/[0.06] p-4 text-sm text-amber-100" aria-live="polite">
+            {dataStatus === 'loading'
+              ? 'Checking the latest ranking records…'
+              : `Live records are temporarily unavailable. Showing the last verified snapshot from ${formatDate(summary.recordCheckedDate)}.`}
+          </section>
+        )}
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" aria-label="PSA career summary">
           {[
