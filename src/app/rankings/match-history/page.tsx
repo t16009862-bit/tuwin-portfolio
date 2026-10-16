@@ -58,7 +58,14 @@ function PointsTable({ entries, expiryLabel = 'Expires' }: { entries: PointsEntr
                 {entry.tournament === 'Astana Open Squash 2026' ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <span>{entry.result}</span>
-                    <span className="rounded-full bg-orange-accent/10 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-orange-accent">Code violation</span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-orange-accent/10 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-orange-accent">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M10.3 3.7 2.4 17.4A2 2 0 0 0 4.1 20h15.8a2 2 0 0 0 1.7-2.6L13.7 3.7a2 2 0 0 0-3.4 0Z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                      </svg>
+                      Code violation
+                    </span>
                   </div>
                 ) : entry.result}
               </td>
