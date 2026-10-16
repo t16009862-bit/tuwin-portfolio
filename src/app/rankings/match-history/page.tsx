@@ -54,7 +54,14 @@ function PointsTable({ entries, expiryLabel = 'Expires' }: { entries: PointsEntr
             <tr key={`${entry.date}-${entry.tournament}`} className="border-t border-white/5 text-slate-300">
               <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.date)}</td>
               <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
-              <td className="px-4 py-3">{entry.result}</td>
+              <td className="px-4 py-3">
+                {entry.tournament === 'Astana Open Squash 2026' ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span>{entry.result}</span>
+                    <span className="rounded-full bg-orange-accent/10 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-orange-accent">Code violation</span>
+                  </div>
+                ) : entry.result}
+              </td>
               <td className="px-4 py-3 text-right font-extrabold text-cyan-accent">{entry.points.toFixed(2)}</td>
               <td className="whitespace-nowrap px-4 py-3 text-right">{formatDate(entry.expires)}</td>
             </tr>
@@ -128,7 +135,10 @@ export default function MatchHistoryPage() {
   const uniqueKnownOpponents = new Set(matches.filter((match) => match.opponent !== 'TBD').map((match) => match.opponent)).size;
   const years = [...new Set(matches.map((match) => match.year).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
   const activeMedicalZeros = medicalZeros.filter((entry) => entry.status === 'Active').length;
-  const medicalZeroClarifications = medicalZeros.filter((entry) => entry.reference || entry.rankingImpact);
+  const nonCountingMedicalZeros = medicalZeros.filter(
+    (entry) => entry.status === 'Active' && !currentPoints.some((point) => point.tournament === entry.tournament),
+  );
+  const nonCountingMedicalZeroClarifications = nonCountingMedicalZeros.filter((entry) => entry.reference || entry.rankingImpact);
   const activeRankingZeros = rankingZeros.filter((entry) => entry.status === 'Active').length;
   const average = summary.divisor > 0 ? summary.countingPoints / summary.divisor : 0;
 
@@ -214,7 +224,7 @@ export default function MatchHistoryPage() {
           <div className="mt-5 rounded-2xl border border-cyan-accent/15 bg-cyan-accent/[0.045] p-5">
             <p className="text-sm font-extrabold text-white">{summary.countingPoints.toFixed(2)} points ÷ {summary.divisor} divisor = {average.toFixed(3)}… → {average.toFixed(2)} average</p>
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              PSA shows {summary.played} tournaments played and a divisor of {summary.divisor}. Eight point-scoring results total {summary.countingPoints.toFixed(2)} points, and Astana Open is the ninth tournament played as a 0.00-point Medical Zero. The remaining {summary.emptyDivisorPlaces} places complete the divisor.
+              PSA shows {summary.played} tournaments played and a divisor of {summary.divisor}. Eight point-scoring results total {summary.countingPoints.toFixed(2)} points. Astana Open appears in the current Tournament Breakdown as a 0.00-point counting Medical Zero, while China is listed separately as a non-counting Medical Zero. The remaining {summary.emptyDivisorPlaces} places complete the divisor.
             </p>
           </div>
 
@@ -238,7 +248,7 @@ export default function MatchHistoryPage() {
             <div className="rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-orange-accent">Active medical zeros</p>
               <p className="mt-2 text-3xl font-black text-white">{activeMedicalZeros}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">China and Astana are the two active Medical Zeros. PSA Secure lists Astana as the ninth tournament played in the current breakdown at 0.00 points. China remains the other active Medical Zero record.</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">Astana is a counting Medical Zero in the current Tournament Breakdown at 0.00 points. China is listed separately as the single non-counting Medical Zero.</p>
             </div>
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Other ranking zeros</p>
@@ -250,13 +260,13 @@ export default function MatchHistoryPage() {
 
         <section className="glass-card-layered overflow-hidden p-6 md:p-8">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-orange-accent">PSA zero-point records</p>
-            <h2 className="mt-2 text-2xl font-extrabold uppercase">Medical zeros</h2>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-orange-accent">Not counting</p>
+            <h2 className="mt-2 text-2xl font-extrabold uppercase">Non-counting medical zeros ({nonCountingMedicalZeros.length})</h2>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">
-              PSA includes active Medical Zeros as 0.00-point entries within its Counting Tournaments breakdown. They are expanded separately here only so the ruling, expiry and ranking treatment remain clear.
+              PSA Secure lists China Squash Tour Challenger #1 2026 separately as a non-counting Medical Zero. Astana is already included in the Tournament Breakdown above.
             </p>
           </div>
-          {medicalZeroClarifications.map((entry) => (
+          {nonCountingMedicalZeroClarifications.map((entry) => (
             <div key={`${entry.tournament}-${entry.reference}`} className="mt-6 rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-orange-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-orange-accent">PSA clarification</span>
@@ -276,7 +286,7 @@ export default function MatchHistoryPage() {
                 <tr><th className="px-4 py-3 text-left">Recorded</th><th className="px-4 py-3 text-left">Tournament</th><th className="px-4 py-3 text-left">PSA record</th><th className="px-4 py-3 text-right">Points</th><th className="px-4 py-3 text-right">Expires / expired</th><th className="px-4 py-3 text-right">Status</th></tr>
               </thead>
               <tbody>
-                {medicalZeros.map((entry) => (
+                {nonCountingMedicalZeros.map((entry) => (
                   <tr key={entry.tournament} className="border-t border-white/5 text-slate-300">
                     <td className="whitespace-nowrap px-4 py-3">{formatDate(entry.date)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{entry.tournament}</td>
