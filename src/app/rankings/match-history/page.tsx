@@ -201,7 +201,7 @@ export default function MatchHistoryPage() {
               ['Total points', summary.totalPoints.toFixed(2)],
               ['Counting points', summary.countingPoints.toFixed(2)],
               ['Average', average.toFixed(2)],
-              ['PSA played', summary.played.toString()],
+              ['Tournaments played', summary.played.toString()],
               ['Divisor', summary.divisor.toString()],
             ].map(([label, value]) => (
               <div key={label} className="rounded-2xl border border-white/5 bg-white/[0.025] p-4 text-center">
@@ -214,7 +214,7 @@ export default function MatchHistoryPage() {
           <div className="mt-5 rounded-2xl border border-cyan-accent/15 bg-cyan-accent/[0.045] p-5">
             <p className="text-sm font-extrabold text-white">{summary.countingPoints.toFixed(2)} points ÷ {summary.divisor} divisor = {average.toFixed(3)}… → {average.toFixed(2)} average</p>
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              PSA shows {summary.played} played and a divisor of {summary.divisor}. The {currentPoints.length} positive-point results total {summary.countingPoints.toFixed(2)} points; the earlier China Medical Zero is temporarily treated as played, while {summary.emptyDivisorPlaces} empty places complete the divisor.
+              PSA shows {summary.played} tournaments played and a divisor of {summary.divisor}. Eight point-scoring results total {summary.countingPoints.toFixed(2)} points, and Astana Open is the ninth tournament played as a 0.00-point Medical Zero. The remaining {summary.emptyDivisorPlaces} places complete the divisor.
             </p>
           </div>
 
@@ -222,7 +222,7 @@ export default function MatchHistoryPage() {
             <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-accent">Current</p>
-                <h3 className="mt-1 text-lg font-extrabold uppercase">Positive-point tournaments</h3>
+                <h3 className="mt-1 text-lg font-extrabold uppercase">Tournaments played</h3>
               </div>
               <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-cyan-accent">{currentPoints.length} events · {summary.countingPoints.toFixed(2)} points</span>
             </div>
@@ -238,7 +238,7 @@ export default function MatchHistoryPage() {
             <div className="rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-orange-accent">Active medical zeros</p>
               <p className="mt-2 text-3xl font-black text-white">{activeMedicalZeros}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">China and Astana are the two active Medical Zeros. PSA lists Astana inside its 11-place Counting Tournaments breakdown at 0.00 points. Because both fall within 52 weeks, PSA treats the earlier China Medical Zero as played for a maximum of 26 weeks.</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">China and Astana are the two active Medical Zeros. PSA Secure lists Astana as the ninth tournament played in the current breakdown at 0.00 points. China remains the other active Medical Zero record.</p>
             </div>
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Other ranking zeros</p>
