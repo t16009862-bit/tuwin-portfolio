@@ -21,6 +21,7 @@ export async function GET() {
       highestRanking: number(summaryRow.highestRanking),
       totalPoints: number(summaryRow.totalPoints),
       countingPoints: number(summaryRow.countingPoints),
+      played: number(summaryRow.played),
       divisor: number(summaryRow.divisor),
       emptyDivisorPlaces: number(summaryRow.emptyDivisorPlaces),
       otherRankingZeros: number(summaryRow.otherRankingZeros),
