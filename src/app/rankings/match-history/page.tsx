@@ -238,7 +238,7 @@ export default function MatchHistoryPage() {
             <div className="rounded-2xl border border-orange-accent/20 bg-orange-accent/[0.05] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-orange-accent">Active medical zeros</p>
               <p className="mt-2 text-3xl font-black text-white">{activeMedicalZeros}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">China counts as a tournament played for up to 26 weeks, but remains a 0.00-point non-counting score.</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">China and Astana are the two active Medical Zeros. Because both fall within 52 weeks, PSA counts the earlier China Medical Zero as a tournament played for a maximum of 26 weeks. Both remain 0.00-point non-counting scores.</p>
             </div>
             <div className="rounded-2xl border border-white/5 bg-white/[0.025] p-5">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Other ranking zeros</p>
@@ -343,7 +343,7 @@ export default function MatchHistoryPage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Not ranking zeros</p>
             <h2 className="mt-2 text-2xl font-extrabold uppercase">No-penalty withdrawals</h2>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">
-              PSA records these entries as withdrawn with “No penalty”. They add no points, have no points-expiry date, and are not medical or disciplinary zeros.
+              PSA records these entries as withdrawn with “No penalty”. PSA confirmed on 13 Oct 2026 that PSNS 3K Challenger remains No Penalty under Section 4.7.3 because it continues the Astana injury; it is not a separate third Medical Zero. These entries add no points, have no points-expiry date, and are not medical or disciplinary zeros.
             </p>
           </div>
           <div className="mt-6 overflow-x-auto rounded-2xl border border-white/5">
