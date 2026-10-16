@@ -68,7 +68,7 @@ export const DEFAULT_RANKING_SUMMARY: RankingSummary = {
   highestRanking: 316,
   totalPoints: 111,
   countingPoints: 111,
-  played: 9,
+  played: 15,
   divisor: 11,
   emptyDivisorPlaces: 2,
   otherRankingZeros: 0,
