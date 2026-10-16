@@ -127,7 +127,7 @@ export const CURRENT_COUNTING_POINTS: PointsEntry[] = [
   { date: '2025-10-27', tournament: 'China Squash Tour 2025 S3', result: 'Round of 16', points: 9, expires: '2026-10-26' },
   { date: '2025-11-22', tournament: 'China Squash Tour 2025 S4', result: 'Quarter-finalist', points: 7.5, expires: '2026-11-21' },
   { date: '2026-10-05', tournament: 'JSW 12th Sunil Verma Memorial Tournament 2026', result: 'Round of 32', points: 16.5, expires: '2027-10-04' },
-  { date: '2026-10-11', tournament: 'Astana Open Squash 2026', result: 'Medical Zero – ninth tournament played', points: 0, expires: '2027-10-10' },
+  { date: '2026-10-11', tournament: 'Astana Open Squash 2026', result: 'Medical Zero', points: 0, expires: '2027-10-10' },
 ];
 
 export const PENDING_POINTS: PointsEntry[] = [];
@@ -174,7 +174,7 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
     withdrawalDate: '2026-09-28',
     reason: 'Injury',
     ruling: 'Medical Zero',
-    rankingImpact: 'PSA Secure lists Astana Open as the ninth tournament played in the current Counting Tournaments breakdown. It contributes 0.00 points and expires 10 October 2027.',
+    rankingImpact: 'Counting Medical Zero. PSA Secure lists Astana Open in the current Tournament Breakdown with code violation V-4BSTG. It contributes 0.00 points and expires 10 October 2027.',
   },
   {
     date: '2026-08-10',
@@ -182,7 +182,7 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
     expires: '2027-08-09',
     status: 'Active',
     ruling: 'Medical Zero',
-    rankingImpact: 'Active Medical Zero recorded by PSA. It contributes 0.00 points, but it is not the ninth tournament shown as played in the current PSA Secure breakdown; that tournament is Astana Open.',
+    rankingImpact: 'Non-Counting Medical Zero. PSA Secure lists China Squash Tour Challenger #1 2026 under Non-Counting Medical Zeros. It contributes 0.00 points, is not counting, and expires 9 August 2027.',
   },
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
