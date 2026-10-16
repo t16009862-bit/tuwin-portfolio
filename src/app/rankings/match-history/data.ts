@@ -47,6 +47,7 @@ export type RankingSummary = {
   highestRanking: number;
   totalPoints: number;
   countingPoints: number;
+  played: number;
   divisor: number;
   emptyDivisorPlaces: number;
   otherRankingZeros: number;
@@ -67,8 +68,9 @@ export const DEFAULT_RANKING_SUMMARY: RankingSummary = {
   highestRanking: 316,
   totalPoints: 111,
   countingPoints: 111,
+  played: 9,
   divisor: 11,
-  emptyDivisorPlaces: 3,
+  emptyDivisorPlaces: 2,
   otherRankingZeros: 0,
 };
 
@@ -171,7 +173,7 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
     withdrawalDate: '2026-09-28',
     reason: 'Injury',
     ruling: 'Medical Zero',
-    rankingImpact: 'Second active Medical Zero. It adds 0.00 ranking points. Because two Medical Zeros fall within 52 weeks, PSA applies the maximum 26-week tournament-played treatment to the earlier China Medical Zero.',
+    rankingImpact: 'Second active Medical Zero. PSA lists Astana in the 11-place Counting Tournaments breakdown at 0.00 points; it expires 10 October 2027. Because the two Medical Zeros fall within 52 weeks, PSA applies the maximum 26-week tournament-played treatment to the earlier China Medical Zero.',
   },
   {
     date: '2026-08-10',
@@ -179,7 +181,7 @@ export const MEDICAL_ZEROS: MedicalZero[] = [
     expires: '2027-08-09',
     status: 'Active',
     ruling: 'Medical Zero',
-    rankingImpact: 'Earlier of the two active Medical Zeros. PSA counts it as a tournament played for a maximum of 26 weeks. It remains 0.00 points and is not a counting score.',
+    rankingImpact: 'Earlier of the two active Medical Zeros. PSA treats it as a tournament played for a maximum of 26 weeks. The official 16 October 2026 breakdown shows Played 9, Divisor 11 and two empty divisor places; this Medical Zero contributes 0.00 points.',
   },
   { date: '2025-06-08', tournament: 'WA Open International 2025', expires: '2026-06-07', status: 'Expired' },
   { date: '2024-10-31', tournament: 'Philippine Challenger Classic 2024', expires: '2025-10-30', status: 'Expired' },
