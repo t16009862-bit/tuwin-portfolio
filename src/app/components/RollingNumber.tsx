@@ -39,9 +39,12 @@ export default function RollingNumber({ value }: { value: string | number }) {
 
     let animationFrame = 0;
     let lastFrame = 0;
+    let isVisible = false;
 
     const startRoll = () => {
+      cancelAnimationFrame(animationFrame);
       const startedAt = performance.now();
+      lastFrame = 0;
       setRolling(true);
 
       const animate = (now: number) => {
@@ -64,11 +67,19 @@ export default function RollingNumber({ value }: { value: string | number }) {
     };
 
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !isVisible) {
+        isVisible = true;
         startRoll();
-        observer.disconnect();
+      } else if (!entry.isIntersecting && isVisible) {
+        isVisible = false;
+        cancelAnimationFrame(animationFrame);
+        setRolling(false);
+        setDisplayValue(finalValue);
       }
-    }, { threshold: 0.25 });
+    }, {
+      threshold: 0.6,
+      rootMargin: '-12% 0px -12% 0px',
+    });
 
     observer.observe(element);
     return () => {
