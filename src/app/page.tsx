@@ -348,7 +348,7 @@ export default function Home() {
         email: inquiryForm.email,
         message: inquiryForm.message,
       });
-      const res = await fetch('/', {
+      const res = await fetch('/__forms.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
@@ -1161,7 +1161,7 @@ export default function Home() {
               <form
                 name="tuwin-inquiry"
                 method="POST"
-                action="/"
+                action="/__forms.html"
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
                 className="space-y-4 z-10 relative"
