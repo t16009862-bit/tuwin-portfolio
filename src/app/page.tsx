@@ -342,10 +342,16 @@ export default function Home() {
     e.preventDefault();
     setInquiryStatus('sending');
     try {
-      const res = await fetch('/api/inquiry', {
+      const body = new URLSearchParams({
+        'form-name': 'tuwin-inquiry',
+        name: inquiryForm.name,
+        email: inquiryForm.email,
+        message: inquiryForm.message,
+      });
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(inquiryForm),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
       });
       if (!res.ok) throw new Error('Request failed');
       setInquiryStatus('success');
@@ -1152,7 +1158,21 @@ export default function Home() {
             <div id="contact-form" className="scroll-mt-24 flex-1 glass-card-layered p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
               <div className="absolute inset-0 opacity-[0.02] wave-contour-pattern pointer-events-none"></div>
 
-              <form className="space-y-4 z-10 relative" onSubmit={handleInquirySubmit}>
+              <form
+                name="tuwin-inquiry"
+                method="POST"
+                action="/"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                className="space-y-4 z-10 relative"
+                onSubmit={handleInquirySubmit}
+              >
+                <input type="hidden" name="form-name" value="tuwin-inquiry" />
+                <p className="hidden" aria-hidden="true">
+                  <label>
+                    Do not fill this out: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+                  </label>
+                </p>
                 <div>
                   <label htmlFor="name" className="block text-[9px] uppercase font-bold text-slate-400 tracking-widest mb-1.5">
                     Your Name
@@ -1160,6 +1180,7 @@ export default function Home() {
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     value={inquiryForm.name}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, name: e.target.value })}
                     className="w-full rounded-xl border border-white/10 bg-[#06070a] px-4 py-3 text-sm text-white focus:border-cyan-accent focus:ring-1 focus:ring-cyan-accent focus:outline-none transition-all duration-300"
@@ -1175,6 +1196,7 @@ export default function Home() {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     value={inquiryForm.email}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, email: e.target.value })}
                     className="w-full rounded-xl border border-white/10 bg-[#06070a] px-4 py-3 text-sm text-white focus:border-cyan-accent focus:ring-1 focus:ring-cyan-accent focus:outline-none transition-all duration-300"
@@ -1189,6 +1211,7 @@ export default function Home() {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
                     value={inquiryForm.message}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, message: e.target.value })}
