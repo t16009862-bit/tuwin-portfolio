@@ -33,6 +33,7 @@ export default function Home() {
     worldRank: '316',
     age: '26',
     description: 'PSA Touring Professional. Deshabandu Awardee. Fueling the game with the best. Representing the Sri Lankan flag on the international stage, pushing the physical and mental limits of competitive squash.',
+    profileImage: '/tuwin-profile-2026.jpg',
   });
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
   const [rankings, setRankings] = useState<{ date: string; ranking: number }[]>([]);
@@ -73,13 +74,14 @@ export default function Home() {
         if (!res.ok) throw new Error('Failed to load bio');
         return res.json();
       })
-      .then((data: { name?: string; worldRank?: string; age?: string; description?: string }) => {
+      .then((data: { name?: string; worldRank?: string; age?: string; description?: string; profileImage?: string }) => {
         if (cancelled) return;
         setBio((prev) => ({
           name: data.name || prev.name,
           worldRank: data.worldRank || prev.worldRank,
           age: data.age || prev.age,
           description: data.description || prev.description,
+          profileImage: data.profileImage || prev.profileImage,
         }));
       })
       .catch(() => {
@@ -554,10 +556,10 @@ export default function Home() {
               {/* Stylized Image Frame */}
               <div className="relative h-80 w-80 sm:h-[400px] sm:w-[400px] overflow-hidden rounded-full border border-white/10 bg-gradient-to-b from-[#0e121d] to-[#06070a] p-3 shadow-2xl">
   <Image
-    src="/tuwin-cover-square.jpg"
+    src={bio.profileImage}
     alt="Tuwin Herath Squash Athlete Profile Photo"
     fill
-    className="rounded-full object-cover object-[center_30%] transition-transform duration-500 group-hover:scale-105"    sizes="(max-width: 640px) 296px, 380px"
+    className="rounded-full object-cover object-[42%_20%] transition-transform duration-500 group-hover:scale-105"    sizes="(max-width: 640px) 296px, 380px"
     priority
   />
 </div>
