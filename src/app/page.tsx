@@ -536,7 +536,7 @@ export default function Home() {
               </div>
 
               {/* Floating Badge 2 - Peak WR */}
-              <div className="absolute -bottom-6 -right-6 z-20 animate-float-delayed glass-card-layered-orange px-5 py-3 border border-orange-accent/20 flex items-center gap-3">
+              <div className="absolute -bottom-6 right-0 z-20 animate-float-delayed glass-card-layered-orange px-5 py-3 border border-orange-accent/20 flex items-center gap-3">
                 <span className="text-2xl text-orange-accent">🏆</span>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-wider text-orange-accent">Peak World Rank</div>
