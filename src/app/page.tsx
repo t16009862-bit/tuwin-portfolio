@@ -805,9 +805,7 @@ export default function Home() {
 
                 <div className="mt-7 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="/colombo-junior-squash-championship-2026-appreciation.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/appreciation-letter"
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
                   >
                     View Appreciation Letter
