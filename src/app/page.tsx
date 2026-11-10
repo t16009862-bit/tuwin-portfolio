@@ -62,274 +62,60 @@ export default function Home() {
     email: 'tuwinosanda@gmail.com',
     phoneNumbers: ['+94771182429', '+8613002144061'],
   });
-  const TOTAL_FETCHES = 11;
-  const [loadedCount, setLoadedCount] = useState(0);
-  const isPageLoading = loadedCount < TOTAL_FETCHES;
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    fetch('/api/bio')
+    fetch('/api/home')
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to load bio');
+        if (!res.ok) throw new Error('Failed to load homepage');
         return res.json();
       })
-      .then((data: { name?: string; worldRank?: string; age?: string; description?: string; profileImage?: string }) => {
+      .then((data: {
+        bio?: Partial<typeof bio>;
+        sponsors?: typeof sponsors;
+        rankings?: typeof rankings;
+        tournaments?: typeof tournaments;
+        coaches?: typeof coaches;
+        contact?: Partial<typeof contact>;
+        careerAchievements?: typeof careerAchievements;
+        timelineData?: typeof timelineData;
+        competencyPoints?: typeof competencyPoints;
+        trainingHistory?: typeof trainingHistory;
+        biography?: Partial<typeof biography>;
+      }) => {
         if (cancelled) return;
         setBio((prev) => ({
-          name: data.name || prev.name,
-          worldRank: data.worldRank || prev.worldRank,
-          age: data.age || prev.age,
-          description: data.description || prev.description,
-          profileImage: data.profileImage || prev.profileImage,
+          name: data.bio?.name || prev.name,
+          worldRank: data.bio?.worldRank || prev.worldRank,
+          age: data.bio?.age || prev.age,
+          description: data.bio?.description || prev.description,
+          profileImage: data.bio?.profileImage || prev.profileImage,
         }));
-      })
-      .catch(() => {
-        // Keep default bio values on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/sponsors')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load sponsors');
-        return res.json();
-      })
-      .then((data: { sponsors: { name: string; imageUrl: string; status: string; description: string }[] }) => {
-        if (!cancelled) setSponsors(data.sponsors);
-      })
-      .catch(() => {
-        // Keep empty sponsors list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/rankings')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load rankings');
-        return res.json();
-      })
-      .then((data: { rankings: { date: string; ranking: number }[] }) => {
-        if (!cancelled) setRankings(data.rankings);
-      })
-      .catch(() => {
-        // Keep empty rankings list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/tournaments')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load tournaments');
-        return res.json();
-      })
-      .then((data: { tournaments: (typeof tournaments[number] & { finishedPosition?: string })[] }) => {
-        if (!cancelled) {
-          setTournaments(data.tournaments.filter((t) => t.status.toLowerCase() === 'upcoming'));
-        }
-      })
-      .catch(() => {
-        // Keep empty tournaments list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/coach')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load coach');
-        return res.json();
-      })
-      .then((data: { coaches: typeof coaches }) => {
-        if (!cancelled) setCoaches(data.coaches);
-      })
-      .catch(() => {
-        // Keep empty coaches list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/contact')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load contact');
-        return res.json();
-      })
-      .then((data: { contact: { locations?: string; email?: string; phoneNumbers?: string[] } }) => {
-        if (cancelled) return;
+        setSponsors(data.sponsors ?? []);
+        setRankings(data.rankings ?? []);
+        setTournaments(data.tournaments ?? []);
+        setCoaches(data.coaches ?? []);
         setContact((prev) => ({
-          locations: data.contact.locations || prev.locations,
-          email: data.contact.email || prev.email,
-          phoneNumbers: data.contact.phoneNumbers && data.contact.phoneNumbers.length > 0 ? data.contact.phoneNumbers : prev.phoneNumbers,
+          locations: data.contact?.locations || prev.locations,
+          email: data.contact?.email || prev.email,
+          phoneNumbers: data.contact?.phoneNumbers?.length ? data.contact.phoneNumbers : prev.phoneNumbers,
         }));
-      })
-      .catch(() => {
-        // Keep default contact values on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/career-achievements')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load career achievements');
-        return res.json();
-      })
-      .then((data: { achievements: typeof careerAchievements }) => {
-        if (!cancelled) setCareerAchievements(data.achievements);
-      })
-      .catch(() => {
-        // Keep empty career achievements list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/career-highlights')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load career highlights');
-        return res.json();
-      })
-      .then((data: { highlights: typeof timelineData }) => {
-        if (!cancelled) setTimelineData(data.highlights);
-      })
-      .catch(() => {
-        // Keep empty timeline list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/competency-blueprint')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load competency blueprint');
-        return res.json();
-      })
-      .then((data: { points: string[] }) => {
-        if (!cancelled) setCompetencyPoints(data.points);
-      })
-      .catch(() => {
-        // Keep empty competency points list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/training-history')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load training history');
-        return res.json();
-      })
-      .then((data: { trainingHistory: typeof trainingHistory }) => {
-        if (!cancelled) setTrainingHistory(data.trainingHistory);
-      })
-      .catch(() => {
-        // Keep empty training history list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/biography')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load biography');
-        return res.json();
-      })
-      .then((data: { description?: string; highlights?: BiographyHighlight[] }) => {
-        if (cancelled) return;
+        setCareerAchievements(data.careerAchievements ?? []);
+        setTimelineData(data.timelineData ?? []);
+        setCompetencyPoints(data.competencyPoints ?? []);
+        setTrainingHistory(data.trainingHistory ?? []);
         setBiography((prev) => ({
-          description: data.description || prev.description,
-          highlights: data.highlights && data.highlights.length > 0 ? data.highlights : prev.highlights,
+          description: data.biography?.description || prev.description,
+          highlights: data.biography?.highlights?.length ? data.biography.highlights : prev.highlights,
         }));
       })
       .catch(() => {
-        // Keep default biography values on failure
+        // Keep the embedded fallback content if the live workbook is unavailable.
       })
       .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
+        if (!cancelled) setIsPageLoading(false);
       });
 
     return () => {
@@ -374,11 +160,14 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black">
-      {/* Non-blocking loading indicator: defaults remain visible while live data arrives. */}
+    <div className={`relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black ${isPageLoading ? 'h-[100svh] overflow-hidden' : ''}`}>
+      {/* Block scrolling until the single homepage payload is ready, preventing layout jumps. */}
       {isPageLoading && (
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-0.5 overflow-hidden bg-cyan-accent/10" aria-label="Loading latest website data">
-          <div className="h-full w-1/3 animate-pulse bg-cyan-accent" />
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#06070a]" role="status" aria-label="Loading latest website data">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 rounded-full border-2 border-white/10 border-t-cyan-accent animate-spin" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">Loading latest profile</span>
+          </div>
         </div>
       )}
 
@@ -392,7 +181,7 @@ export default function Home() {
       <div className="wave-contour-pattern"></div>
 
       {/* Header & Navigation */}
-      <header className="animate-slide-down sticky top-0 z-50 border-b border-white/5 bg-[#06070a]/80 backdrop-blur-md transition-all duration-300">
+      <header className="site-header animate-slide-down sticky top-0 z-50 border-b border-white/5 bg-[#06070a]/80 backdrop-blur-md transition-all duration-300">
         <div className="mx-auto w-full max-w-6xl px-6 flex items-center justify-between py-4">
           <a href="#home" className="text-xl font-bold uppercase tracking-widest text-white hover:text-cyan-accent transition-colors">
             {bioFirstName} <span className="text-cyan-accent text-gradient-cyan-solid font-extrabold">{bioLastName}</span>
@@ -1145,7 +934,7 @@ export default function Home() {
 
             {sponsors.length > 0 && (
               <div className="relative w-full overflow-hidden py-4">
-                <div className="flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] opacity-75">
+                <div className="sponsor-marquee flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] opacity-75">
                   {[...sponsors, ...sponsors].map((sponsor, idx) => (
                     <div
                       key={`${sponsor.name}-${idx}`}
