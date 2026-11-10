@@ -223,18 +223,27 @@ body {
 
 /* Mobile performance: avoid full-page blur repaints and continuous motion while scrolling. */
 @media (max-width: 767px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .site-header {
+    position: static;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: rgba(6, 7, 10, 0.97);
   }
 
-  .aurora-bg {
-    opacity: 0.32;
-  }
-
-  .aurora-bg::after {
-    filter: none;
+  /* These page-sized layers force Safari to repaint while every scroll frame moves. */
+  .aurora-bg,
+  .grid-overlay,
+  .wave-contour-pattern {
+    display: none !important;
   }
 
   .glass-card-layered,
@@ -242,12 +251,26 @@ body {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: rgba(13, 17, 26, 0.96);
+    box-shadow: none;
+    transition: none;
   }
 
-  .animate-float-soft,
-  .animate-float-delayed,
+  /* Render long, off-screen sections only as they approach the viewport. */
+  main > section {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 900px;
+  }
+
+  /* Mobile gets a deliberately still presentation so touch scrolling stays fluid. */
+  main *,
+  .site-header *,
   .sponsor-marquee {
     animation: none !important;
+    transition-duration: 0s !important;
+  }
+
+  main * {
+    filter: none !important;
   }
 }
 

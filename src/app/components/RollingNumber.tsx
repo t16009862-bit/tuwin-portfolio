@@ -33,7 +33,9 @@ export default function RollingNumber({ value }: { value: string | number }) {
 
     setDisplayValue(finalValue);
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Keep mobile scrolling on the compositor thread. Repeated React state
+    // updates and blur/transform animation are not worth the cost on phones.
+    if (window.matchMedia('(max-width: 767px), (prefers-reduced-motion: reduce)').matches) {
       return;
     }
 
