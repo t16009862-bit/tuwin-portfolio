@@ -171,6 +171,47 @@ export default function Home() {
         </div>
       )}
 
+      {/* Kept in the page bundle so mobile performance fixes cannot be masked by a stale global CSS cache. */}
+      <style jsx global>{`
+        @media (max-width: 767px) {
+          html { scroll-behavior: auto; }
+          body {
+            overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
+          }
+          .site-header {
+            position: static !important;
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+            background: rgba(6, 7, 10, 0.97) !important;
+          }
+          .aurora-bg,
+          .grid-overlay,
+          .wave-contour-pattern {
+            display: none !important;
+          }
+          .glass-card-layered,
+          .glass-card-layered-orange {
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+            background: rgba(13, 17, 26, 0.96) !important;
+            box-shadow: none !important;
+            transition: none !important;
+          }
+          main > section {
+            content-visibility: auto;
+            contain-intrinsic-block-size: auto 900px;
+          }
+          main *,
+          .site-header *,
+          .sponsor-marquee {
+            animation: none !important;
+            transition-duration: 0s !important;
+          }
+          main * { filter: none !important; }
+        }
+      `}</style>
+
       {/* Background aurora gradients */}
       <div className="aurora-bg"></div>
 
