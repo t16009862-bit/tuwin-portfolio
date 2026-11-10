@@ -62,274 +62,60 @@ export default function Home() {
     email: 'tuwinosanda@gmail.com',
     phoneNumbers: ['+94771182429', '+8613002144061'],
   });
-  const TOTAL_FETCHES = 11;
-  const [loadedCount, setLoadedCount] = useState(0);
-  const isPageLoading = loadedCount < TOTAL_FETCHES;
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    fetch('/api/bio')
+    fetch('/api/home')
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to load bio');
+        if (!res.ok) throw new Error('Failed to load homepage');
         return res.json();
       })
-      .then((data: { name?: string; worldRank?: string; age?: string; description?: string; profileImage?: string }) => {
+      .then((data: {
+        bio?: Partial<typeof bio>;
+        sponsors?: typeof sponsors;
+        rankings?: typeof rankings;
+        tournaments?: typeof tournaments;
+        coaches?: typeof coaches;
+        contact?: Partial<typeof contact>;
+        careerAchievements?: typeof careerAchievements;
+        timelineData?: typeof timelineData;
+        competencyPoints?: typeof competencyPoints;
+        trainingHistory?: typeof trainingHistory;
+        biography?: Partial<typeof biography>;
+      }) => {
         if (cancelled) return;
         setBio((prev) => ({
-          name: data.name || prev.name,
-          worldRank: data.worldRank || prev.worldRank,
-          age: data.age || prev.age,
-          description: data.description || prev.description,
-          profileImage: data.profileImage || prev.profileImage,
+          name: data.bio?.name || prev.name,
+          worldRank: data.bio?.worldRank || prev.worldRank,
+          age: data.bio?.age || prev.age,
+          description: data.bio?.description || prev.description,
+          profileImage: data.bio?.profileImage || prev.profileImage,
         }));
-      })
-      .catch(() => {
-        // Keep default bio values on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/sponsors')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load sponsors');
-        return res.json();
-      })
-      .then((data: { sponsors: { name: string; imageUrl: string; status: string; description: string }[] }) => {
-        if (!cancelled) setSponsors(data.sponsors);
-      })
-      .catch(() => {
-        // Keep empty sponsors list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/rankings')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load rankings');
-        return res.json();
-      })
-      .then((data: { rankings: { date: string; ranking: number }[] }) => {
-        if (!cancelled) setRankings(data.rankings);
-      })
-      .catch(() => {
-        // Keep empty rankings list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/tournaments')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load tournaments');
-        return res.json();
-      })
-      .then((data: { tournaments: (typeof tournaments[number] & { finishedPosition?: string })[] }) => {
-        if (!cancelled) {
-          setTournaments(data.tournaments.filter((t) => t.status.toLowerCase() === 'upcoming'));
-        }
-      })
-      .catch(() => {
-        // Keep empty tournaments list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/coach')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load coach');
-        return res.json();
-      })
-      .then((data: { coaches: typeof coaches }) => {
-        if (!cancelled) setCoaches(data.coaches);
-      })
-      .catch(() => {
-        // Keep empty coaches list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/contact')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load contact');
-        return res.json();
-      })
-      .then((data: { contact: { locations?: string; email?: string; phoneNumbers?: string[] } }) => {
-        if (cancelled) return;
+        setSponsors(data.sponsors ?? []);
+        setRankings(data.rankings ?? []);
+        setTournaments(data.tournaments ?? []);
+        setCoaches(data.coaches ?? []);
         setContact((prev) => ({
-          locations: data.contact.locations || prev.locations,
-          email: data.contact.email || prev.email,
-          phoneNumbers: data.contact.phoneNumbers && data.contact.phoneNumbers.length > 0 ? data.contact.phoneNumbers : prev.phoneNumbers,
+          locations: data.contact?.locations || prev.locations,
+          email: data.contact?.email || prev.email,
+          phoneNumbers: data.contact?.phoneNumbers?.length ? data.contact.phoneNumbers : prev.phoneNumbers,
         }));
-      })
-      .catch(() => {
-        // Keep default contact values on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/career-achievements')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load career achievements');
-        return res.json();
-      })
-      .then((data: { achievements: typeof careerAchievements }) => {
-        if (!cancelled) setCareerAchievements(data.achievements);
-      })
-      .catch(() => {
-        // Keep empty career achievements list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/career-highlights')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load career highlights');
-        return res.json();
-      })
-      .then((data: { highlights: typeof timelineData }) => {
-        if (!cancelled) setTimelineData(data.highlights);
-      })
-      .catch(() => {
-        // Keep empty timeline list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/competency-blueprint')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load competency blueprint');
-        return res.json();
-      })
-      .then((data: { points: string[] }) => {
-        if (!cancelled) setCompetencyPoints(data.points);
-      })
-      .catch(() => {
-        // Keep empty competency points list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/training-history')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load training history');
-        return res.json();
-      })
-      .then((data: { trainingHistory: typeof trainingHistory }) => {
-        if (!cancelled) setTrainingHistory(data.trainingHistory);
-      })
-      .catch(() => {
-        // Keep empty training history list on failure
-      })
-      .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch('/api/biography')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load biography');
-        return res.json();
-      })
-      .then((data: { description?: string; highlights?: BiographyHighlight[] }) => {
-        if (cancelled) return;
+        setCareerAchievements(data.careerAchievements ?? []);
+        setTimelineData(data.timelineData ?? []);
+        setCompetencyPoints(data.competencyPoints ?? []);
+        setTrainingHistory(data.trainingHistory ?? []);
         setBiography((prev) => ({
-          description: data.description || prev.description,
-          highlights: data.highlights && data.highlights.length > 0 ? data.highlights : prev.highlights,
+          description: data.biography?.description || prev.description,
+          highlights: data.biography?.highlights?.length ? data.biography.highlights : prev.highlights,
         }));
       })
       .catch(() => {
-        // Keep default biography values on failure
+        // Keep the embedded fallback content if the live workbook is unavailable.
       })
       .finally(() => {
-        if (!cancelled) setLoadedCount((c) => c + 1);
+        if (!cancelled) setIsPageLoading(false);
       });
 
     return () => {
@@ -374,11 +160,14 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black">
-      {/* Non-blocking loading indicator: defaults remain visible while live data arrives. */}
+    <div className={`relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black ${isPageLoading ? 'h-[100svh] overflow-hidden' : ''}`}>
+      {/* Block scrolling until the single homepage payload is ready, preventing layout jumps. */}
       {isPageLoading && (
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-0.5 overflow-hidden bg-cyan-accent/10" aria-label="Loading latest website data">
-          <div className="h-full w-1/3 animate-pulse bg-cyan-accent" />
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#06070a]" role="status" aria-label="Loading latest website data">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 rounded-full border-2 border-white/10 border-t-cyan-accent animate-spin" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">Loading latest profile</span>
+          </div>
         </div>
       )}
 
@@ -392,7 +181,7 @@ export default function Home() {
       <div className="wave-contour-pattern"></div>
 
       {/* Header & Navigation */}
-      <header className="animate-slide-down sticky top-0 z-50 border-b border-white/5 bg-[#06070a]/80 backdrop-blur-md transition-all duration-300">
+      <header className="site-header animate-slide-down sticky top-0 z-50 border-b border-white/5 bg-[#06070a]/80 backdrop-blur-md transition-all duration-300">
         <div className="mx-auto w-full max-w-6xl px-6 flex items-center justify-between py-4">
           <a href="#home" className="text-xl font-bold uppercase tracking-widest text-white hover:text-cyan-accent transition-colors">
             {bioFirstName} <span className="text-cyan-accent text-gradient-cyan-solid font-extrabold">{bioLastName}</span>
@@ -772,6 +561,91 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Impact Beyond Competition */}
+        <section className="py-20 border-b border-white/5 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.08),transparent_42%)] pointer-events-none"></div>
+
+          <div className="relative z-10 overflow-hidden rounded-3xl border border-cyan-accent/20 bg-[#0b111b] shadow-2xl shadow-cyan-950/20">
+            <div className="absolute right-0 top-0 select-none text-[5rem] sm:text-[8rem] font-black uppercase leading-none tracking-tighter text-white/[0.025] pointer-events-none">
+              IMPACT
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
+              <div className="p-7 sm:p-10 lg:p-12">
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <span className="inline-flex items-center rounded-full bg-cyan-accent px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-black">
+                    Impact Beyond Competition
+                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                    Official recognition · 2 November 2026
+                  </span>
+                </div>
+
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-cyan-accent mb-3">
+                  Connecting Global Partners With Sri Lankan Squash
+                </p>
+                <h3 className="max-w-3xl text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase leading-tight tracking-tight text-white">
+                  Supporting the next generation through partnership
+                </h3>
+
+                <p className="mt-6 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-300">
+                  Recognized by Sri Lanka Squash for coordinating the partnership with Winged Falcon as the Official Racket Sponsor of the Colombo Junior Squash Championship 2026. The partnership added value to the tournament, supported the recognition of young athletes, and established a foundation for future tournaments and development initiatives.
+                </p>
+
+                <div className="mt-7 flex flex-col sm:flex-row gap-3">
+                  <a
+                    href="/colombo-junior-squash-championship-2026-appreciation.pdf?v=20261110"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
+                  >
+                    View Official Letter
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7m0 0v7m0-7L10 14M5 7v12h12v-5" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://www.dailymirror.lk/breaking-news/Junior-Open-Squash-Championship-concludes-with-176-players-from-nine-countries/108-353823"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-black uppercase tracking-wider text-white transition-all hover:border-cyan-accent/40 hover:bg-cyan-accent/5"
+                  >
+                    View Tournament Coverage
+                  </a>
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 bg-white/[0.025] p-7 sm:p-10 lg:border-l lg:border-t-0 lg:p-12 flex flex-col justify-between gap-8">
+                <div>
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-accent/20 bg-cyan-accent/10 text-cyan-accent">
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">Recognition issued by</p>
+                  <p className="mt-2 text-lg font-extrabold uppercase tracking-wide text-white">Sri Lanka Squash</p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-400">Group Captain Eranda Geeganage · President</p>
+                </div>
+
+                <dl className="space-y-4 border-t border-white/5 pt-6 text-xs">
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Championship</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">Colombo Junior Squash Championship 2026</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Dates</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">24–28 October 2026</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Venue</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">Rathmalana Air Force Base Squash Complex</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* World Ranking Chart */}
         {rankings.length > 0 && (
           <section id="rankings" className="scroll-mt-24 py-16 border-b border-white/5 relative z-10">
@@ -1060,7 +934,7 @@ export default function Home() {
 
             {sponsors.length > 0 && (
               <div className="relative w-full overflow-hidden py-4">
-                <div className="flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] opacity-75">
+                <div className="sponsor-marquee flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] opacity-75">
                   {[...sponsors, ...sponsors].map((sponsor, idx) => (
                     <div
                       key={`${sponsor.name}-${idx}`}

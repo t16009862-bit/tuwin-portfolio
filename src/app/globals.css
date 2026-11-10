@@ -220,3 +220,47 @@ body {
     transform: translateX(-50%);
   }
 }
+
+/* Mobile performance: avoid full-page blur repaints and continuous motion while scrolling. */
+@media (max-width: 767px) {
+  .site-header {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(6, 7, 10, 0.97);
+  }
+
+  .aurora-bg {
+    opacity: 0.32;
+  }
+
+  .aurora-bg::after {
+    filter: none;
+  }
+
+  .glass-card-layered,
+  .glass-card-layered-orange {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(13, 17, 26, 0.96);
+  }
+
+  .animate-float-soft,
+  .animate-float-delayed,
+  .sponsor-marquee {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
