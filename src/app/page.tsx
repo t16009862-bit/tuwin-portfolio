@@ -805,10 +805,11 @@ export default function Home() {
 
                 <div className="mt-7 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="/appreciation-letter"
+                    href="/colombo-junior-squash-championship-2026-appreciation.pdf"
+                    download
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
                   >
-                    View Appreciation Letter
+                    Download Original Letter
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7m0 0v7m0-7L10 14M5 7v12h12v-5" />
                     </svg>
