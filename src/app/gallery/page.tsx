@@ -8,7 +8,24 @@ interface GalleryCategory {
   key: string;
   label: string;
   images: string[];
+  description?: string;
 }
+
+const LIFESTYLE_CATEGORY: GalleryCategory = {
+  key: 'lifestyle-mumbai-hike-2026',
+  label: 'Lifestyle · Beyond the Court',
+  description: 'Balance, recovery and perspective in the hills outside Mumbai.',
+  images: [
+    '/lifestyle/mumbai-hike-tree-pose.webp',
+    '/lifestyle/mumbai-hike-open-arms.webp',
+    '/lifestyle/mumbai-hike-overlook.webp',
+    '/lifestyle/mumbai-hike-rock-trail.webp',
+    '/lifestyle/mumbai-hike-team.webp',
+    '/lifestyle/mumbai-hike-forest.webp',
+    '/lifestyle/mumbai-hike-behind-the-scenes.webp',
+    '/lifestyle/mumbai-hike-recovery.webp',
+  ],
+};
 
 export default function Gallery() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,8 +43,8 @@ export default function Gallery() {
         return res.json();
       })
       .then((data: { categories: GalleryCategory[] }) => {
-        // Newest column in the sheet is shown first
-        if (!cancelled) setCategories([...data.categories].reverse());
+        // Keep the curated lifestyle story first, followed by the newest sheet category.
+        if (!cancelled) setCategories([LIFESTYLE_CATEGORY, ...[...data.categories].reverse()]);
       })
       .catch(() => {
         if (!cancelled) setLoadError(true);
@@ -201,6 +218,12 @@ export default function Gallery() {
                       {category.images.length} Photos
                     </span>
                   </div>
+
+                  {category.description && (
+                    <p className="max-w-2xl text-sm leading-relaxed text-slate-400">
+                      {category.description}
+                    </p>
+                  )}
 
                   {category.images.length > 0 ? (
                     <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
