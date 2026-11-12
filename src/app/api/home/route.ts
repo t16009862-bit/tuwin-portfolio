@@ -112,6 +112,19 @@ export async function GET() {
           description: text(row.description),
         }))
         .filter((item) => item.title || item.heading),
+      testimonials: getSheetRows<Record<string, unknown>>(workbook, 'Testimonials')
+        .map((row) => ({
+          name: text(row.Name),
+          quote: text(row.Quote),
+          credentials: text(row.Credentials),
+          relationship: text(row.Relationship),
+          imageUrl: text(row.Image_Url),
+          sortOrder: Number(row.Sort_Order) || 999,
+          featured: text(row.Featured).toLowerCase() === 'true',
+          active: text(row.Active).toLowerCase() !== 'false',
+        }))
+        .filter((item) => item.name && item.quote && item.active)
+        .sort((a, b) => a.sortOrder - b.sortOrder),
       biography: {
         description: biographyRows.map((row) => text(row.description)).find(Boolean) ?? '',
         highlights: biographyRows

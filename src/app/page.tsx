@@ -7,6 +7,15 @@ import RankingChart from './components/RankingChart';
 import RollingNumber from './components/RollingNumber';
 
 type BiographyHighlight = { title: string; heading: string; description: string };
+type Testimonial = {
+  name: string;
+  quote: string;
+  credentials: string;
+  relationship: string;
+  imageUrl: string;
+  sortOrder: number;
+  featured: boolean;
+};
 
 function formatTournamentDateRange(startDate: string, endDate: string): string {
   const start = new Date(startDate);
@@ -53,6 +62,7 @@ export default function Home() {
   const [timelineData, setTimelineData] = useState<{ year: string; title: string; description: string; tag: string; icon: string }[]>([]);
   const [competencyPoints, setCompetencyPoints] = useState<string[]>([]);
   const [trainingHistory, setTrainingHistory] = useState<{ title: string; heading: string; description: string }[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [biography, setBiography] = useState<{ description: string; highlights: BiographyHighlight[] }>({
     description: 'Representing the Sri Lankan flag on the international stage, Tuwin has spent over a decade pushing the physical and mental limits of competitive squash. A former Head Boy and Best Sportsman of D.S. Senanayake College, he was awarded the Deshabandu title at age 21 for his outstanding athletic achievements and community service during the global pandemic. Currently competing on the PSA Squash Tour, Tuwin continues to elevate the standard of Sri Lankan squash globally, backed by professional training regimes, clean sport practices, and active community outreach.',
     highlights: [],
@@ -83,6 +93,7 @@ export default function Home() {
         timelineData?: typeof timelineData;
         competencyPoints?: typeof competencyPoints;
         trainingHistory?: typeof trainingHistory;
+        testimonials?: typeof testimonials;
         biography?: Partial<typeof biography>;
       }) => {
         if (cancelled) return;
@@ -106,6 +117,7 @@ export default function Home() {
         setTimelineData(data.timelineData ?? []);
         setCompetencyPoints(data.competencyPoints ?? []);
         setTrainingHistory(data.trainingHistory ?? []);
+        setTestimonials(data.testimonials ?? []);
         setBiography((prev) => ({
           description: data.biography?.description || prev.description,
           highlights: data.biography?.highlights?.length ? data.biography.highlights : prev.highlights,
@@ -964,6 +976,69 @@ export default function Home() {
             </div>
           </div>
         </section>
+        )}
+
+        {testimonials.length > 0 && (
+          <section id="testimonials" className="relative overflow-hidden border-b border-white/5 py-24">
+            <div className="pointer-events-none absolute -right-28 top-6 h-72 w-72 rounded-full bg-cyan-accent/10 blur-3xl" />
+            <div className="relative mx-auto max-w-5xl px-6">
+              <div className="mb-12 max-w-2xl">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-cyan-accent">Testimonials</p>
+                <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl">
+                  What the game says
+                </h2>
+              </div>
+
+              <div className="grid gap-6">
+                {testimonials.map((testimonial) => (
+                  <article
+                    key={`${testimonial.name}-${testimonial.sortOrder}`}
+                    className="glass-card-layered relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] via-[#0d111a] to-cyan-accent/[0.04] p-6 sm:p-9"
+                  >
+                    <div className="absolute right-6 top-0 select-none font-serif text-[9rem] leading-none text-cyan-accent/10" aria-hidden="true">
+                      &ldquo;
+                    </div>
+                    <div className="relative grid items-center gap-8 md:grid-cols-[220px_1fr]">
+                      <div className="mx-auto w-full max-w-[220px]">
+                        <div className="relative aspect-[18/19] overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-2xl">
+                          {testimonial.imageUrl ? (
+                            <Image
+                              src={testimonial.imageUrl}
+                              alt={testimonial.name}
+                              fill
+                              sizes="(max-width: 767px) 220px, 220px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full items-center justify-center text-5xl font-black text-cyan-accent/50">
+                              {testimonial.name.charAt(0)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <blockquote className="text-base leading-8 text-slate-200 sm:text-lg">
+                          {testimonial.quote}
+                        </blockquote>
+                        <div className="mt-7 border-t border-white/10 pt-5">
+                          <h3 className="text-lg font-extrabold uppercase tracking-wide text-white">{testimonial.name}</h3>
+                          {testimonial.credentials && (
+                            <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
+                              {testimonial.credentials}
+                            </p>
+                          )}
+                          {testimonial.relationship && (
+                            <p className="mt-2 text-sm text-slate-500">{testimonial.relationship}</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         )}
 
         {/* 5. Sponsors Section */}
