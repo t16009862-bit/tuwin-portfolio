@@ -15,6 +15,11 @@ interface MediaItem {
   url: string;
 }
 
+// Keep the latest admin-published file as a resilient fallback while the
+// dynamic Bio endpoint is loading or temporarily unavailable.
+const PUBLISHED_PRESS_KIT_FALLBACK =
+  'https://res.cloudinary.com/wi6dhwga/image/upload/v1795109504/press-kit/hff5j0ntg601moxnpavw.pdf';
+
 // Category text drives which card layout is used (interview/profile/archive/article)
 function getCardType(category: string): 'interview' | 'profile' | 'archive' | 'article' {
   const c = category.toLowerCase();
@@ -37,7 +42,7 @@ export default function MediaPress() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
-  const [pressKitUrl, setPressKitUrl] = useState('/tuwin_portfolio.pdf');
+  const [pressKitUrl, setPressKitUrl] = useState(PUBLISHED_PRESS_KIT_FALLBACK);
 
   useEffect(() => {
     let cancelled = false;
@@ -65,7 +70,7 @@ export default function MediaPress() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch('/api/bio')
+    fetch('/api/bio', { cache: 'no-store' })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load press kit');
         return res.json();
