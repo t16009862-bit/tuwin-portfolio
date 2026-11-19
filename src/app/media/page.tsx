@@ -383,11 +383,22 @@ export default function MediaPress() {
                   OFFICIAL <span className="text-gradient-cyan-solid">PRESS KIT</span>
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-                  View the complete press package containing official career bios, ranking statistics, and contact specifications.
+                  A concise, professionally designed media kit with verified PSA statistics, career evidence,
+                  selected results, player endorsement, current partners, and direct media contacts.
                 </p>
+                <div className="flex flex-wrap justify-center gap-2 pt-1 md:justify-start">
+                  {['4-page media kit', 'Updated Nov 2026', 'Verified PSA data'].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-400"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex-shrink-0">
+              <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
                 <a
                   href="/tuwin_portfolio.pdf"
                   target="_blank"
@@ -398,7 +409,17 @@ export default function MediaPress() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  <span>View PDF</span>
+                  <span>View Media Kit</span>
+                </a>
+                <a
+                  href="/tuwin_portfolio.pdf"
+                  download="Tuwin-Herath-Official-Media-Kit-2026.pdf"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:border-white/30 hover:bg-white/[0.08] cursor-pointer"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+                  </svg>
+                  <span>Download PDF</span>
                 </a>
               </div>
             </div>
