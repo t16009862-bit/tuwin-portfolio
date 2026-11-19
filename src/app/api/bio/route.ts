@@ -37,5 +37,7 @@ export async function GET() {
     age: calculateAge(birthday),
     description: String(row?.Description ?? '').trim(),
     profileImage: String(row?.['Profile Image'] ?? '').trim(),
+    pressKitUrl: String(row?.['Press Kit URL'] ?? '').trim(),
+    pressKitUpdated: String(row?.['Press Kit Updated'] ?? '').trim(),
   });
 }

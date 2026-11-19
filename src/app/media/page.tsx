@@ -37,6 +37,7 @@ export default function MediaPress() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
+  const [pressKitUrl, setPressKitUrl] = useState('/tuwin_portfolio.pdf');
 
   useEffect(() => {
     let cancelled = false;
@@ -54,6 +55,26 @@ export default function MediaPress() {
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch('/api/bio')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load press kit');
+        return res.json();
+      })
+      .then((data: { pressKitUrl?: string }) => {
+        if (!cancelled && data.pressKitUrl) setPressKitUrl(data.pressKitUrl);
+      })
+      .catch(() => {
+        // Keep the bundled media kit as a resilient fallback.
       });
 
     return () => {
@@ -400,7 +421,7 @@ export default function MediaPress() {
 
               <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
                 <a
-                  href="/tuwin_portfolio.pdf"
+                  href={pressKitUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 rounded-full border-2 border-cyan-accent bg-cyan-accent/10 hover:bg-cyan-accent hover:text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent transition-all duration-300 shadow-lg shadow-cyan-accent/15 cursor-pointer"
@@ -412,7 +433,7 @@ export default function MediaPress() {
                   <span>View Media Kit</span>
                 </a>
                 <a
-                  href="/tuwin_portfolio.pdf"
+                  href={pressKitUrl}
                   download="Tuwin-Herath-Official-Media-Kit-2026.pdf"
                   className="inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:border-white/30 hover:bg-white/[0.08] cursor-pointer"
                 >
