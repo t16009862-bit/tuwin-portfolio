@@ -62,7 +62,17 @@ export default function Home() {
   const [timelineData, setTimelineData] = useState<{ year: string; title: string; description: string; tag: string; icon: string }[]>([]);
   const [competencyPoints, setCompetencyPoints] = useState<string[]>([]);
   const [trainingHistory, setTrainingHistory] = useState<{ title: string; heading: string; description: string }[]>([]);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([
+    {
+      name: 'Saurav Ghosal',
+      quote: "I extend my utmost congratulations to Tuwin, who has recently embarked upon a promising journey in the professional squash circuit. Notably, Tuwin had the privilege of representing Sri Lanka at the prestigious Asian Squash Championships held in Hong Kong in 2023. It is my sincere wish that Tuwin excels in numerous tournaments within the professional arena, ultimately ascending to the pinnacle of the sport and securing a top-ranking position in the global squash rankings. I offer my best wishes and unwavering support for Tuwin's continued success in this remarkable endeavor.",
+      credentials: 'World #10 • India #1',
+      relationship: 'Fellow PSA professional',
+      imageUrl: 'https://res.cloudinary.com/wi6dhwga/image/upload/v1795113707/testimonials/qnhk6bs3dc0oohvlgzfr.webp',
+      sortOrder: 1,
+      featured: true,
+    },
+  ]);
   const [biography, setBiography] = useState<{ description: string; highlights: BiographyHighlight[] }>({
     description: 'Representing the Sri Lankan flag on the international stage, Tuwin has spent over a decade pushing the physical and mental limits of competitive squash. A former Head Boy and Best Sportsman of D.S. Senanayake College, he was awarded the Deshabandu title at age 21 for his outstanding athletic achievements and community service during the global pandemic. Currently competing on the PSA Squash Tour, Tuwin continues to elevate the standard of Sri Lankan squash globally, backed by professional training regimes, clean sport practices, and active community outreach.',
     highlights: [],
@@ -168,6 +178,7 @@ export default function Home() {
     { name: 'Tournaments', href: '/tournaments' },
     { name: 'Media', href: '/media' },
     { name: 'Gallery', href: '/gallery' },
+    { name: 'Testimonials', href: '#testimonials' },
     { name: 'Contact', href: '#contact' },
   ];
 
