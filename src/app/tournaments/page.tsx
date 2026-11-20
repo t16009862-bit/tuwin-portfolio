@@ -249,6 +249,13 @@ export default function Tournaments() {
                     {formatTournamentDateRange(t.startDate, t.endDate)}
                   </div>
 
+                  {t.name === 'START Squash PSA Satellite' && t.startDate === '2026-11-21' && (
+                    <div className="border-t border-white/5 pt-3 text-sm text-slate-300">
+                      <p className="font-bold text-white">Round of 16 vs Mayur Hiru Niraguda</p>
+                      <p className="mt-1 text-xs text-slate-400">21 November 2026 at 11:00 a.m. IST</p>
+                    </div>
+                  )}
+
                   {activeTab === 'completed' && t.finishedPosition && (
                     <div className="text-sm font-bold text-cyan-accent">
                       Position: {t.finishedPosition}
