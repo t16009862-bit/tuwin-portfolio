@@ -359,7 +359,7 @@ export default function Home() {
               {bio.description}
             </p>
 
-            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center lg:justify-start gap-4 pt-4">
               <a
                 href="#career"
                 className="inline-flex items-center justify-center rounded-full bg-orange-accent px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white hover:bg-orange-600 hover:scale-[1.03] transition-all duration-300 shadow-lg shadow-orange-accent/35 cursor-pointer"
@@ -372,6 +372,12 @@ export default function Home() {
               >
                 Become A Sponsor
               </Link>
+              <Link
+                href="/media#press-kit"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-cyan-accent/50"
+              >
+                View Press Kit
+              </Link>
             
             </div>
           </div>
@@ -379,15 +385,6 @@ export default function Home() {
           {/* Headshot/Action pose container */}
           <div className="order-1 lg:order-2 flex-1 flex justify-center items-center lg:justify-end z-10 relative">
             <div className="relative group">
-              {/* Floating Badge 1 - Age/Height */}
-              <div className="absolute -top-6 -left-6 z-20 animate-float-soft glass-card-layered px-5 py-3 border border-cyan-accent/20 flex items-center gap-3">
-                <span className="text-2xl">⚡</span>
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-cyan-accent">Athlete Specs</div>
-                  <div className="text-sm font-black text-white"><RollingNumber value={bio.age} /> YRS • 171CM</div>
-                </div>
-              </div>
-
               {/* Floating Badge 2 - Peak WR */}
               <div className="absolute -bottom-6 right-0 z-20 animate-float-delayed glass-card-layered-orange px-5 py-3 border border-orange-accent/20 flex items-center gap-3">
                 <span className="text-2xl text-orange-accent">🏆</span>
@@ -420,9 +417,94 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Impact Beyond Competition */}
+        <section className="py-20 border-b border-white/5 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.08),transparent_42%)] pointer-events-none"></div>
+
+          <div className="relative z-10 overflow-hidden rounded-3xl border border-cyan-accent/20 bg-[#0b111b] shadow-2xl shadow-cyan-950/20">
+            <div className="absolute right-0 top-0 select-none text-[5rem] sm:text-[8rem] font-black uppercase leading-none tracking-tighter text-white/[0.025] pointer-events-none">
+              IMPACT
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
+              <div className="p-7 sm:p-10 lg:p-12">
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <span className="inline-flex items-center rounded-full bg-cyan-accent px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-black">
+                    Impact Beyond Competition
+                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                    Official recognition · 2 November 2026
+                  </span>
+                </div>
+
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-cyan-accent mb-3">
+                  Sri Lanka Squash Recognition
+                </p>
+                <h3 className="max-w-3xl text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase leading-tight tracking-tight text-white">
+                  Bringing Winged Falcon to the Colombo Junior Squash Championship
+                </h3>
+
+                <p className="mt-6 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-300">
+                  Recognized by Sri Lanka Squash for coordinating the partnership with Winged Falcon as the Official Racket Sponsor of the Colombo Junior Squash Championship 2026. The partnership added value to the tournament, supported the recognition of young athletes, and established a foundation for future tournaments and development initiatives.
+                </p>
+
+                <div className="mt-7 flex flex-col sm:flex-row gap-3">
+                  <a
+                    href="/colombo-junior-squash-championship-2026-appreciation.pdf?v=20261110"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
+                  >
+                    View Official Letter
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7m0 0v7m0-7L10 14M5 7v12h12v-5" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://www.dailymirror.lk/breaking-news/Junior-Open-Squash-Championship-concludes-with-176-players-from-nine-countries/108-353823"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-black uppercase tracking-wider text-white transition-all hover:border-cyan-accent/40 hover:bg-cyan-accent/5"
+                  >
+                    View Tournament Coverage
+                  </a>
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 bg-white/[0.025] p-7 sm:p-10 lg:border-l lg:border-t-0 lg:p-12 flex flex-col justify-between gap-8">
+                <div>
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-accent/20 bg-cyan-accent/10 text-cyan-accent">
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">Recognition issued by</p>
+                  <p className="mt-2 text-lg font-extrabold uppercase tracking-wide text-white">Sri Lanka Squash</p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-400">Group Captain Eranda Geeganage · President</p>
+                </div>
+
+                <dl className="space-y-4 border-t border-white/5 pt-6 text-xs">
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Championship</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">Colombo Junior Squash Championship 2026</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Dates</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">24–28 October 2026</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold uppercase tracking-widest text-slate-500">Venue</dt>
+                    <dd className="mt-1 font-semibold text-slate-200">Rathmalana Air Force Base Squash Complex</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 2. Stats Section */}
         <section id="about" className="py-16 border-b border-white/5 relative">
-          <div className="grid gap-6 grid-cols-2 sm:grid-cols-4">
+          <div className="grid gap-6 grid-cols-2 sm:grid-cols-3">
 
             {/* Age Card */}
             <div className="glass-card-layered p-6 text-center relative overflow-hidden group">
@@ -431,7 +513,6 @@ export default function Home() {
 
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">Age</p>
               <p className="text-4xl font-extrabold text-cyan-accent tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.age} /></p>
-              <div className="mt-2 text-[9px] uppercase font-bold text-slate-500 tracking-[0.1em] z-10 relative">Active Competitor</div>
             </div>
 
             {/* Height Card */}
@@ -441,7 +522,6 @@ export default function Home() {
 
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">Height</p>
               <p className="text-4xl font-extrabold text-orange-accent text-gradient-orange tracking-tight md:text-5xl z-10 relative">171<span className="text-lg">cm</span></p>
-              <div className="mt-2 text-[9px] uppercase font-bold text-slate-500 tracking-[0.1em] z-10 relative">Optimized Build</div>
             </div>
 
             {/* PSA Joined Card */}
@@ -452,16 +532,6 @@ export default function Home() {
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">PSA Joined</p>
               <p className="text-4xl font-extrabold text-white tracking-tight md:text-5xl z-10 relative">2023</p>
               <div className="mt-2 text-[9px] uppercase font-bold text-cyan-accent tracking-[0.1em] z-10 relative">Touring Professional</div>
-            </div>
-
-            {/* Peak WR Card */}
-            <div className="glass-card-layered-orange p-6 text-center relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orange-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute inset-0 opacity-[0.03] wave-contour-pattern pointer-events-none"></div>
-
-              <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-1 z-10 relative">Peak WR</p>
-              <p className="text-4xl font-extrabold text-orange-accent tracking-tight md:text-5xl z-10 relative"><RollingNumber value={bio.worldRank} /></p>
-              <div className="mt-2 text-[9px] uppercase font-bold text-slate-500 tracking-[0.1em] z-10 relative">Career Landmark</div>
             </div>
 
           </div>
@@ -621,91 +691,6 @@ export default function Home() {
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* Impact Beyond Competition */}
-        <section className="py-20 border-b border-white/5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.08),transparent_42%)] pointer-events-none"></div>
-
-          <div className="relative z-10 overflow-hidden rounded-3xl border border-cyan-accent/20 bg-[#0b111b] shadow-2xl shadow-cyan-950/20">
-            <div className="absolute right-0 top-0 select-none text-[5rem] sm:text-[8rem] font-black uppercase leading-none tracking-tighter text-white/[0.025] pointer-events-none">
-              IMPACT
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
-              <div className="p-7 sm:p-10 lg:p-12">
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                  <span className="inline-flex items-center rounded-full bg-cyan-accent px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-black">
-                    Impact Beyond Competition
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                    Official recognition · 2 November 2026
-                  </span>
-                </div>
-
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-cyan-accent mb-3">
-                  Connecting Global Partners With Sri Lankan Squash
-                </p>
-                <h3 className="max-w-3xl text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase leading-tight tracking-tight text-white">
-                  Supporting the next generation through partnership
-                </h3>
-
-                <p className="mt-6 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-300">
-                  Recognized by Sri Lanka Squash for coordinating the partnership with Winged Falcon as the Official Racket Sponsor of the Colombo Junior Squash Championship 2026. The partnership added value to the tournament, supported the recognition of young athletes, and established a foundation for future tournaments and development initiatives.
-                </p>
-
-                <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                  <a
-                    href="/colombo-junior-squash-championship-2026-appreciation.pdf?v=20261110"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
-                  >
-                    View Official Letter
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7m0 0v7m0-7L10 14M5 7v12h12v-5" />
-                    </svg>
-                  </a>
-                  <a
-                    href="https://www.dailymirror.lk/breaking-news/Junior-Open-Squash-Championship-concludes-with-176-players-from-nine-countries/108-353823"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-black uppercase tracking-wider text-white transition-all hover:border-cyan-accent/40 hover:bg-cyan-accent/5"
-                  >
-                    View Tournament Coverage
-                  </a>
-                </div>
-              </div>
-
-              <div className="border-t border-white/5 bg-white/[0.025] p-7 sm:p-10 lg:border-l lg:border-t-0 lg:p-12 flex flex-col justify-between gap-8">
-                <div>
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-accent/20 bg-cyan-accent/10 text-cyan-accent">
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                  </div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">Recognition issued by</p>
-                  <p className="mt-2 text-lg font-extrabold uppercase tracking-wide text-white">Sri Lanka Squash</p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-400">Group Captain Eranda Geeganage · President</p>
-                </div>
-
-                <dl className="space-y-4 border-t border-white/5 pt-6 text-xs">
-                  <div>
-                    <dt className="font-bold uppercase tracking-widest text-slate-500">Championship</dt>
-                    <dd className="mt-1 font-semibold text-slate-200">Colombo Junior Squash Championship 2026</dd>
-                  </div>
-                  <div>
-                    <dt className="font-bold uppercase tracking-widest text-slate-500">Dates</dt>
-                    <dd className="mt-1 font-semibold text-slate-200">24–28 October 2026</dd>
-                  </div>
-                  <div>
-                    <dt className="font-bold uppercase tracking-widest text-slate-500">Venue</dt>
-                    <dd className="mt-1 font-semibold text-slate-200">Rathmalana Air Force Base Squash Complex</dd>
-                  </div>
-                </dl>
-              </div>
             </div>
           </div>
         </section>

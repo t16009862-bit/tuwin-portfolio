@@ -397,7 +397,7 @@ export default function MediaPress() {
         )}
 
         {/* Section 3: Press Kit Banner */}
-        <section className="relative z-10 py-8">
+        <section id="press-kit" className="relative z-10 scroll-mt-24 py-8">
           <div className="relative overflow-hidden rounded-3xl border border-cyan-accent/20 bg-gradient-to-r from-[#0d111a] via-[#05060b] to-[#0e121d] p-8 md:p-12 shadow-2xl">
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="space-y-4 text-center md:text-left max-w-xl">
