@@ -252,7 +252,9 @@ export default function Tournaments() {
                   {t.name === 'START Squash PSA Satellite' && t.startDate === '2026-11-21' && (
                     <div className="border-t border-white/5 pt-3 text-sm text-slate-300">
                       <p className="font-bold text-white">Round of 16 vs Mayur Hiru Niraguda</p>
-                      <p className="mt-1 text-xs text-slate-400">21 November 2026 at 11:00 a.m. IST</p>
+                      <p className="mt-1 text-xs text-slate-400">Won 3–0 (11–2, 11–2, 11–6)</p>
+                      <p className="mt-3 font-bold text-white">Quarterfinal vs Ram Mahadu Darvada</p>
+                      <p className="mt-1 text-xs text-slate-400">21 November 2026 at 7:30 p.m. IST</p>
                     </div>
                   )}
 
