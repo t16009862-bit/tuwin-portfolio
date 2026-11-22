@@ -6,6 +6,7 @@ import SponsorMarquee from './components/SponsorMarquee';
 import Link from 'next/link';
 import RankingChart from './components/RankingChart';
 import RollingNumber from './components/RollingNumber';
+import HomeHighlights, { type HomeArticle } from './components/HomeHighlights';
 
 type BiographyHighlight = { title: string; heading: string; description: string };
 type Testimonial = {
@@ -45,7 +46,7 @@ export default function Home() {
     description: 'PSA Touring Professional. Deshabandu Awardee. Fueling the game with the best. Representing the Sri Lankan flag on the international stage, pushing the physical and mental limits of competitive squash.',
     profileImage: '/tuwin-profile-2026.jpg',
   });
-  const [recentUpdates, setRecentUpdates] = useState<{ title: string; description: string; date: string; url: string; category: string }[]>([]);
+  const [recentUpdates, setRecentUpdates] = useState<HomeArticle[]>([]);
   const [recentUpdatesLoaded, setRecentUpdatesLoaded] = useState(false);
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
   const [rankings, setRankings] = useState<{ date: string; ranking: number }[]>([]);
@@ -92,8 +93,8 @@ export default function Home() {
     let cancelled = false;
     fetch('/api/media', { cache: 'no-store' })
       .then((response) => { if (!response.ok) throw new Error('Media unavailable'); return response.json(); })
-      .then((items: { title: string; description: string; date: string; url: string; category: string }[]) => {
-        if (!cancelled && Array.isArray(items)) setRecentUpdates(items.filter((item) => item.category.toLowerCase() === 'recent update' || item.url === '/media/start-psa-satellite-2026' || item.url === 'https://tuwinh.com/media/start-psa-satellite-2026'));
+      .then((items: HomeArticle[]) => {
+        if (!cancelled && Array.isArray(items)) setRecentUpdates(items);
       })
       .catch(() => {})
       .finally(() => { if (!cancelled) setRecentUpdatesLoaded(true); });
@@ -455,11 +456,15 @@ export default function Home() {
             </div>
             <Link href="/media" className="text-xs font-bold uppercase tracking-widest text-cyan-accent hover:text-white">All Media &amp; News →</Link>
           </div>
+          <HomeHighlights
+            featured={recentUpdates.filter((item) => item.category.toLowerCase() === 'featured post').at(-1)}
+            win={recentUpdates.filter((item) => item.category.toLowerCase() === 'recent win').at(-1)}
+          />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {(() => {
               const featured = { title: 'Shamil Wakeel Wins START PSA Satellite; Tuwin Herath Finishes Third', description: 'Sri Lankan squash players shine in Mumbai: Wakeel claims the championship while Herath secures third place after a determined five-game performance.', date: '22 Nov 2026', url: '/media/start-psa-satellite-2026', category: 'Recent Update' };
               const matching = recentUpdates.find((item) => item.url === featured.url || item.url === 'https://tuwinh.com' + featured.url);
-              const other = recentUpdates.filter((item) => item !== matching && item.url !== featured.url && item.url !== 'https://tuwinh.com' + featured.url);
+              const other = recentUpdates.filter((item) => item.category.toLowerCase() === 'recent update' && item !== matching && item.url !== featured.url && item.url !== 'https://tuwinh.com' + featured.url);
               const updates = [matching || featured, ...other].slice(0, 2);
               return updates.map((item, index) => (
                 <article key={item.url + index} className="flex min-h-[205px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-6 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-7">
