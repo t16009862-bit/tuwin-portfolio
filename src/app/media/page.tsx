@@ -116,7 +116,7 @@ export default function MediaPress() {
     { name: 'Contact', href: '/#contact' },
   ];
 
-  const categories = ['All', ...Array.from(new Set(displayedMediaItems.map((item) => item.category)))];
+
 
   const featuredRelease: MediaItem = {
     id: 'start-psa-satellite-2026',
@@ -129,6 +129,7 @@ export default function MediaPress() {
     url: '/media/start-psa-satellite-2026',
   };
   const displayedMediaItems = [featuredRelease, ...mediaItems.filter((item) => item.id !== featuredRelease.id)];
+  const categories = ['All', ...Array.from(new Set(displayedMediaItems.map((item) => item.category)))];
 
   const filteredItems = activeCategory === 'All'
     ? displayedMediaItems
