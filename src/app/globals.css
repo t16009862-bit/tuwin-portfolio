@@ -53,7 +53,6 @@ body {
 }
 
 .homepage-intro[aria-hidden="true"] {
-  opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
@@ -78,35 +77,38 @@ body {
   background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
 }
 
-.homepage-intro-mask {
-  overflow: hidden;
-}
-
-.homepage-intro-mask > span {
-  display: block;
+.homepage-main > section[id] {
+  scroll-margin-top: 6rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .homepage-intro {
-    transition: opacity 180ms ease-out, visibility 180ms;
+    transform: translate3d(0, 0, 0);
+    transition: transform 620ms cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 620ms;
   }
 
-  .homepage-intro-mask > span {
-    animation: homepage-intro-reveal 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  .homepage-intro[aria-hidden="true"] {
+    transform: translate3d(0, -100%, 0);
   }
 
-  .homepage-intro-mask:nth-child(2) > span {
-    animation-delay: 75ms;
+  .homepage-intro-name {
+    --intro-start-x: -90%;
+    animation: homepage-intro-enter 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .homepage-intro-name:nth-child(2) {
+    --intro-start-x: 90%;
+    animation-delay: 45ms;
   }
 
   .homepage-intro-wordmark::after {
-    animation: homepage-intro-line 360ms ease-out 75ms both;
+    animation: homepage-intro-line 440ms ease-out 135ms both;
   }
 }
 
-@keyframes homepage-intro-reveal {
-  from { opacity: 0; transform: translateY(85%); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes homepage-intro-enter {
+  from { opacity: 0; transform: translate3d(var(--intro-start-x), 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes homepage-intro-line {
@@ -317,7 +319,6 @@ body {
   }
 
   .site-header {
-    position: static;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: rgba(6, 7, 10, 0.97);

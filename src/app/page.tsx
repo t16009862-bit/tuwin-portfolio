@@ -89,7 +89,7 @@ export default function Home() {
   useEffect(() => {
     let cancelled = false;
     const startedAt = performance.now();
-    const minimumIntroTime = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 480;
+    const minimumIntroTime = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 720;
     const introDeadline = window.setTimeout(() => setIsPageLoading(false), 1600);
     let introFinish: number | undefined;
 
@@ -204,8 +204,8 @@ export default function Home() {
         aria-hidden={!isPageLoading}
       >
         <div className="homepage-intro-wordmark" aria-hidden="true">
-          <span className="homepage-intro-mask"><span>TUWIN</span></span>{' '}
-          <span className="homepage-intro-mask text-cyan-accent"><span>HERATH</span></span>
+          <span className="homepage-intro-name">TUWIN</span>{' '}
+          <span className="homepage-intro-name text-cyan-accent">HERATH</span>
         </div>
       </div>
 
@@ -218,7 +218,6 @@ export default function Home() {
             -webkit-overflow-scrolling: touch;
           }
           .site-header {
-            position: static !important;
             -webkit-backdrop-filter: none !important;
             backdrop-filter: none !important;
             background: rgba(6, 7, 10, 0.97) !important;
@@ -302,6 +301,7 @@ export default function Home() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-200 hover:text-cyan-accent transition-colors md:hidden"
             aria-expanded={isMobileMenuOpen}
+            aria-controls="homepage-mobile-navigation"
             aria-label="Toggle Navigation Menu"
           >
             <span>{isMobileMenuOpen ? 'Close' : 'Menu'}</span>
@@ -311,7 +311,8 @@ export default function Home() {
 
         {/* Mobile Navigation Dropdown */}
         <div
-          className={`md:hidden border-t border-white/5 bg-[#06070a]/95 backdrop-blur-lg px-6 py-6 transition-all duration-300 ${isMobileMenuOpen ? 'block opacity-100' : 'hidden opacity-0'
+          id="homepage-mobile-navigation"
+          className={`absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto md:hidden border-t border-white/5 bg-[#06070a] px-6 py-6 ${isMobileMenuOpen ? 'block opacity-100' : 'hidden opacity-0'
             }`}
         >
           <div className="flex flex-col gap-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-200">
@@ -344,7 +345,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <main className="homepage-main relative z-10 mx-auto w-full max-w-6xl px-6">
 
         {/* 1. Hero Section */}
         <section id="home" className="relative overflow-hidden flex min-h-[90vh] flex-col items-center justify-center py-16 lg:py-24 lg:flex-row lg:justify-between gap-12 border-b border-white/5">
