@@ -28,6 +28,7 @@ export async function GET() {
     const bioRow = getSheetRows<Record<string, unknown>>(workbook, 'Bio')[0] ?? {};
     const birthday = text(bioRow.Birthday);
 
+    const tournamentRows = getSheetRows<Record<string, unknown>>(workbook, 'UpcomingTournaments');
     const biographyRows = getSheetRows<Record<string, unknown>>(workbook, 'Biograpahy');
     const contactRow = getSheetRows<Record<string, unknown>>(workbook, 'Contact')[0] ?? {};
 
@@ -67,7 +68,7 @@ export async function GET() {
         .map((row) => ({ date: text(row.date), ranking: Number(row.ranking) }))
         .filter((item) => item.date && Number.isFinite(item.ranking))
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
-      tournaments: getSheetRows<Record<string, unknown>>(workbook, 'UpcomingTournaments')
+      tournaments: tournamentRows
         .map((row) => ({
           name: text(row.Name),
           venue: text(row.Venue),
@@ -79,6 +80,16 @@ export async function GET() {
           logos: text(row.logo).split(',').map((logo) => logo.trim()).filter(Boolean),
         }))
         .filter((item) => item.name && item.status.toLowerCase() === 'upcoming'),
+      additionalTopFiveFinishes: tournamentRows
+        .filter((row) => text(row.Status).toLowerCase() === 'completed' && /^(4(?:th)?|5(?:th)?)$/i.test(text(row['Finished Position'])))
+        .map((row) => ({
+          name: text(row.Name),
+          venue: text(row.Venue),
+          date: text(row['End Date']) || text(row['Start Date']),
+          position: Number.parseInt(text(row['Finished Position']), 10),
+        }))
+        .filter((item) => item.name)
+        .sort((a, b) => b.date.localeCompare(a.date)),
       coaches,
       contact: {
         locations: text(contactRow.Locations),

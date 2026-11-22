@@ -56,6 +56,7 @@ export default function Home() {
     status: string;
     logos: string[];
   }[]>([]);
+  const [additionalTopFiveFinishes, setAdditionalTopFiveFinishes] = useState<{ name: string; venue: string; date: string; position: number }[]>([]);
   const [coaches, setCoaches] = useState<{ name: string; profile: string[]; biography: string; imageUrl: string }[]>([]);
   const [expandedBios, setExpandedBios] = useState<Set<number>>(new Set());
   const [careerAchievements, setCareerAchievements] = useState<{ title: string; heading: string; description: string; footer: string }[]>([]);
@@ -97,6 +98,7 @@ export default function Home() {
         sponsors?: typeof sponsors;
         rankings?: typeof rankings;
         tournaments?: typeof tournaments;
+        additionalTopFiveFinishes?: typeof additionalTopFiveFinishes;
         coaches?: typeof coaches;
         contact?: Partial<typeof contact>;
         careerAchievements?: typeof careerAchievements;
@@ -117,6 +119,7 @@ export default function Home() {
         setSponsors(data.sponsors ?? []);
         setRankings(data.rankings ?? []);
         setTournaments(data.tournaments ?? []);
+        setAdditionalTopFiveFinishes(data.additionalTopFiveFinishes ?? []);
         setCoaches(data.coaches ?? []);
         setContact((prev) => ({
           locations: data.contact?.locations || prev.locations,
@@ -528,6 +531,24 @@ export default function Home() {
               </article>
             ))}
           </div>
+          {additionalTopFiveFinishes.length > 0 && (
+            <div className="mt-10">
+              <h3 className="mb-4 text-xl font-extrabold uppercase tracking-tight text-white">More Top-Five Finishes</h3>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {additionalTopFiveFinishes.map(({ name, venue, date, position }) => (
+                  <li key={JSON.stringify([name, date, venue])} className="flex items-start gap-4 rounded-xl border border-white/10 p-4">
+                    <span className="shrink-0 text-sm font-bold text-cyan-accent">{position}th place</span>
+                    <div>
+                      <p className="font-bold text-white">{name}</p>
+                      <p className="mt-1 text-sm text-slate-300">
+                        {[venue, date.slice(0, 4)].filter(Boolean).join(' · ')}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
 
         {/* 2. Stats Section */}
