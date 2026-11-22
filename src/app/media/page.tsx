@@ -123,7 +123,7 @@ export default function MediaPress() {
     category: 'Press Release',
     source: 'Tuwin Herath Official',
     date: '22 Nov 2026',
-    title: 'Tuwin Herath and Shamil Wakeel Shine in India',
+    title: 'Tuwin Herath Shines in India as Shamil Wakeel Claims PSA Satellite Title',
     description: 'Sri Lankan squash players impressed in Mumbai, India, as Shamil Wakeel claimed the START PSA Satellite championship and Tuwin Osanda Herath secured third place. Herath fought back from 5–10 in the deciding game to level at 10–10 before narrowly losing his five-game contest.',
     linkText: 'Read Press Release',
     url: '/media/start-psa-satellite-2026',
