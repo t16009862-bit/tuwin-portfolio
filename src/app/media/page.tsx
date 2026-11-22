@@ -116,11 +116,23 @@ export default function MediaPress() {
     { name: 'Contact', href: '/#contact' },
   ];
 
-  const categories = ['All', ...Array.from(new Set(mediaItems.map((item) => item.category)))];
+  const categories = ['All', ...Array.from(new Set(displayedMediaItems.map((item) => item.category)))];
+
+  const featuredRelease: MediaItem = {
+    id: 'start-psa-satellite-2026',
+    category: 'Press Release',
+    source: 'Tuwin Herath Official',
+    date: '22 Nov 2026',
+    title: 'Shamil Wakeel Wins START PSA Satellite Title; Tuwin Herath Finishes Third',
+    description: 'Sri Lankan squash players impressed in Mumbai, India, as Shamil Wakeel claimed the START PSA Satellite championship and Tuwin Osanda Herath secured third place. Herath fought back from 5–10 in the deciding game to level at 10–10 before narrowly losing his five-game contest.',
+    linkText: 'Read Press Release',
+    url: '/media/start-psa-satellite-2026',
+  };
+  const displayedMediaItems = [featuredRelease, ...mediaItems.filter((item) => item.id !== featuredRelease.id)];
 
   const filteredItems = activeCategory === 'All'
-    ? mediaItems
-    : mediaItems.filter(item => item.category === activeCategory);
+    ? displayedMediaItems
+    : displayedMediaItems.filter(item => item.category === activeCategory);
 
   return (
     <div className="relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black">
