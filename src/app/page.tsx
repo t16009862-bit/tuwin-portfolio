@@ -45,6 +45,8 @@ export default function Home() {
     description: 'PSA Touring Professional. Deshabandu Awardee. Fueling the game with the best. Representing the Sri Lankan flag on the international stage, pushing the physical and mental limits of competitive squash.',
     profileImage: '/tuwin-profile-2026.jpg',
   });
+  const [recentUpdates, setRecentUpdates] = useState<{ title: string; description: string; date: string; url: string; category: string }[]>([]);
+  const [recentUpdatesLoaded, setRecentUpdatesLoaded] = useState(false);
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
   const [rankings, setRankings] = useState<{ date: string; ranking: number }[]>([]);
   const [tournaments, setTournaments] = useState<{
@@ -85,6 +87,18 @@ export default function Home() {
     phoneNumbers: ['+94771182429', '+8613002144061'],
   });
   const [isPageLoading, setIsPageLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/media', { cache: 'no-store' })
+      .then((response) => { if (!response.ok) throw new Error('Media unavailable'); return response.json(); })
+      .then((items: { title: string; description: string; date: string; url: string; category: string }[]) => {
+        if (!cancelled && Array.isArray(items)) setRecentUpdates(items.filter((item) => item.category.toLowerCase() === 'recent update' || item.url === '/media/start-psa-satellite-2026' || item.url === 'https://tuwinh.com/media/start-psa-satellite-2026'));
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setRecentUpdatesLoaded(true); });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -429,6 +443,38 @@ export default function Home() {
   />
 </div>
             </div>
+          </div>
+        </section>
+
+        {/* Recent Updates: two editorial cards, managed through Admin > Articles. */}
+        <section id="recent-updates" className="relative z-10 border-b border-white/5 py-12 sm:py-16">
+          <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-accent">Latest from the circuit</p>
+              <h2 className="text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">Recent Updates</h2>
+            </div>
+            <Link href="/media" className="text-xs font-bold uppercase tracking-widest text-cyan-accent hover:text-white">All Media &amp; News →</Link>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {(() => {
+              const featured = { title: 'Shamil Wakeel Wins START PSA Satellite; Tuwin Herath Finishes Third', description: 'Sri Lankan squash players shine in Mumbai: Wakeel claims the championship while Herath secures third place after a determined five-game performance.', date: '22 Nov 2026', url: '/media/start-psa-satellite-2026', category: 'Recent Update' };
+              const matching = recentUpdates.find((item) => item.url === featured.url || item.url === 'https://tuwinh.com' + featured.url);
+              const other = recentUpdates.filter((item) => item !== matching && item.url !== featured.url && item.url !== 'https://tuwinh.com' + featured.url);
+              const updates = [matching || featured, ...other].slice(0, 2);
+              return updates.map((item, index) => (
+                <article key={item.url + index} className="flex min-h-[205px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-6 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-7">
+                  <div>
+                    <div className="mb-4 flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-widest">
+                      <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-cyan-accent">Latest News</span>
+                      <span className="text-slate-400">{item.date || 'Recent'}</span>
+                    </div>
+                    <h3 className="text-lg font-extrabold uppercase leading-snug text-white sm:text-xl">{item.title}</h3>
+                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
+                  </div>
+                  <Link href={item.url} className="mt-5 inline-flex self-start text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">Read Update →</Link>
+                </article>
+              ));
+            })()}
           </div>
         </section>
 
