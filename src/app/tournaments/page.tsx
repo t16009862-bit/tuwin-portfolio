@@ -255,6 +255,8 @@ export default function Tournaments() {
                       <p className="mt-1 text-xs text-slate-400">Won 3–0 (11–2, 11–2, 11–6)</p>
                       <p className="mt-3 font-bold text-white">Quarterfinal vs Ram Mahadu Darvada</p>
                       <p className="mt-1 text-xs text-slate-400">Won 3–1 (11–13, 11–4, 11–5, 11–6)</p>
+                      <p className="mt-3 font-bold text-white">Semifinal vs Mithun Mahadu Darvada</p>
+                      <p className="mt-1 text-xs text-slate-400">Lost 2–3 (11–3, 7–11, 9–11, 11–4, 10–12)</p>
                     </div>
                   )}
 
