@@ -457,7 +457,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {(() => {
-              const featured = { title: 'Shamil Wakeel Wins START PSA Satellite; Tuwin Herath Finishes Third', description: 'Sri Lankan squash players shine in Mumbai: Wakeel claims the championship while Herath secures third place after a determined five-game performance.', date: '22 Nov 2026', url: '/media/start-psa-satellite-2026', category: 'Recent Update' };
+              const featured = { title: 'Tuwin Herath and Shamil Wakeel Shine in India', description: 'Sri Lankan squash players shine in Mumbai: Wakeel claims the championship while Herath secures third place after a determined five-game performance.', date: '22 Nov 2026', url: '/media/start-psa-satellite-2026', category: 'Recent Update' };
               const matching = recentUpdates.find((item) => item.url === featured.url || item.url === 'https://tuwinh.com' + featured.url);
               const other = recentUpdates.filter((item) => item !== matching && item.url !== featured.url && item.url !== 'https://tuwinh.com' + featured.url);
               const updates = [matching || featured, ...other].slice(0, 2);
