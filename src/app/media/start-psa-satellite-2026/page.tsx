@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Shamil Wakeel Wins START PSA Satellite; Tuwin Herath Third | Tuwin Herath',
+  title: 'Tuwin Herath and Shamil Wakeel Shine in India | Tuwin Herath',
   description: 'Sri Lankan squash players Shamil Wakeel and Tuwin Osanda Herath finish first and third at the START PSA Satellite in Mumbai, India.',
 };
 
@@ -11,7 +11,7 @@ export default function StartSatellitePressRelease() {
       <article className="mx-auto max-w-3xl">
         <Link href="/media" className="text-sm text-cyan-400 hover:underline">← Media & Press</Link>
         <p className="mt-12 text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Official Press Release · 22 November 2026</p>
-        <h1 className="mt-5 text-3xl font-black leading-tight md:text-5xl">Shamil Wakeel Wins START PSA Satellite Title; Tuwin Herath Finishes Third</h1>
+        <h1 className="mt-5 text-3xl font-black leading-tight md:text-5xl">Tuwin Herath and Shamil Wakeel Shine in India</h1>
         <p className="mt-6 text-sm text-slate-400">Mumbai, India</p>
         <div className="mt-10 space-y-6 text-base leading-8 text-slate-200">
           <p>Sri Lankan squash player <strong>Shamil Wakeel</strong> emerged champion at the START PSA Satellite tournament in Mumbai, India, while fellow Sri Lankan <strong>Tuwin Osanda Herath</strong> secured third place.</p>
