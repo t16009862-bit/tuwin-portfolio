@@ -31,6 +31,14 @@ function formatTournamentDateRange(startDate: string, endDate: string): string {
   return `${startLabel}–${endLabel}, ${end.getFullYear()}`;
 }
 
+function tournamentFinishTime(tournament: Tournament): number {
+  const end = Date.parse(tournament.endDate);
+  if (Number.isFinite(end)) return end;
+
+  const start = Date.parse(tournament.startDate);
+  return Number.isFinite(start) ? start : Number.MIN_SAFE_INTEGER;
+}
+
 export default function Tournaments() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'completed'>('upcoming');
@@ -74,7 +82,9 @@ export default function Tournaments() {
   ];
 
   const upcomingTournaments = tournaments.filter((t) => t.status.toLowerCase() === 'upcoming');
-  const completedTournaments = tournaments.filter((t) => t.status.toLowerCase() === 'completed');
+  const completedTournaments = tournaments
+    .filter((t) => t.status.toLowerCase() === 'completed')
+    .sort((a, b) => tournamentFinishTime(b) - tournamentFinishTime(a));
 
   const activeTournaments = activeTab === 'upcoming' ? upcomingTournaments : completedTournaments;
 
