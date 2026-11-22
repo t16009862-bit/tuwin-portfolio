@@ -88,6 +88,10 @@ export default function Home() {
 
   useEffect(() => {
     let cancelled = false;
+    const startedAt = performance.now();
+    const minimumIntroTime = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 480;
+    const introDeadline = window.setTimeout(() => setIsPageLoading(false), 1600);
+    let introFinish: number | undefined;
 
     fetch('/api/home')
       .then((res) => {
@@ -141,11 +145,16 @@ export default function Home() {
         // Keep the embedded fallback content if the live workbook is unavailable.
       })
       .finally(() => {
-        if (!cancelled) setIsPageLoading(false);
+        if (cancelled) return;
+        window.clearTimeout(introDeadline);
+        const remaining = Math.max(0, minimumIntroTime - (performance.now() - startedAt));
+        introFinish = window.setTimeout(() => setIsPageLoading(false), remaining);
       });
 
     return () => {
       cancelled = true;
+      window.clearTimeout(introDeadline);
+      window.clearTimeout(introFinish);
     };
   }, []);
 
@@ -188,15 +197,17 @@ export default function Home() {
 
   return (
     <div className={`relative min-h-screen bg-[#06070a] text-white font-sans selection:bg-cyan-accent selection:text-black ${isPageLoading ? 'h-[100svh] overflow-hidden' : ''}`}>
-      {/* Block scrolling until the single homepage payload is ready, preventing layout jumps. */}
-      {isPageLoading && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#06070a]" role="status" aria-label="Loading latest website data">
-          <div className="flex flex-col items-center gap-4">
-            <div className="h-10 w-10 rounded-full border-2 border-white/10 border-t-cyan-accent animate-spin" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">Loading latest profile</span>
-          </div>
+      <div
+        className="homepage-intro fixed inset-0 z-[200] grid place-items-center"
+        role="status"
+        aria-label="Opening Tuwin Herath’s website"
+        aria-hidden={!isPageLoading}
+      >
+        <div className="homepage-intro-wordmark" aria-hidden="true">
+          <span className="homepage-intro-mask"><span>TUWIN</span></span>{' '}
+          <span className="homepage-intro-mask text-cyan-accent"><span>HERATH</span></span>
         </div>
-      )}
+      </div>
 
       {/* Kept in the page bundle so mobile performance fixes cannot be masked by a stale global CSS cache. */}
       <style jsx global>{`
