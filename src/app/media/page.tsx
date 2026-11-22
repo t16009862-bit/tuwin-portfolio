@@ -321,6 +321,18 @@ export default function MediaPress() {
               if (cardType === 'article') {
                 return (
                   <div key={item.id} className="glass-card-layered overflow-hidden flex flex-col justify-between group">
+                    {item.url === '/media/start-psa-satellite-2026' && (
+                      <div className="border-b border-white/10 bg-[#0a1018]">
+                        <img
+                          src="/media/start-psa-satellite-2026/photo"
+                          alt="Tuwin Herath and Shamil Wakeel after the START PSA Satellite in India"
+                          width={240}
+                          height={320}
+                          className="mx-auto h-60 w-full object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
                     <div>
                       <div className="p-6 space-y-4">
                         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-3">
