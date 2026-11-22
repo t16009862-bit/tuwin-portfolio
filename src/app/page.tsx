@@ -464,7 +464,7 @@ export default function Home() {
               return updates.map((item, index) => (
                 <article key={item.url + index} className="flex min-h-[205px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-6 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-7">
                   <div>
-                    <div className="mb-4 flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-widest">
+                    {index === 0 && <div className="mb-4 h-36 overflow-hidden rounded-xl border border-white/10 bg-white/5 sm:h-40"><img src="https://drive.google.com/thumbnail?id=1VMfZD5N6BTonLKxA5Bh2O32djMUM7syG&sz=w640" alt="Tuwin Herath and Shamil Wakeel at the START PSA Satellite" className="h-full w-full object-cover object-center" loading="lazy" /></div>}\n                    <div className="mb-4 flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-widest">
                       <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-cyan-accent">Latest News</span>
                       <span className="text-slate-400">{item.date || 'Recent'}</span>
                     </div>
