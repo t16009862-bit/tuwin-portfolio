@@ -89,8 +89,8 @@ export default function Home() {
   useEffect(() => {
     let cancelled = false;
     const startedAt = performance.now();
-    const minimumIntroTime = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 720;
-    const introDeadline = window.setTimeout(() => setIsPageLoading(false), 1600);
+    const minimumIntroTime = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1050;
+    const introDeadline = window.setTimeout(() => setIsPageLoading(false), 2200);
     let introFinish: number | undefined;
 
     fetch('/api/home')
@@ -465,7 +465,7 @@ export default function Home() {
 
                 <div className="mt-7 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="/colombo-junior-squash-championship-2026-appreciation.pdf?v=20261110"
+                    href="/colombo-junior-squash-championship-2026-appreciation.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-accent px-5 py-3 text-xs font-black uppercase tracking-wider text-black transition-all hover:bg-cyan-300 hover:-translate-y-0.5"
