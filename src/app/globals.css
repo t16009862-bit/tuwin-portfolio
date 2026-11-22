@@ -221,6 +221,30 @@ body {
   }
 }
 
+.sponsor-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sponsor-marquee-window:hover .sponsor-marquee {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-marquee-window {
+    overflow-x: auto;
+  }
+
+  .sponsor-marquee {
+    animation: none;
+  }
+
+  .sponsor-marquee-copy {
+    display: none;
+  }
+}
+
 /* Mobile performance: avoid full-page blur repaints and continuous motion while scrolling. */
 @media (max-width: 767px) {
   html {
@@ -262,9 +286,8 @@ body {
   }
 
   /* Mobile gets a deliberately still presentation so touch scrolling stays fluid. */
-  main *,
-  .site-header *,
-  .sponsor-marquee {
+  main *:not(.sponsor-marquee),
+  .site-header * {
     animation: none !important;
     transition-duration: 0s !important;
   }

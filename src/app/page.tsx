@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import SponsorMarquee from '@/app/components/SponsorMarquee';
 import Link from 'next/link';
 import RankingChart from './components/RankingChart';
 import RollingNumber from './components/RollingNumber';
@@ -228,9 +229,8 @@ export default function Home() {
             content-visibility: auto;
             contain-intrinsic-block-size: auto 900px;
           }
-          main *,
-          .site-header *,
-          .sponsor-marquee {
+          main *:not(.sponsor-marquee),
+          .site-header * {
             animation: none !important;
             transition-duration: 0s !important;
           }
@@ -1095,22 +1095,7 @@ export default function Home() {
 
             {sponsors.length > 0 && (
               <div className="relative w-full overflow-hidden py-4">
-                <div className="sponsor-marquee flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] opacity-75">
-                  {[...sponsors, ...sponsors].map((sponsor, idx) => (
-                    <div
-                      key={`${sponsor.name}-${idx}`}
-                      className="flex-shrink-0 flex items-center justify-center h-16 w-36"
-                    >
-                      <Image
-                        src={sponsor.imageUrl}
-                        alt={sponsor.name}
-                        width={144}
-                        height={64}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <SponsorMarquee sponsors={sponsors} />
               </div>
             )}
           </div>
