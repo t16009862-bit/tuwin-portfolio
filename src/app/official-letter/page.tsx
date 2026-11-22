@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 const pdfPath = '/colombo-junior-squash-championship-2026-appreciation.pdf';
@@ -26,14 +27,18 @@ export default function OfficialLetterPage() {
           </a>
         </div>
         <div className="overflow-hidden rounded-xl border border-white/15 bg-white">
-          <iframe
-            src={pdfPath + '#toolbar=1&view=FitH'}
-            title="Original Sri Lanka Squash letter of appreciation"
-            className="block h-[75vh] min-h-[500px] w-full"
+          <Image
+            src="/colombo-junior-squash-championship-2026-letter.webp"
+            alt="Signed letter from Sri Lanka Squash thanking Tuwin Herath for arranging Winged Falcon’s racket sponsorship"
+            width={1314}
+            height={1700}
+            loading="eager"
+            unoptimized
+            className="mx-auto block h-auto w-full max-w-3xl"
           />
         </div>
         <p className="mt-4 text-sm text-slate-300">
-          If your browser displays a blank PDF preview, use <a href={pdfPath} download="Sri-Lanka-Squash-Official-Letter-of-Appreciation.pdf" className="font-semibold text-cyan-accent underline">Download original letter</a> above. The downloaded document is unchanged.
+          The original PDF includes the signed letter and all four supporting pages.
         </p>
       </div>
     </main>
