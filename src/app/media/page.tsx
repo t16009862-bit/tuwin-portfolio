@@ -213,6 +213,62 @@ export default function MediaPress() {
           <div className="mt-4 h-[3px] w-24 bg-[#00E5FF] rounded-full"></div>
         </div>
 
+        {/* Press Kit */}
+        <section id="press-kit" className="relative z-10 scroll-mt-24 py-8">
+          <div className="relative overflow-hidden rounded-3xl border border-cyan-accent/20 bg-gradient-to-r from-[#0d111a] via-[#05060b] to-[#0e121d] p-8 md:p-12 shadow-2xl">
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="space-y-4 text-center md:text-left max-w-xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-cyan-accent/30 bg-cyan-accent/5 px-4 py-1 text-[9px] font-bold uppercase tracking-[0.25em] text-cyan-accent shadow-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-accent animate-pulse"></span>
+                  For Journalists &amp; Media Outlets
+                </span>
+                <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight leading-none font-sans">
+                  OFFICIAL <span className="text-gradient-cyan-solid">PRESS KIT</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  A concise, professionally designed media kit with verified PSA statistics, career evidence,
+                  selected results, player endorsement, current partners, and direct media contacts.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 pt-1 md:justify-start">
+                  {['4-page media kit', 'Updated Nov 2026', 'Verified PSA data'].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-400"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+                <a
+                  href={pressKitUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 rounded-full border-2 border-cyan-accent bg-cyan-accent/10 hover:bg-cyan-accent hover:text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent transition-all duration-300 shadow-lg shadow-cyan-accent/15 cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <span>View Media Kit</span>
+                </a>
+                <a
+                  href={pressKitUrl}
+                  download="Tuwin-Herath-Official-Media-Kit-2026.pdf"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:border-white/30 hover:bg-white/[0.08] cursor-pointer"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+                  </svg>
+                  <span>Download PDF</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Sticky Filter Bar */}
         <div className="sticky top-[69px] z-40 bg-[#06070a]/85 backdrop-blur-md py-4 border-b border-white/5 flex items-center justify-between">
           <div className="flex overflow-x-auto gap-2 py-1 no-scrollbar scroll-smooth">
@@ -392,62 +448,6 @@ export default function MediaPress() {
             })}
           </div>
         )}
-
-        {/* Section 3: Press Kit Banner */}
-        <section id="press-kit" className="relative z-10 scroll-mt-24 py-8">
-          <div className="relative overflow-hidden rounded-3xl border border-cyan-accent/20 bg-gradient-to-r from-[#0d111a] via-[#05060b] to-[#0e121d] p-8 md:p-12 shadow-2xl">
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="space-y-4 text-center md:text-left max-w-xl">
-                <span className="inline-flex items-center gap-2 rounded-full border border-cyan-accent/30 bg-cyan-accent/5 px-4 py-1 text-[9px] font-bold uppercase tracking-[0.25em] text-cyan-accent shadow-sm">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-accent animate-pulse"></span>
-                  For Journalists &amp; Media Outlets
-                </span>
-                <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight leading-none font-sans">
-                  OFFICIAL <span className="text-gradient-cyan-solid">PRESS KIT</span>
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-                  A concise, professionally designed media kit with verified PSA statistics, career evidence,
-                  selected results, player endorsement, current partners, and direct media contacts.
-                </p>
-                <div className="flex flex-wrap justify-center gap-2 pt-1 md:justify-start">
-                  {['4-page media kit', 'Updated Nov 2026', 'Verified PSA data'].map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-400"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
-                <a
-                  href={pressKitUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 rounded-full border-2 border-cyan-accent bg-cyan-accent/10 hover:bg-cyan-accent hover:text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent transition-all duration-300 shadow-lg shadow-cyan-accent/15 cursor-pointer"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  <span>View Media Kit</span>
-                </a>
-                <a
-                  href={pressKitUrl}
-                  download="Tuwin-Herath-Official-Media-Kit-2026.pdf"
-                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:border-white/30 hover:bg-white/[0.08] cursor-pointer"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
-                  </svg>
-                  <span>Download PDF</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Section 4: Scrolling Sponsor Ribbon Ticker */}
         {sponsors.length > 0 && (
