@@ -30,6 +30,24 @@ export async function GET() {
   const [row] = getSheetRows<Record<string, unknown>>(workbook, SHEET_NAME);
   const birthday = String(row?.Birthday ?? '').trim();
 
+  const uploadedPressKit = String(row?.['Press Kit URL'] ?? '').trim();
+  let pressKitUrl = '/tuwin_portfolio.pdf';
+  if (uploadedPressKit.startsWith('https://res.cloudinary.com/wi6dhwga/')) {
+    try {
+      const asset = await fetch(uploadedPressKit, {
+        method: 'HEAD',
+        redirect: 'error',
+        signal: AbortSignal.timeout(2000),
+        next: { revalidate: 60 },
+      });
+      if (asset.ok && asset.headers.get('content-type')?.startsWith('application/pdf')) {
+        pressKitUrl = uploadedPressKit;
+      }
+    } catch {
+      // Serve the bundled PDF when the uploaded asset is unavailable.
+    }
+  }
+
   return NextResponse.json({
     name: String(row?.Name ?? '').trim(),
     birthday,
@@ -37,7 +55,7 @@ export async function GET() {
     age: calculateAge(birthday),
     description: String(row?.Description ?? '').trim(),
     profileImage: String(row?.['Profile Image'] ?? '').trim(),
-    pressKitUrl: String(row?.['Press Kit URL'] ?? '').trim(),
+    pressKitUrl,
     pressKitUpdated: String(row?.['Press Kit Updated'] ?? '').trim(),
   });
 }

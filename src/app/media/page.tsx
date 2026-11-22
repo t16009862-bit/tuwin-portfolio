@@ -15,10 +15,7 @@ interface MediaItem {
   url: string;
 }
 
-// Keep the latest admin-published file as a resilient fallback while the
-// dynamic Bio endpoint is loading or temporarily unavailable.
-const PUBLISHED_PRESS_KIT_FALLBACK =
-  'https://res.cloudinary.com/wi6dhwga/image/upload/v1795109504/press-kit/hff5j0ntg601moxnpavw.pdf';
+const PUBLISHED_PRESS_KIT_FALLBACK = '/tuwin_portfolio.pdf';
 
 // Category text drives which card layout is used (interview/profile/archive/article)
 function getCardType(category: string): 'interview' | 'profile' | 'archive' | 'article' {
