@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import SponsorMarquee from '../components/SponsorMarquee';
+import ArticleComments from '../components/ArticleComments';
+import { articleCommentKey, START_SATELLITE_ARTICLE } from '@/lib/article-comments';
 
 interface MediaItem {
   id: string;
@@ -367,6 +369,11 @@ export default function MediaPress() {
                       >
                         {item.linkText || 'Read Article'}
                       </a>
+                      {articleCommentKey(item.url) === START_SATELLITE_ARTICLE ? (
+                        <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 block text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
+                      ) : item.category.toLowerCase() === 'recent update' && (
+                        <ArticleComments article={articleCommentKey(item.url)} compact />
+                      )}
                     </div>
                   </div>
                 );

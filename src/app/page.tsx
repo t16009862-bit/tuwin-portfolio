@@ -6,6 +6,8 @@ import SponsorMarquee from './components/SponsorMarquee';
 import Link from 'next/link';
 import RankingChart from './components/RankingChart';
 import RollingNumber from './components/RollingNumber';
+import ArticleComments from './components/ArticleComments';
+import { articleCommentKey, START_SATELLITE_ARTICLE } from '@/lib/article-comments';
 
 type BiographyHighlight = { title: string; heading: string; description: string };
 type Testimonial = {
@@ -472,6 +474,11 @@ export default function Home() {
                     <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
                   </div>
                   <Link href={item.url} className="mt-5 inline-flex self-start text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">Read Update →</Link>
+                  {articleCommentKey(item.url) === START_SATELLITE_ARTICLE ? (
+                    <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 border-t border-white/10 pt-3 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
+                  ) : (
+                    <ArticleComments article={articleCommentKey(item.url)} compact />
+                  )}
                 </article>
               ));
             })()}

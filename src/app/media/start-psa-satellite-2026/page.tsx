@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import ArticleComments from '../../components/ArticleComments';
+import { START_SATELLITE_ARTICLE } from '@/lib/article-comments';
 
 export const metadata = {
   title: 'Tuwin Herath Shines in India as Shamil Wakeel Claims PSA Satellite Title | Tuwin Herath',
@@ -36,6 +38,7 @@ export default function StartSatellitePressRelease() {
           <p className="mt-4">Champion — Shamil Wakeel (Sri Lanka)</p>
           <p className="mt-2">Third Place — Tuwin Osanda Herath (Sri Lanka)</p>
         </div>
+        <ArticleComments article={START_SATELLITE_ARTICLE} />
       </article>
     </main>
   );
