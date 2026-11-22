@@ -24,7 +24,7 @@ export default function Packages() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
 
-  const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', message: '' });
+  const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', organization: '', message: '' });
   const [selectedTier, setSelectedTier] = useState('');
   const [customPackage, setCustomPackage] = useState('');
   const [inquiryStatus, setInquiryStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -87,19 +87,29 @@ export default function Packages() {
     setInquiryStatus('sending');
 
     const packageLabel = selectedTier === 'Custom' ? (customPackage || 'Custom') : selectedTier;
-    const composedMessage = packageLabel
-      ? `Package Interest: ${packageLabel}\n\n${inquiryForm.message}`
-      : inquiryForm.message;
+    const composedMessage = [
+      'Sponsorship inquiry',
+      inquiryForm.organization.trim() && 'Brand: ' + inquiryForm.organization.trim(),
+      packageLabel && 'Package interest: ' + packageLabel,
+      inquiryForm.message.trim(),
+    ].filter(Boolean).join('\n\n');
 
     try {
-      const res = await fetch('/api/inquiry', {
+      const body = new URLSearchParams({
+        'form-name': 'tuwin-inquiry',
+        'bot-field': String(new FormData(e.currentTarget).get('bot-field') ?? ''),
+        name: inquiryForm.name.trim(),
+        email: inquiryForm.email.trim(),
+        message: composedMessage,
+      });
+      const res = await fetch('/__forms.html', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...inquiryForm, message: composedMessage }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
       });
       if (!res.ok) throw new Error('Request failed');
       setInquiryStatus('success');
-      setInquiryForm({ name: '', email: '', message: '' });
+      setInquiryForm({ name: '', email: '', organization: '', message: '' });
       setSelectedTier('');
       setCustomPackage('');
     } catch {
@@ -206,17 +216,41 @@ export default function Packages() {
 
         {/* Title Header */}
         <div className="text-center md:text-left py-6 relative z-10">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-accent mb-2">Become A Sponsor</p>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-accent mb-2">Brand Partnerships</p>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white uppercase leading-none">
-            SPONSORSHIP <span className="text-gradient-cyan-solid">PACKAGES</span>
+            PARTNER WITH <span className="text-gradient-cyan-solid">TUWIN HERATH</span>
           </h1>
           <div className="mt-4 h-[3px] w-24 bg-[#00E5FF] rounded-full"></div>
           <p className="mt-6 max-w-2xl text-sm text-slate-400 leading-relaxed mx-auto md:mx-0">
-            Choose the partnership tier that fits your brand, or reach out for a custom arrangement built around your goals.
+            Work with a Sri Lankan PSA touring professional on athlete partnerships, squash content, and community projects. Explore what we can build around your brand’s goals.
           </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3 md:justify-start">
+            <a href="#inquiry-form" className="rounded-full bg-cyan-accent px-5 py-3 text-sm font-bold text-black">Discuss a partnership</a>
+            <Link href="/media#press-kit" className="rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white">View press kit</Link>
+            <a href="https://wa.me/94784162429?text=Hi%20Tuwin%2C%20I%27d%20like%20to%20discuss%20a%20sponsorship." className="rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white">WhatsApp Tuwin</a>
+          </div>
         </div>
 
-        {/* Packages Grid */}
+        <section aria-labelledby="partnership-options">
+          <h2 id="partnership-options" className="mb-5 text-2xl font-extrabold text-white">Ways to partner</h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['Season partnerships', 'Support a season of competition through equipment, apparel, travel or training support.'],
+              ['Content and appearances', 'Collaborate on squash and training content, product features or live brand appearances.'],
+              ['Community projects', 'Support junior squash through clinics, events or equipment initiatives.'],
+            ].map(([title, description]) => (
+              <article key={title} className="glass-card-layered rounded-2xl p-5">
+                <h3 className="font-bold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">{description}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mt-5 text-sm text-slate-300">Tuwin helped bring Winged Falcon on board as the official racket sponsor of the 2026 Colombo Junior Squash Championship.</p>
+          <a href="/colombo-junior-squash-championship-2026-appreciation.pdf" className="mt-2 inline-block text-sm font-bold text-cyan-accent underline">Read the Sri Lanka Squash recognition letter</a>
+        </section>
+
+        <h2 className="text-2xl font-extrabold text-white">Sponsorship packages</h2>
+
         {isLoading ? (
           <div className="py-20 text-center text-sm text-slate-400 uppercase tracking-widest font-bold">
             Loading packages…
@@ -397,7 +431,7 @@ export default function Packages() {
                   Let&apos;s Connect
                 </h3>
                 <p className="text-sm text-slate-400 leading-relaxed mt-2">
-                  Open for sponsorships, brand ambassadorships, elite coaching exchanges, and media inquiries. Let&apos;s push squash boundary limits together.
+                  For sponsorships and brand collaborations, tell me about your goals and timing.
                 </p>
               </div>
 
@@ -463,6 +497,7 @@ export default function Packages() {
               <div className="absolute inset-0 opacity-[0.02] wave-contour-pattern pointer-events-none"></div>
 
               <form className="space-y-4 z-10 relative" onSubmit={handleInquirySubmit}>
+                <div hidden><label>Leave this blank <input name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>
                 <div>
                   <label htmlFor="tier" className="block text-[9px] uppercase font-bold text-slate-400 tracking-widest mb-1.5">
                     Select Package
@@ -528,6 +563,13 @@ export default function Packages() {
                 </div>
 
                 <div>
+                  <label htmlFor="organization" className="mb-1.5 block text-xs font-semibold text-slate-300">Brand or organization (optional)</label>
+                  <input id="organization" autoComplete="organization" value={inquiryForm.organization}
+                    onChange={(e) => setInquiryForm({ ...inquiryForm, organization: e.target.value })}
+                    className="w-full rounded-xl border border-white/10 bg-[#06070a] px-4 py-3 text-sm text-white" />
+                </div>
+
+                <div>
                   <label htmlFor="message" className="block text-[9px] uppercase font-bold text-slate-400 tracking-widest mb-1.5">
                     Message Details
                   </label>
@@ -537,7 +579,7 @@ export default function Packages() {
                     value={inquiryForm.message}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, message: e.target.value })}
                     className="w-full rounded-xl border border-white/10 bg-[#06070a] px-4 py-3 text-sm text-white focus:border-cyan-accent focus:ring-1 focus:ring-cyan-accent focus:outline-none transition-all duration-300 resize-none"
-                    placeholder="Specify sponsorship, coaching, or press details..."
+                    placeholder="Tell me what you’d like to achieve, your ideal timing, and any deliverables you have in mind."
                     required
                   ></textarea>
                 </div>
@@ -551,13 +593,13 @@ export default function Packages() {
                 </button>
 
                 {inquiryStatus === 'success' && (
-                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-cyan-accent">
+                  <p role="status" className="text-center text-xs font-semibold uppercase tracking-widest text-cyan-accent">
                     Inquiry sent successfully. Thank you!
                   </p>
                 )}
                 {inquiryStatus === 'error' && (
-                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-red-400">
-                    Something went wrong. Please try again.
+                  <p role="alert" className="text-center text-xs font-semibold uppercase tracking-widest text-red-400">
+                    The form couldn’t send your inquiry. <a className="underline" href="mailto:tuwinosanda@gmail.com?subject=Sponsorship%20inquiry">Email Tuwin directly</a>.
                   </p>
                 )}
               </form>

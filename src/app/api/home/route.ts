@@ -63,7 +63,7 @@ export async function GET() {
           status: text(row.Status).toLowerCase(),
           description: text(row.Description),
         }))
-        .filter((item) => item.imageUrl),
+        .filter((item) => item.imageUrl && item.status === 'current'),
       rankings: getSheetRows<Record<string, unknown>>(workbook, 'Rankings')
         .map((row) => ({ date: text(row.date), ranking: Number(row.ranking) }))
         .filter((item) => item.date && Number.isFinite(item.ranking))

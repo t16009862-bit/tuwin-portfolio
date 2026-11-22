@@ -373,7 +373,7 @@ export default function Home() {
                 href="/packages"
                 className="inline-flex items-center justify-center rounded-full bg-cyan-accent px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-black hover:bg-cyan-300 hover:scale-[1.03] transition-all duration-300 shadow-lg shadow-cyan-accent/35 cursor-pointer"
               >
-                Become A Sponsor
+                Partner With Tuwin
               </Link>
               <Link
                 href="/media#press-kit"
@@ -1090,7 +1090,7 @@ export default function Home() {
         <section id="partners" className="py-24 border-b border-white/5 text-center px-6">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500 mb-12">
-              Powered By The Best
+              Current Sponsors & Partners
             </h2>
 
             {sponsors.length > 0 && (
@@ -1130,7 +1130,7 @@ export default function Home() {
                   Let&apos;s Connect
                 </h3>
                 <p className="text-sm text-slate-400 leading-relaxed mt-2">
-                  Open for sponsorships, brand ambassadorships, elite coaching exchanges, and media inquiries. Let&apos;s push squash boundary limits together.
+                  For sponsorships, brand partnerships, coaching or media inquiries, contact Tuwin directly.
                 </p>
               </div>
 
@@ -1273,7 +1273,7 @@ export default function Home() {
                 )}
                 {inquiryStatus === 'error' && (
                   <p className="text-center text-xs font-semibold uppercase tracking-widest text-red-400">
-                    Something went wrong. Please try again.
+                    The form couldn’t send your inquiry. <a className="underline" href="mailto:tuwinosanda@gmail.com?subject=Website%20inquiry">Email Tuwin directly</a>.
                   </p>
                 )}
               </form>
