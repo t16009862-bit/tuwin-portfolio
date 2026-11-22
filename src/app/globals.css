@@ -52,9 +52,9 @@ body {
   background: radial-gradient(ellipse at center, #0c1c21, var(--background) 66%);
 }
 
-.homepage-intro[aria-hidden="true"] {
-  visibility: hidden;
+ .homepage-intro[aria-hidden="true"] {
   pointer-events: none;
+  visibility: hidden;
 }
 
 .homepage-intro-wordmark {
@@ -84,7 +84,7 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .homepage-intro {
     transform: translate3d(0, 0, 0);
-    transition: transform 620ms cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 620ms;
+    transition: transform 720ms cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 720ms;
   }
 
   .homepage-intro[aria-hidden="true"] {
@@ -92,13 +92,13 @@ body {
   }
 
   .homepage-intro-name {
-    --intro-start-x: -90%;
-    animation: homepage-intro-enter 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --intro-start-x: -105%;
+    animation: homepage-intro-enter 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .homepage-intro-name:nth-child(2) {
-    --intro-start-x: 90%;
-    animation-delay: 45ms;
+    --intro-start-x: 105%;
+    animation-delay: 90ms;
   }
 
   .homepage-intro-wordmark::after {
@@ -301,11 +301,6 @@ body {
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .sponsor-marquee:hover {
-    animation-play-state: paused;
-  }
-}
 
 /* Mobile performance: avoid full-page blur repaints and continuous motion while scrolling. */
 @media (max-width: 767px) {
@@ -371,19 +366,4 @@ body {
     transition-duration: 0.01ms !important;
   }
 
-  .sponsor-marquee-manual {
-    overflow-x: auto;
-  }
-
-  .sponsor-marquee:not(.sponsor-marquee-playing) {
-    animation: none;
-  }
-
-  .sponsor-marquee-manual .sponsor-marquee-copy {
-    display: none;
-  }
-
-  .sponsor-marquee-motion-control {
-    display: inline-block;
-  }
 }
