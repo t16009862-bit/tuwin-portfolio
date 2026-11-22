@@ -483,6 +483,15 @@ export default function Home() {
                   <p className="mt-1 text-xs leading-relaxed text-slate-400">Group Captain Eranda Geeganage · President</p>
                 </div>
 
+                <Image
+                  src="/winged-falcon-racket-handover.jpg"
+                  alt="Tuwin Herath with Winged Falcon rackets at Diamond Squash"
+                  width={1440}
+                  height={1920}
+                  sizes="(max-width: 1023px) 100vw, 350px"
+                  className="h-auto w-full rounded-xl"
+                />
+
                 <dl className="space-y-4 border-t border-white/5 pt-6 text-xs">
                   <div>
                     <dt className="font-bold uppercase tracking-widest text-slate-500">Championship</dt>
@@ -499,6 +508,25 @@ export default function Home() {
                 </dl>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section id="podiums" className="border-b border-white/5 py-16">
+          <h2 className="mb-6 text-3xl font-extrabold uppercase tracking-tight text-white">
+            3 International Podium Finishes
+          </h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['START Squash PSA Satellite', 'Mokashi, India · November 2026'],
+              ['China Squash Tour S5', 'Shanghai, China · December 2025'],
+              ['QSF 3 PSA Satellite', 'Doha, Qatar · March 2025'],
+            ].map(([event, location]) => (
+              <article key={event} className="glass-card-layered rounded-2xl p-5">
+                <p className="text-sm font-bold text-cyan-accent">3rd place</p>
+                <h3 className="mt-2 text-lg font-bold text-white">{event}</h3>
+                <p className="mt-2 text-sm text-slate-300">{location}</p>
+              </article>
+            ))}
           </div>
         </section>
 
