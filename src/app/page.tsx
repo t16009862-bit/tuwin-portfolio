@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import SponsorMarquee from './components/SponsorMarquee';
 import Link from 'next/link';
 import RankingChart from './components/RankingChart';
 import RollingNumber from './components/RollingNumber';
@@ -224,7 +225,7 @@ export default function Home() {
             box-shadow: none !important;
             transition: none !important;
           }
-          main > section {
+          main > section:not(.sponsor-marquee-section) {
             content-visibility: auto;
             contain-intrinsic-block-size: auto 900px;
           }
@@ -1086,31 +1087,14 @@ export default function Home() {
         )}
 
         {/* 5. Sponsors Section */}
-        <section id="partners" className="py-24 border-b border-white/5 text-center px-6">
+        <section id="partners" className="sponsor-marquee-section py-24 border-b border-white/5 text-center px-6">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500 mb-12">
               Current Sponsors & Partners
             </h2>
 
             {sponsors.length > 0 && (
-              <div className="relative w-full overflow-hidden py-4">
-                <div className="sponsor-marquee flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] opacity-75">
-                  {[...sponsors, ...sponsors].map((sponsor, idx) => (
-                    <div
-                      key={`${sponsor.name}-${idx}`}
-                      className="flex-shrink-0 flex items-center justify-center h-16 w-36"
-                    >
-                      <Image
-                        src={sponsor.imageUrl}
-                        alt={sponsor.name}
-                        width={144}
-                        height={64}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <SponsorMarquee sponsors={sponsors} className="relative w-full overflow-hidden py-4" />
             )}
           </div>
         </section>

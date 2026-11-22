@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import SponsorMarquee from '../components/SponsorMarquee';
 
 interface Sponsor {
   name: string;
@@ -154,7 +155,7 @@ export default function Sponsors() {
         </div>
 
         {/* Sponsors Tabs + Marquee */}
-        <section className="relative z-10 pb-12">
+        <section className="sponsor-marquee-section relative z-10 pb-12">
           {/* Tab Switcher */}
           <div className="flex justify-center md:justify-start gap-2 mb-10">
             <button
@@ -190,28 +191,7 @@ export default function Sponsors() {
             </div>
           ) : activeSponsors.length > 0 ? (
             <>
-              <div className="relative w-full overflow-hidden py-10 glass-card-layered">
-                <div className="absolute inset-0 opacity-[0.02] wave-contour-pattern pointer-events-none"></div>
-                <div
-                  key={activeTab}
-                  className="sponsor-marquee flex w-max gap-10 items-center animate-[marquee_22s_linear_infinite]"
-                >
-                  {[...activeSponsors, ...activeSponsors].map((sponsor, idx) => (
-                    <div
-                      key={`${sponsor.name}-${idx}`}
-                      className="flex-shrink-0 flex items-center justify-center h-24 w-48"
-                    >
-                      <Image
-                        src={sponsor.imageUrl}
-                        alt={sponsor.name}
-                        width={160}
-                        height={64}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <SponsorMarquee key={activeTab} sponsors={activeSponsors} large className="relative w-full overflow-hidden py-10 glass-card-layered" />
 
               {/* Sponsor Descriptions */}
               <div className="mt-8 grid gap-6 grid-cols-1 sm:grid-cols-2">

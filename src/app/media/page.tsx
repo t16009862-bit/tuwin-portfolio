@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import SponsorMarquee from '../components/SponsorMarquee';
 
 interface MediaItem {
   id: string;
@@ -451,30 +452,13 @@ export default function MediaPress() {
 
         {/* Section 4: Scrolling Sponsor Ribbon Ticker */}
         {sponsors.length > 0 && (
-          <section className="py-12 border-t border-white/5">
+          <section className="sponsor-marquee-section py-12 border-t border-white/5">
             <p className="text-center text-[10px] uppercase font-bold tracking-[0.3em] text-slate-500 mb-8">
               Official Partners &amp; Sponsors
             </p>
 
             {/* Scrolling ticker track */}
-            <div className="relative w-full overflow-hidden py-4 bg-slate-900/10 border-y border-white/5">
-              <div className="sponsor-marquee flex w-max gap-16 items-center animate-[marquee_25s_linear_infinite] opacity-75">
-                {[...sponsors, ...sponsors].map((sponsor, idx) => (
-                  <div
-                    key={`${sponsor.name}-${idx}`}
-                    className="flex-shrink-0 flex items-center justify-center h-16 w-36"
-                  >
-                    <Image
-                      src={sponsor.imageUrl}
-                      alt={sponsor.name}
-                      width={144}
-                      height={64}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <SponsorMarquee sponsors={sponsors} className="relative w-full overflow-hidden py-4 bg-slate-900/10 border-y border-white/5" />
           </section>
         )}
 

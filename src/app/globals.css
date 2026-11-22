@@ -212,13 +212,25 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+@keyframes sponsor-marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.sponsor-marquee {
+  --sponsor-gap: 4rem;
+  gap: var(--sponsor-gap);
+  padding-right: var(--sponsor-gap);
+  animation: sponsor-marquee-scroll 25s linear infinite;
+}
+
+.sponsor-marquee-large {
+  --sponsor-gap: 2.5rem;
+  animation-duration: 22s;
+}
+
+.sponsor-marquee-motion-control {
+  display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -262,7 +274,7 @@ body {
   }
 
   /* Render long, off-screen sections only as they approach the viewport. */
-  main > section {
+  main > section:not(.sponsor-marquee-section) {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 900px;
   }
@@ -284,11 +296,27 @@ body {
     scroll-behavior: auto;
   }
 
-  *,
+  *:not(.sponsor-marquee),
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .sponsor-marquee-manual {
+    overflow-x: auto;
+  }
+
+  .sponsor-marquee:not(.sponsor-marquee-playing) {
+    animation: none;
+  }
+
+  .sponsor-marquee-manual .sponsor-marquee-copy {
+    display: none;
+  }
+
+  .sponsor-marquee-motion-control {
+    display: inline-block;
   }
 }
