@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SponsorMarquee from '@/app/components/SponsorMarquee';
 
 interface Sponsor {
   name: string;
@@ -193,7 +192,25 @@ export default function Sponsors() {
             <>
               <div className="relative w-full overflow-hidden py-10 glass-card-layered">
                 <div className="absolute inset-0 opacity-[0.02] wave-contour-pattern pointer-events-none"></div>
-                <SponsorMarquee key={activeTab} sponsors={activeSponsors} large />
+                <div
+                  key={activeTab}
+                  className="sponsor-marquee flex w-max gap-10 items-center animate-[marquee_22s_linear_infinite]"
+                >
+                  {[...activeSponsors, ...activeSponsors].map((sponsor, idx) => (
+                    <div
+                      key={`${sponsor.name}-${idx}`}
+                      className="flex-shrink-0 flex items-center justify-center h-24 w-48"
+                    >
+                      <Image
+                        src={sponsor.imageUrl}
+                        alt={sponsor.name}
+                        width={160}
+                        height={64}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Sponsor Descriptions */}
