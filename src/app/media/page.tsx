@@ -16,6 +16,7 @@ interface MediaItem {
   description: string;
   linkText: string;
   url: string;
+  imageUrl?: string;
 }
 
 const PUBLISHED_PRESS_KIT_FALLBACK = '/tuwin_portfolio.pdf';
@@ -129,8 +130,9 @@ export default function MediaPress() {
     description: 'Sri Lankan squash players impressed in Mumbai, India, as Shamil Wakeel claimed the START PSA Satellite championship and Tuwin Osanda Herath secured third place. Herath fought back from 5–10 in the deciding game to level at 10–10 before narrowly losing his five-game contest.',
     linkText: 'Read Press Release',
     url: '/media/start-psa-satellite-2026',
+    imageUrl: '/media/start-psa-satellite-2026/photo',
   };
-  const displayedMediaItems = [featuredRelease, ...mediaItems.filter((item) => item.id !== featuredRelease.id)];
+  const displayedMediaItems = [featuredRelease, ...mediaItems.filter((item) => item.id !== featuredRelease.id && item.url !== featuredRelease.url)];
   const categories = ['All', ...Array.from(new Set(displayedMediaItems.map((item) => item.category)))];
 
   const filteredItems = activeCategory === 'All'
@@ -323,16 +325,11 @@ export default function MediaPress() {
               if (cardType === 'article') {
                 return (
                   <div key={item.id} className="glass-card-layered overflow-hidden flex flex-col justify-between group">
-                    {item.url === '/media/start-psa-satellite-2026' && (
+                    {item.imageUrl && (
                       <div className="border-b border-white/10 bg-[#0a1018]">
-                        <img
-                          src="/media/start-psa-satellite-2026/photo"
-                          alt="Tuwin Herath and Shamil Wakeel after the START PSA Satellite in India"
-                          width={240}
-                          height={320}
-                          className="mx-auto h-60 w-full object-contain"
-                          loading="lazy"
-                        />
+                        <img src={item.imageUrl} alt={`Photograph accompanying ${item.title}`}
+                          className="mx-auto h-48 w-full object-contain" loading="lazy"
+                          onError={(event) => { event.currentTarget.style.display = 'none'; }} />
                       </div>
                     )}
                     <div>
