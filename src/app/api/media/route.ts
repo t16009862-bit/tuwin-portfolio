@@ -6,12 +6,20 @@ const SHEET_NAME = 'Articles';
 
 export const dynamic = 'force-dynamic';
 
-function excelDateToLabel(value: unknown): string {
-  if (typeof value !== 'number') return '';
-  const parsed = XLSX.SSF.parse_date_code(value);
-  if (!parsed) return '';
-  const date = new Date(parsed.y, parsed.m - 1, parsed.d);
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+function normalizeArticleDate(value: unknown): { label: string; iso: string } {
+  let date: Date | undefined;
+  if (typeof value === 'number') {
+    const parsed = XLSX.SSF.parse_date_code(value);
+    if (parsed) date = new Date(Date.UTC(parsed.y, parsed.m - 1, parsed.d));
+  } else if (typeof value === 'string' && value.trim()) {
+    const parsed = new Date(value.trim());
+    if (!Number.isNaN(parsed.getTime())) date = parsed;
+  }
+  if (!date || Number.isNaN(date.getTime())) return { label: '', iso: '' };
+  return {
+    label: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }),
+    iso: date.toISOString().slice(0, 10),
+  };
 }
 
 export async function GET() {
@@ -29,11 +37,13 @@ export async function GET() {
       id: `media-${index}`,
       category: String(row.category ?? '').trim(),
       source: String(row.source ?? '').trim(),
-      date: excelDateToLabel(row.date),
+      date: normalizeArticleDate(row.date).label,
+      publishedAt: normalizeArticleDate(row.date).iso,
       title: String(row.title ?? '').trim(),
       description: String(row.description ?? '').trim(),
       linkText: String(row.link_text ?? '').trim(),
       url: String(row.url ?? '').trim(),
+      imageUrl: String(row.image_url ?? '').trim(),
     }))
     .filter((item) => item.title && item.url);
 
