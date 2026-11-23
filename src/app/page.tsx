@@ -20,6 +20,17 @@ type Testimonial = {
   featured: boolean;
 };
 
+type LatestNewsItem = {
+  title: string;
+  description: string;
+  date: string;
+  publishedAt?: string;
+  imageUrl?: string;
+  source?: string;
+  url: string;
+  category: string;
+};
+
 function formatTournamentDateRange(startDate: string, endDate: string): string {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -47,7 +58,7 @@ export default function Home() {
     description: 'PSA Touring Professional. Deshabandu Awardee. Fueling the game with the best. Representing the Sri Lankan flag on the international stage, pushing the physical and mental limits of competitive squash.',
     profileImage: '/tuwin-profile-2026.jpg',
   });
-  const [recentUpdates, setRecentUpdates] = useState<{ title: string; description: string; date: string; url: string; category: string }[]>([]);
+  const [recentUpdates, setRecentUpdates] = useState<LatestNewsItem[]>([]);
   const [recentUpdatesLoaded, setRecentUpdatesLoaded] = useState(false);
   const [sponsors, setSponsors] = useState<{ name: string; imageUrl: string; status: string; description: string }[]>([]);
   const [rankings, setRankings] = useState<{ date: string; ranking: number }[]>([]);
@@ -92,12 +103,51 @@ export default function Home() {
 
   useEffect(() => {
     let cancelled = false;
+    const newsCategories = new Set(['news', 'press release', 'recent update', 'report', 'interview', 'interviews', 'sinhala']);
+    const fallback: LatestNewsItem[] = [
+      {
+        title: 'Wakeel wins PSA Satellite crown in India; Herath takes third',
+        description: 'ePRESS covers Tuwin Herath’s third-place finish and Shamil Wakeel’s title at the START PSA Satellite in India.',
+        date: 'Nov 23, 2026', publishedAt: '2026-11-23', source: 'ePRESS', category: 'NEWS',
+        url: 'https://epress.lk/wakeel-wins-psa-satellite-crown-in-india-herath-takes-third/',
+        imageUrl: '/media/start-psa-satellite-2026/photo',
+      },
+      {
+        title: 'Tuwin Herath Shines in India as Shamil Wakeel Claims PSA Satellite Title',
+        description: 'Herath secured third place after saving five match balls in an extraordinary semifinal comeback.',
+        date: 'Nov 22, 2026', publishedAt: '2026-11-22', source: 'Tuwin Herath Official', category: 'Press Release',
+        url: '/media/start-psa-satellite-2026',
+        imageUrl: '/media/start-psa-satellite-2026/photo',
+      },
+    ];
+
     fetch('/api/media', { cache: 'no-store' })
-      .then((response) => { if (!response.ok) throw new Error('Media unavailable'); return response.json(); })
-      .then((items: { title: string; description: string; date: string; url: string; category: string }[]) => {
-        if (!cancelled && Array.isArray(items)) setRecentUpdates(items.filter((item) => item.category.toLowerCase() === 'recent update' || item.url === '/media/start-psa-satellite-2026' || item.url === 'https://tuwinh.com/media/start-psa-satellite-2026'));
+      .then((response) => {
+        if (!response.ok) throw new Error('Media unavailable');
+        return response.json();
       })
-      .catch(() => {})
+      .then((items: LatestNewsItem[]) => {
+        if (cancelled) return;
+        if (!Array.isArray(items)) throw new Error('Invalid media response');
+
+        const seen = new Set<string>();
+        const news = items
+          .filter((item) => item.title && item.url && newsCategories.has(item.category?.trim().toLowerCase()))
+          .sort((a, b) => {
+            const aTime = Date.parse(a.publishedAt || a.date || '') || 0;
+            const bTime = Date.parse(b.publishedAt || b.date || '') || 0;
+            return bTime - aTime;
+          })
+          .filter((item) => {
+            const key = item.url.replace(/^https?:\/\/(?:www\.)?tuwinh\.com/i, '').replace(/\/$/, '').toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          })
+          .slice(0, 2);
+        setRecentUpdates(news.length ? news : fallback);
+      })
+      .catch(() => { if (!cancelled) setRecentUpdates(fallback); })
       .finally(() => { if (!cancelled) setRecentUpdatesLoaded(true); });
     return () => { cancelled = true; };
   }, []);
@@ -448,7 +498,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Recent Updates: two editorial cards, managed through Admin > Articles. */}
+        {/* The two newest published news items appear here automatically; older stories stay in Media & Press. */}
         <section id="recent-updates" className="relative z-10 border-b border-white/5 py-12 sm:py-16">
           <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -458,30 +508,48 @@ export default function Home() {
             <Link href="/media" className="text-xs font-bold uppercase tracking-widest text-cyan-accent hover:text-white">All Media &amp; News →</Link>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {(() => {
-              const featured = { title: 'Tuwin Herath Shines in India as Shamil Wakeel Claims PSA Satellite Title', description: 'Sri Lankan squash players shine in Mumbai: Wakeel claims the championship while Herath secures third place after a determined five-game performance.', date: '22 Nov 2026', url: '/media/start-psa-satellite-2026', category: 'Recent Update' };
-              const matching = recentUpdates.find((item) => item.url === featured.url || item.url === 'https://tuwinh.com' + featured.url);
-              const other = recentUpdates.filter((item) => item !== matching && item.url !== featured.url && item.url !== 'https://tuwinh.com' + featured.url);
-              const updates = [matching ? { ...matching, title: featured.title, description: featured.description } : featured, ...other].slice(0, 2);
-              return updates.map((item, index) => (
-                <article key={item.url + index} className="flex min-h-[205px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-6 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-7">
-                  <div>
-                    {index === 0 && <div className="mb-4 h-36 overflow-hidden rounded-xl border border-white/10 bg-white/5 sm:h-40"><img src="/media/start-psa-satellite-2026/photo" alt="Tuwin Herath and Shamil Wakeel at the START PSA Satellite" className="h-full w-full object-cover object-center" loading="lazy" /></div>}\n                    <div className="mb-4 flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-widest">
-                      <span className="rounded-full bg-cyan-accent/10 px-3 py-1 text-cyan-accent">Latest News</span>
-                      <span className="text-slate-400">{item.date || 'Recent'}</span>
+            {!recentUpdatesLoaded && recentUpdates.length === 0 ? (
+              <p className="col-span-full py-8 text-sm text-slate-400" role="status">Loading latest news…</p>
+            ) : recentUpdates.slice(0, 2).map((item) => (
+              <article key={item.url} className="flex min-h-[220px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-5 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-6">
+                <div>
+                  <div className="mb-4 flex items-start gap-4">
+                    <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#101923] sm:h-32 sm:w-32">
+                      <img
+                        src={item.imageUrl || '/tuwin-profile-2026.jpg'}
+                        alt={`Photo accompanying ${item.title}`}
+                        className="h-full w-full object-contain"
+                        loading="lazy"
+                        onError={(event) => {
+                          if (!event.currentTarget.src.endsWith('/tuwin-profile-2026.jpg')) {
+                            event.currentTarget.src = '/tuwin-profile-2026.jpg';
+                          }
+                        }}
+                      />
                     </div>
-                    <h3 className="text-lg font-extrabold uppercase leading-snug text-white sm:text-xl">{item.title}</h3>
-                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
+                    <div className="min-w-0">
+                      <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
+                        <span className="rounded-full bg-cyan-accent/10 px-2.5 py-1 text-cyan-accent">{item.source || 'Latest News'}</span>
+                        <span className="text-slate-400">{item.date || 'Recent'}</span>
+                      </div>
+                      <h3 className="text-base font-extrabold uppercase leading-snug text-white sm:text-lg">{item.title}</h3>
+                    </div>
                   </div>
-                  <Link href={item.url} className="mt-5 inline-flex self-start text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">Read Update →</Link>
+                  <p className="line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
+                </div>
+                <div className="mt-5">
+                  <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="inline-flex text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">
+                    Read Article →
+                  </a>
                   {articleCommentKey(item.url) === START_SATELLITE_ARTICLE ? (
-                    <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 border-t border-white/10 pt-3 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
+                    <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 block border-t border-white/10 pt-3 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
                   ) : (
                     <ArticleComments article={articleCommentKey(item.url)} compact />
                   )}
-                </article>
-              ));
-            })()}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
