@@ -26,6 +26,7 @@ type LatestNewsItem = {
   date: string;
   publishedAt?: string;
   imageUrl?: string;
+  pageUrl?: string;
   source?: string;
   url: string;
   category: string;
@@ -538,14 +539,14 @@ export default function Home() {
                   <p className="line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
                 </div>
                 <div className="mt-5">
-                  <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  <a href={item.pageUrl || item.url} target={(item.pageUrl || item.url).startsWith('http') ? '_blank' : undefined} rel={(item.pageUrl || item.url).startsWith('http') ? 'noopener noreferrer' : undefined}
                     className="inline-flex text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">
                     Read Article →
                   </a>
-                  {articleCommentKey(item.url) === START_SATELLITE_ARTICLE ? (
+                  {articleCommentKey(item.pageUrl || item.url) === START_SATELLITE_ARTICLE ? (
                     <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 block border-t border-white/10 pt-3 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
                   ) : (
-                    <ArticleComments article={articleCommentKey(item.url)} compact />
+                    <ArticleComments article={articleCommentKey(item.pageUrl || item.url)} compact />
                   )}
                 </div>
               </article>
