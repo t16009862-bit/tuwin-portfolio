@@ -47,7 +47,14 @@ export default async function NewspaperArticlePage({
   const title = textValue(article.title);
   const source = textValue(article.source);
   const date = newspaperDate(article.date);
-  const image = textValue(article.image_url);
+  const printImage = textValue(article.image_url);
+  const epaperImage = textValue(article.epaper_image_url);
+  const editions = epaperImage
+    ? [
+        { id: 'print', label: 'Print edition', image: printImage },
+        { id: 'epaper', label: 'ePaper edition', image: epaperImage },
+      ]
+    : [{ id: 'print', label: 'Original newspaper clipping', image: printImage }];
 
   return (
     <main className="min-h-screen bg-[#06070a] px-4 py-10 text-white sm:px-7">
@@ -62,22 +69,29 @@ export default async function NewspaperArticlePage({
         </div>
         <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-300">{textValue(article.description)}</p>
         <div className="mt-7 flex flex-wrap gap-4">
-          <a
-            href={image}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-full bg-cyan-accent px-5 py-3 text-xs font-bold uppercase tracking-widest text-black"
-          >
-            Open original newspaper clipping
-          </a>
+          {editions.map(({ id, label }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className="inline-flex items-center rounded-full bg-cyan-accent px-5 py-3 text-xs font-bold uppercase tracking-widest text-black"
+            >
+              View {label}
+            </a>
+          ))}
         </div>
-        <figure className="mt-8 overflow-hidden rounded-xl border border-white/15 bg-white p-2 shadow-2xl sm:p-4">
-          {/* Original clipping shown in full; no cropping or altered text. */}
-          <img src={image} alt={`Original newspaper clipping: ${title}`} className="mx-auto block h-auto max-h-[1500px] w-auto max-w-full object-contain" />
-          <figcaption className="mt-3 text-center text-xs text-slate-600">
-            Original newspaper page reproduced as supplied.
-          </figcaption>
-        </figure>
+        {editions.map(({ id, label, image }) => (
+          <section key={id} id={id} className="mt-10 scroll-mt-6" aria-labelledby={`${id}-title`}>
+            <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+              <h2 id={`${id}-title`} className="text-xl font-bold">{label}</h2>
+              <a href={image} target="_blank" rel="noopener noreferrer" className="text-sm text-cyan-accent underline">
+                Open full-size image
+              </a>
+            </div>
+            <figure className="overflow-hidden rounded-xl border border-white/15 bg-white p-2 shadow-2xl sm:p-4">
+              <img src={image} alt={`${label}: ${title}`} className="mx-auto block h-auto max-h-[1500px] w-auto max-w-full object-contain" />
+            </figure>
+          </section>
+        ))}
       </article>
     </main>
   );
