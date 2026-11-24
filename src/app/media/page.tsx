@@ -17,6 +17,7 @@ interface MediaItem {
   linkText: string;
   url: string;
   imageUrl?: string;
+  pageUrl?: string;
 }
 
 const PUBLISHED_PRESS_KIT_FALLBACK = '/tuwin_portfolio.pdf';
@@ -359,7 +360,7 @@ export default function MediaPress() {
 
                     <div className="p-6 pt-0">
                       <a
-                        href={item.url}
+                        href={item.pageUrl || item.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex w-full items-center justify-center rounded-full bg-orange-accent hover:bg-orange-600 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 shadow-md hover:shadow-orange-accent/25 hover:translate-y-[-2px] cursor-pointer"
@@ -399,7 +400,7 @@ export default function MediaPress() {
 
                     <div className="mt-6">
                       <a
-                        href={item.url}
+                        href={item.pageUrl || item.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-accent group-hover:text-white transition-colors cursor-pointer"
@@ -437,7 +438,7 @@ export default function MediaPress() {
 
                     <div className="mt-6">
                       <a
-                        href={item.url}
+                        href={item.pageUrl || item.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex w-full items-center justify-center rounded-full border border-cyan-accent/40 hover:border-cyan-accent bg-cyan-accent/5 hover:bg-cyan-accent hover:text-black px-6 py-3 text-xs font-bold uppercase tracking-widest text-cyan-accent transition-all duration-300 cursor-pointer"
