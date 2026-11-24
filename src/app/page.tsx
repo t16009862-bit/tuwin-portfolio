@@ -512,36 +512,41 @@ export default function Home() {
             {!recentUpdatesLoaded && recentUpdates.length === 0 ? (
               <p className="col-span-full py-8 text-sm text-slate-400" role="status">Loading latest news…</p>
             ) : recentUpdates.slice(0, 2).map((item) => (
-              <article key={item.url} className="flex min-h-[220px] flex-col justify-between rounded-2xl border border-white/10 bg-[#0c131d] p-5 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-6">
+              <article key={item.url} className="flex min-w-0 flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0c131d] p-4 shadow-lg transition-colors hover:border-cyan-accent/40 sm:p-5">
                 <div>
-                  <div className="mb-4 flex items-start gap-4">
-                    <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#101923] sm:h-32 sm:w-32">
-                      <img
-                        src={item.imageUrl || '/tuwin-profile-2026.jpg'}
-                        alt={`Photo accompanying ${item.title}`}
-                        className="h-full w-full object-contain"
-                        loading="lazy"
-                        onError={(event) => {
-                          if (!event.currentTarget.src.endsWith('/tuwin-profile-2026.jpg')) {
-                            event.currentTarget.src = '/tuwin-profile-2026.jpg';
-                          }
-                        }}
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                        <span className="rounded-full bg-cyan-accent/10 px-2.5 py-1 text-cyan-accent">{item.source || 'Latest News'}</span>
-                        <span className="text-slate-400">{item.date || 'Recent'}</span>
-                      </div>
-                      <h3 className="text-base font-extrabold uppercase leading-snug text-white sm:text-lg">{item.title}</h3>
-                    </div>
+                  <div className="mb-3 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
+                    <span className="rounded-full bg-cyan-accent/10 px-2.5 py-1 text-cyan-accent">{item.source || 'Latest News'}</span>
+                    <span className="text-slate-400">{item.date || 'Recent'}</span>
                   </div>
-                  <p className="line-clamp-3 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>
+                  <a
+                    href={item.pageUrl || item.url}
+                    target={(item.pageUrl || item.url).startsWith('http') ? '_blank' : undefined}
+                    rel={(item.pageUrl || item.url).startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group mb-4 block overflow-hidden rounded-xl border border-white/10 bg-[#080d15] p-1 text-center transition-colors hover:border-cyan-accent/60"
+                    aria-label={item.pageUrl ? `Open full newspaper page: ${item.title}` : `Read ${item.title}`}
+                  >
+                    <img
+                      src={item.imageUrl || '/tuwin-profile-2026.jpg'}
+                      alt={item.pageUrl ? `Original full-page newspaper clipping: ${item.title}` : `Photograph accompanying ${item.title}`}
+                      className={item.pageUrl ? 'mx-auto block h-auto max-h-[475px] w-auto max-w-full object-contain' : 'mx-auto block h-56 w-full object-contain sm:h-64'}
+                      loading="lazy"
+                      onError={(event) => {
+                        if (!event.currentTarget.src.endsWith('/tuwin-profile-2026.jpg')) event.currentTarget.src = '/tuwin-profile-2026.jpg';
+                      }}
+                    />
+                    {item.pageUrl && <span className="block bg-[#0b111b] px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-cyan-accent">Tap to read the full newspaper page</span>}
+                  </a>
+                  <h3 className="text-base font-extrabold uppercase leading-snug text-white sm:text-lg">{item.title}</h3>
+                  {!item.pageUrl && <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-300 sm:text-sm">{item.description}</p>}
                 </div>
                 <div className="mt-5">
-                  <a href={item.pageUrl || item.url} target={(item.pageUrl || item.url).startsWith('http') ? '_blank' : undefined} rel={(item.pageUrl || item.url).startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="inline-flex text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white">
-                    Read Article →
+                  <a
+                    href={item.pageUrl || item.url}
+                    target={(item.pageUrl || item.url).startsWith('http') ? '_blank' : undefined}
+                    rel={(item.pageUrl || item.url).startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="inline-flex text-xs font-bold uppercase tracking-wider text-cyan-accent hover:text-white"
+                  >
+                    {item.pageUrl ? 'View Full Newspaper →' : 'Read Article →'}
                   </a>
                   {articleCommentKey(item.pageUrl || item.url) === START_SATELLITE_ARTICLE ? (
                     <Link href={START_SATELLITE_ARTICLE + '#comments'} className="mt-4 block border-t border-white/10 pt-3 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-white">Comments →</Link>
