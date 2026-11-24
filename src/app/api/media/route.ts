@@ -44,6 +44,7 @@ export async function GET() {
       linkText: String(row.link_text ?? '').trim(),
       url: String(row.url ?? '').trim(),
       imageUrl: String(row.image_url ?? '').trim(),
+      pageUrl: String(row.article_slug ?? '').trim() ? `/media/newspaper/${encodeURIComponent(String(row.article_slug).trim())}` : '',
     }))
     .filter((item) => item.title && item.url);
 
