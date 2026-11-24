@@ -27,6 +27,8 @@ function getCardType(category: string): 'interview' | 'profile' | 'archive' | 'a
   const c = category.toLowerCase();
   if (c.includes('interview')) return 'interview';
   if (c.includes('profile')) return 'profile';
+  // Newspaper Archive contains original scan images and uses the full-photo article cards.
+  if (c.includes('newspaper archive')) return 'article';
   if (c.includes('archive')) return 'archive';
   return 'article';
 }
