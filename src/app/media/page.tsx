@@ -327,11 +327,22 @@ export default function MediaPress() {
                 return (
                   <div key={item.id} className="glass-card-layered overflow-hidden flex flex-col justify-between group">
                     {item.imageUrl && (
-                      <div className="border-b border-white/10 bg-[#0a1018]">
-                        <img src={item.imageUrl} alt={`Photograph accompanying ${item.title}`}
-                          className="mx-auto h-48 w-full object-contain" loading="lazy"
-                          onError={(event) => { event.currentTarget.style.display = 'none'; }} />
-                      </div>
+                      <a
+                        href={item.pageUrl || item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={item.pageUrl ? `Open the full newspaper page: ${item.title}` : `Open ${item.title}`}
+                        className="block border-b border-white/10 bg-[#0a1018] p-2 text-center hover:bg-[#101b28]"
+                      >
+                        <img
+                          src={item.imageUrl}
+                          alt={item.pageUrl ? `Original newspaper clipping: ${item.title}` : `Photograph accompanying ${item.title}`}
+                          className={item.pageUrl ? 'mx-auto block h-auto max-h-[380px] w-auto max-w-full object-contain' : 'mx-auto h-48 w-full object-contain'}
+                          loading="lazy"
+                          onError={(event) => { event.currentTarget.style.display = 'none'; }}
+                        />
+                        {item.pageUrl && <span className="mt-2 block text-[10px] font-bold uppercase tracking-widest text-cyan-accent">View the complete newspaper clipping</span>}
+                      </a>
                     )}
                     <div>
                       <div className="p-6 space-y-4">
