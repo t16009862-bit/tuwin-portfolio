@@ -49,6 +49,7 @@ export default async function NewspaperArticlePage({
   const date = newspaperDate(article.date);
   const printImage = textValue(article.image_url);
   const epaperImage = textValue(article.epaper_image_url);
+  const onlineUrl = textValue(article.online_url);
   const editions = epaperImage
     ? [
         { id: 'print', label: 'Print edition', image: printImage },
@@ -78,6 +79,16 @@ export default async function NewspaperArticlePage({
               View {label}
             </a>
           ))}
+          {onlineUrl.startsWith('https://') && (
+            <a
+              href={onlineUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full border border-cyan-accent px-5 py-3 text-xs font-bold uppercase tracking-widest text-cyan-accent"
+            >
+              Read online article
+            </a>
+          )}
         </div>
         {editions.map(({ id, label, image }) => (
           <section key={id} id={id} className="mt-10 scroll-mt-6" aria-labelledby={`${id}-title`}>
